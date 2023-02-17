@@ -7,6 +7,13 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import java.awt.Point;
 
+//mouse listener imports
+import java.awt.event.MouseEvent;
+
+
+
+// THIS IS TEMPORARY
+
 public class Player {
     private BufferedImage icon;
     private Point pos;
@@ -60,4 +67,26 @@ public class Player {
         g.drawImage(icon, pos.x * Screen.TILE_SIZE, pos.y * Screen.TILE_SIZE, obs);
     }
 
+    public Point getPos() {
+        return pos;
+    }
+
+    public void setPos(int x, int y) {
+        System.out.println("Player set to " + x + ", " + y);
+        pos.x += x / Screen.TILE_SIZE;
+        pos.y += y / Screen.TILE_SIZE;
+    }
+
+    public boolean isClicked(MouseEvent e) {
+        double x = pos.x * Screen.TILE_SIZE;
+        double y = pos.y * Screen.TILE_SIZE;
+        if(e.getX() <= x + Screen.TILE_SIZE && e.getX() >= x - Screen.TILE_SIZE) {
+            if(e.getY() <= y  + Screen.TILE_SIZE && e.getY() >= y - Screen.TILE_SIZE) {
+                System.out.println("Player clicked");
+                return true;
+            }
+        }
+        System.out.println("Player not clicked");
+        return false;
+    }
 }
