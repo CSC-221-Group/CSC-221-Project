@@ -16,49 +16,73 @@ public class Screen extends JPanel implements ActionListener, KeyListener {
     // private static final int serialVersionUID = 1;
 
     private Timer timer; // triggers actionPerformed()
-    private Player player;
+    private int currentTurn = 1; // 1 = player1, 2 = player2
+    private Piece[] p1Pieces = new Piece[1]; // TODO: Make this an array of pieces
+    private Piece[] p2Pieces = new Piece[1]; // TODO: Make this an array of pieces
 
+
+    private Piece pieceWasClicked(MouseEvent e, Piece[] pieces) {
+        for (Piece piece : pieces) {
+            if (piece.isClicked(e)) {
+                return piece;
+            }
+        }
+        return null;
+    }
     private class mouseAdapter extends MouseAdapter {
         int preX, preY;
         boolean mousePressed = false;
-        boolean playerClicked = false;
+        Piece currentPiece = null;
 
         @Override
         public void mousePressed(MouseEvent e) {
-            System.out.println("Mouse pressed at " + e.getX() + ", " + e.getY());
-            if (player.isClicked(e)) {
-                preX = e.getX();
-                preY = e.getY();
-                mousePressed = true;
-                playerClicked = true;
-                updateLocation(e);
+            System.out.println("Mouse pressed at " + e.getX() / TILE_SIZE + ", " + e.getY() / TILE_SIZE);
+            if(currentTurn == 1) {
+                Piece piece = pieceWasClicked(e, p1Pieces);
+                if(piece != null) {
+                    preX = e.getX() / TILE_SIZE;
+                    preY = e.getY()/ TILE_SIZE;
+                    mousePressed = true;
+                    currentPiece = piece;
+                }
+            } else if(currentTurn == 2) {
+                Piece piece = pieceWasClicked(e, p2Pieces);
+                if(piece != null) {
+                    preX = e.getX() / TILE_SIZE;
+                    preY = e.getY() / TILE_SIZE;
+                    mousePressed = true;
+                    currentPiece = piece;
+                }
             }
         }
 
         @Override
         public void mouseDragged(MouseEvent e) {
-            if (mousePressed) {
+            if (mousePressed && currentPiece != null) {
                 updateLocation(e);
-                preX = e.getX();
-                preY = e.getY();
+                preX = e.getX() / TILE_SIZE;
+                preY = e.getY() / TILE_SIZE;
             }
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
-            System.out.println("Mouse released");
-            System.out.println("Mouse released at " + e.getX() + ", " + e.getY());
-            updateLocation(e);
-            mousePressed = false;
-            playerClicked = false;
+            if (mousePressed && currentPiece != null) {
+                System.out.println("Mouse released");
+                System.out.println("Mouse released at " + e.getX() / TILE_SIZE + ", " + e.getY() / TILE_SIZE);
+                updateLocation(e);
+                mousePressed = false;
+                currentPiece = null;
+            }
         }
 
         public void updateLocation(MouseEvent e) {
-            if (playerClicked) {
-                System.out.println("GetX: " + e.getX() + " GetY: " + e.getY());
-                System.out.println("PreX: " + preX + " PreY: " + preY);
-                player.setPos(e.getX() - preX, e.getY() - preY);
-            }
+            int x = e.getX() / TILE_SIZE;
+            int y = e.getY() / TILE_SIZE;
+            int dx = x - preX;
+            int dy = y - preY;
+            currentPiece.setPos(dx, dy);
+            repaint();
         }
 
     }
@@ -78,7 +102,8 @@ public class Screen extends JPanel implements ActionListener, KeyListener {
     }
 
     private void initGame() {
-        player = new Player();
+        p1Pieces[0] = new Pawn("white", 1,1);
+        p2Pieces[0]= new Pawn("black", 1,6);
         // Random rand = new Random();
         timer = new Timer(DELAY, this);
         timer.start();
@@ -86,23 +111,35 @@ public class Screen extends JPanel implements ActionListener, KeyListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        player.update();
+        for (Piece piece : p1Pieces) {
+            piece.update();
+        }
+        for (Piece piece : p2Pieces) {
+            piece.update();
+        }
         repaint();
     }
 
-    // Key Presses
+    // Key Binds
     @Override
     public void keyTyped(KeyEvent e) {
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        player.keyPressed(e);
+       if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+           System.out.println("Spacebar pressed");
+           if (currentTurn == 1) {
+               currentTurn = 2;
+           } else if (currentTurn == 2) {
+               currentTurn = 1;
+           }
+       }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        player.keyReleased(e);
+        
     }
 
     // GRAPHICS/DRAWING METHODS
@@ -127,7 +164,12 @@ public class Screen extends JPanel implements ActionListener, KeyListener {
     }
 
     private void draw(Graphics g) {
-        player.draw(g, this);
+        for (Piece piece : p1Pieces) {
+            piece.draw(g, this);
+        }
+        for (Piece piece : p2Pieces) {
+            piece.draw(g, this);
+        }
     }
 
 }

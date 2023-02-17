@@ -25,6 +25,8 @@ public class App {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 createAndShowGUI();
+                System.out.println("Space changes turns, it has to be player 1's turn to move white's pieces" +
+                        " and player 2's turn to move black's pieces") ;
             }
         });
     }
