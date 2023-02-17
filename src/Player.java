@@ -15,6 +15,10 @@ public class Player {
     private BufferedImage icon;
     private Point pos;
 
+
+    /*
+     * Constructor
+     */
     public Player() {
         pos = new Point(0, 0);
         loadImage();
