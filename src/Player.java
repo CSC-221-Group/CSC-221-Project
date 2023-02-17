@@ -10,10 +10,7 @@ import java.awt.Point;
 //mouse listener imports
 import java.awt.event.MouseEvent;
 
-
-
-// THIS IS TEMPORARY
-
+// TODO: Convert this to Piece class
 public class Player {
     private BufferedImage icon;
     private Point pos;
@@ -23,6 +20,8 @@ public class Player {
         loadImage();
     }
 
+
+    // Image loading
     private void loadImage() {
         try {
             icon = ImageIO.read(new File("images/player.png"));
