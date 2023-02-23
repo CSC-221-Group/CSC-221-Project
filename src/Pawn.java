@@ -8,6 +8,12 @@ public class Pawn extends Piece {
         this.color = color;
     }
 
+    
+    /** 
+     * @param board
+     * @param start
+     * @param end
+     */
     @Override
     public void move(Screen board, Cell start, Cell end) {
         if (color.equals("white")) {

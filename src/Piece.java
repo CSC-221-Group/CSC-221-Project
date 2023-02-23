@@ -26,6 +26,10 @@ abstract class Piece {
         pos = new Point(x, y);
         this.ownedBy = ownedBy;
     }
+    
+    /** 
+     * @param path
+     */
     // Image loading
     protected void loadImage(String path) {
         try {

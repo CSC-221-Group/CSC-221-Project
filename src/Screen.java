@@ -28,17 +28,13 @@ public class Screen extends JPanel implements ActionListener, KeyListener {
 
         @Override
         public void mousePressed(MouseEvent e) {
-            System.out.println(e.getY() / TILE_SIZE);
-            System.out.println("Mouse pressed at " + e.getX() / TILE_SIZE + ", " + ((e.getY() / TILE_SIZE)));
             if(e.getX() / TILE_SIZE > COLS || e.getY() / TILE_SIZE > ROWS) {
                 return;
             }
             Cell cell = cells[e.getX() / TILE_SIZE][(ROWS-1) - (e.getY() / TILE_SIZE)];
-            System.out.println("Cell is: " + cell + "Location is:" + cell.getX()+ ", " + cell.getY());
             if(!cell.isOccupied()) {
                 return;
             }
-            System.out.println("Cell is occupied: " + cell.isOccupied());
             if(cell.getPiece().getOwnedBy() != currentTurn) {
                 System.out.println(cell.getPiece().getOwnedBy() + " != " + currentTurn);
                 return;
@@ -72,7 +68,6 @@ public class Screen extends JPanel implements ActionListener, KeyListener {
             }
             Cell cell = cells[x][y];
             if (cell.isOccupied()) {
-                System.out.println("Cell is occupied by: " + cell.getPiece().getOwnedBy());
                 return;
             }
             cells[preX][preY].setPiece(null);
@@ -105,6 +100,10 @@ public class Screen extends JPanel implements ActionListener, KeyListener {
         assignPieces();
     }
 
+    
+    /** 
+     * @param e
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         for (Piece piece : p1Pieces) {
@@ -116,6 +115,10 @@ public class Screen extends JPanel implements ActionListener, KeyListener {
         repaint();
     }
 
+    
+    /** 
+     * @param e
+     */
     // Key Binds
     @Override
     public void keyTyped(KeyEvent e) {
@@ -161,7 +164,6 @@ public class Screen extends JPanel implements ActionListener, KeyListener {
         }
 
         cells[0][7] = new Cell(0, 7, new Pawn("black", 0, 7, 2)); // ROOK
-        cells[0][7].getPiece().loadImage("blackQueen");
         cells[1][7] = new Cell(1, 7, new Pawn("black", 1, 7, 2)); // KNIGHT
         cells[2][7] = new Cell(2, 7, new Pawn("black", 2, 7, 2)); // BISHOP
         cells[3][7] = new Cell(3, 7, new Pawn("black", 3, 7, 2)); // QUEEN

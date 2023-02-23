@@ -12,13 +12,16 @@ public class Cell {
     }
 
     public Cell(int x, int y, Piece piece) {
-        System.out.println("Set cell to " + x + ", " + y + " with piece " + piece + " owned by " + piece.getOwnedBy() + " at " + piece.getPos().x + ", " + piece.getPos().y);
         this.x = x;
         this.y = y;
         this.piece = piece;
         isHighlighted = false;
     }
 
+    
+    /** 
+     * @param piece
+     */
     public void setPiece(Piece piece) {
         this.piece = piece;
         if (piece != null)
