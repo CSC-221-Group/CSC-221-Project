@@ -9,10 +9,11 @@ import java.awt.Point;
 //mouse listener imports
 import java.awt.event.MouseEvent;
 
-public class Piece {
+abstract class Piece {
     private BufferedImage icon;
     private Point pos;
-
+    private int ownedBy; // 1 or 2 for player 1 or player 2
+    private boolean captured = false;
 
     /*
      * Constructor
@@ -21,7 +22,10 @@ public class Piece {
         pos = new Point(x, y);
     }
 
-
+    public Piece(int x, int y, int ownedBy) {
+        pos = new Point(x, y);
+        this.ownedBy = ownedBy;
+    }
     // Image loading
     protected void loadImage(String path) {
         try {
@@ -44,7 +48,7 @@ public class Piece {
         }
     }
     public void draw(Graphics g, ImageObserver obs) {
-        g.drawImage(icon, pos.x * Screen.TILE_SIZE, pos.y * Screen.TILE_SIZE, obs);
+        g.drawImage(icon, pos.x * Screen.TILE_SIZE, (7 * Screen.TILE_SIZE) - pos.y * Screen.TILE_SIZE, obs);
     }
 
     public Point getPos() {
@@ -54,9 +58,8 @@ public class Piece {
 //TODO add a method to see if the move results in a capture
 
     public void setPos(int x, int y) {
-        System.out.println("Piece moving " + x + ", " + y);
-        pos.x += x;
-        pos.y += y;
+        pos.x = x;
+        pos.y = y;
     }
 
     public boolean isClicked(MouseEvent e) {
@@ -69,4 +72,17 @@ public class Piece {
         System.out.println("Piece not clicked");
         return false;
     }
+
+    public int getOwnedBy() {
+        return ownedBy;
+    }
+
+    public void setOwnedBy(int ownedBy) {
+        this.ownedBy = ownedBy;
+    }
+
+    public boolean isCaptured() {
+        return captured;
+    }
+    public abstract void move(Screen board, Cell start, Cell end);
 }
