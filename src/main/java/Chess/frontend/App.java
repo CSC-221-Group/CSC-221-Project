@@ -1,6 +1,5 @@
 package main.java.Chess.frontend;
 import javax.swing.*;
-import main.java.Chess.Screen;
 public class App 
 {
     private static void createAndShowGUI()
