@@ -1,8 +1,8 @@
 package main.Piece.ChessPieces;
-import main.Piece.Piece;
-import main.java.Chess.frontend.App;
-import main.java.Chess.frontend.Screen;
+
+
 import main.java.Chess.frontend.Cell;
+import main.Piece.Piece;
 
 public class Bishop extends Piece
 {

@@ -1,14 +1,14 @@
-package main.java.Chess;
+package main.java.Chess.frontend;
 
 import javax.swing.*;
-
+import main.Piece.Piece;
 import java.awt.*;
 import java.awt.event.*;
 // import java.util.Random;
-
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.awt.event.MouseAdapter;
+import main.Piece.ChessPieces.*;
 
 public class Screen extends JPanel implements ActionListener, KeyListener 
 {

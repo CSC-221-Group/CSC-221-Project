@@ -1,5 +1,5 @@
 package main.Piece.ChessPieces;
-
+import main.Piece.Piece;
 import main.java.Chess.frontend.Cell;
 /** 
  * and how it should move.
@@ -13,10 +13,10 @@ public class Pawn extends Piece
      * 
      * @param color - color of pawn.
      * @param x - horizontal location of pawn.
-     * @param y - Vertical location of pawn.
+     * @param y -Vertical location of pawn.
      * @param owner - which color(White/Black) owns the piece.
      */
-    public Pawn(String color, int x, int y, int owner) 
+        public Pawn(String color, int x, int y, int owner) 
     {
         //Calls Piece contructor 
         super(x,y, owner);

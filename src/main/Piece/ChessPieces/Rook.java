@@ -1,7 +1,5 @@
 package main.Piece.ChessPieces;
 import main.Piece.Piece;
-import main.java.Chess.frontend.App;
-import main.java.Chess.frontend.Screen;
 import main.java.Chess.frontend.Cell;
 
 public class Rook extends Piece

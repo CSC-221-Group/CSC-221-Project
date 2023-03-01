@@ -1,6 +1,8 @@
 package main.java.Chess.frontend;
 
-import main.Piece.Piece;;
+import main.Piece.Piece;
+
+;
 
 public class Cell 
 {
