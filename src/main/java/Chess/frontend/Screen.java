@@ -1,4 +1,8 @@
+package Chess.frontend;
 
+//avoid wildcards if you can. They waste resources.
+import Chess.pieces.Pawn;
+import Chess.pieces.Piece;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -6,8 +10,19 @@ import java.awt.event.*;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
+import java.io.IOException;
 
+
+/**
+ * 
+ * Most front-end elements. We really should use packages as they are much nicer.
+ * Also lots of these could be broken up into other classes (ex Control for the mouse
+ * and keyboard inputs)
+ * 
+ * @author (add anyone who works on these here.)
+ */
 public class Screen extends JPanel implements ActionListener, KeyListener {
+    //constants
     private final int DELAY = 10; // delay between each frame in ms
     public static final int TILE_SIZE = 32;
     public static final int ROWS = 8;
@@ -102,8 +117,13 @@ public class Screen extends JPanel implements ActionListener, KeyListener {
     }
 
     private void initGame() {
-        p1Pieces[0] = new Pawn("white", 1,1);
-        p2Pieces[0]= new Pawn("black", 1,6);
+        try {
+            p1Pieces[0] = new Pawn(true, 1,1);
+            p2Pieces[0]= new Pawn(false, 1,6);
+        }
+        catch (IOException ex) {
+            ex.printStackTrace();
+        }
         // Random rand = new Random();
         timer = new Timer(DELAY, this);
         timer.start();
