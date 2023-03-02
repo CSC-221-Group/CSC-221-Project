@@ -1,7 +1,8 @@
-package chess;
+package main.java.Chess;
 
-import Chess.frontend.Screen;
 import javax.swing.*;
+
+import main.java.Chess.frontend.Screen;
 
 
 

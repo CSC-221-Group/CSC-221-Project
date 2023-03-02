@@ -1,3 +1,8 @@
+package main.java.Chess.frontend;
+
+//avoid wildcards if you can. They waste resources.
+import main.java.Chess.pieces.Piece;
+
 public class Cell {
     private int x;
     private int y;
