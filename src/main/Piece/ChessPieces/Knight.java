@@ -1,6 +1,7 @@
 package main.Piece.ChessPieces;
 
 import main.java.Chess.frontend.Cell;
+import main.java.Chess.frontend.Screen;
 import main.Piece.Piece;
 public class Knight extends Piece
 {
@@ -11,10 +12,11 @@ public class Knight extends Piece
         loadImage(color + "Knight");
         this.color = color;
     }
+ 
     @Override
-    public boolean move(Piece[][] board, Cell start, Cell end) 
-    {
-       return false;
+    public void move(Screen board, Cell start, Cell end) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'move'");
     }
 }
     

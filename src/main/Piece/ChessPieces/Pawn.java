@@ -46,7 +46,7 @@ public class Pawn extends Piece
         {
             return ;
         }
-        if(pawn[end.getX()][end.getY()] != null && board.)
+        if(pawn[end.getX()][end.getY()] != null)
         {
             
             return;

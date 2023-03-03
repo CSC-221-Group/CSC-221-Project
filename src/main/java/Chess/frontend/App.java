@@ -1,26 +1,26 @@
 package main.java.Chess.frontend;
-import java.awt.Color;
-import java.awt.Font;
 
+import java.awt.Color;
 import javax.swing.*;
 import javax.swing.border.Border;
-import java.swing.event.ActionListener;
+import java.awt.Font;
 
-public class App extends JPanel implements ActionListener
-{
+public class App 
+{  
     private static void createAndShowGUI() 
     {
-        //Title Screen
         JFrame titleScreen = new JFrame("Board Classics");
         titleScreen.setSize(500,500);
         titleScreen.setVisible(true);
         titleScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         titleScreen.setResizable(false);
         titleScreen.getContentPane().setBackground(Color.BLACK);
+        
         //Board Classics label
         JLabel boardClassics = new JLabel();
         Border border = BorderFactory.createLineBorder(Color.YELLOW,3);
         boardClassics.setText("Board Classics");
+        
         titleScreen.add(boardClassics);
         boardClassics.setHorizontalAlignment(JLabel.CENTER);
         boardClassics.setForeground(Color.YELLOW);
@@ -28,28 +28,18 @@ public class App extends JPanel implements ActionListener
         boardClassics.setBorder(border);
         boardClassics.setVerticalAlignment(JLabel.CENTER);
         boardClassics.setHorizontalAlignment(JLabel.CENTER);
-        //Play button
-        JButton playButton = new JButton();
-        playButton.addActionListener(titleScreen);
-        titleScreen.add(playButton);
-        
-        @Override
-        public void actionPerformed(ActionEvent e)
-        {
-            chessPanel.setVisible(true);
-        }
-        //Chess game
+     
         JFrame chessPanel = new JFrame("Chess");
-        chessPanel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        chessPanel.pack();chessPanel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);       
+
         Screen screen = new Screen();
         chessPanel.add(screen);
         chessPanel.addKeyListener(screen);
         chessPanel.setResizable(false);
         chessPanel.pack();
         chessPanel.setLocationRelativeTo(null);
-        chessPanel.setVisible(false);//
-
-    }    
+        chessPanel.setVisible(true);
+   }    
     /** 
      * @param args
      * @throws Exception
