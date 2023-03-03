@@ -3,6 +3,7 @@ package main.java.Chess;
 import javax.swing.*;
 
 import main.java.Chess.frontend.Screen;
+import main.java.Chess.frontend.guiCreator;
 
 
 
@@ -13,25 +14,7 @@ import main.java.Chess.frontend.Screen;
  * @author Jordan
  */
 public class App {
-    /**
-     * 
-     * Really no need for this method as its only used once.
-     * Just have it apart of the main method (unless it'll be used
-     * multiple times in the future)
-     * 
-     */
-    private static void createAndShowGUI() {
-        //window
-        JFrame window = new JFrame("Chess App");
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Screen screen = new Screen();
-        window.add(screen);
-        window.addKeyListener(screen);
-        window.setResizable(false);
-        window.pack();
-        window.setLocationRelativeTo(null);
-        window.setVisible(true);
-    }
+    guiCreator gui = new guiCreator();
     /**
      * 
      * main method
@@ -40,8 +23,7 @@ public class App {
      * @param args
      */
     public static void main(String[] args) {
-        //removed the runnable here as it doesnt do anything
-        createAndShowGUI();
+        guiCreator.makeTitle();
         //make this an on-screen prompt (I could handle that)
         System.out.println("Space changes turns, it has to be player 1's turn to move white's piecesn and player 2's turn to move black's pieces") ;
     }
