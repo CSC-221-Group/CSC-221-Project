@@ -106,5 +106,5 @@ public abstract class Piece
         return captured;
     }
     
-    public abstract boolean move(Piece [][] board, Cell start, Cell end);
+    public abstract void move(Screen board, Cell start, Cell end);
 }

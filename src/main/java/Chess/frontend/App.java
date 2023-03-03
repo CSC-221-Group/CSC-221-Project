@@ -1,18 +1,54 @@
 package main.java.Chess.frontend;
+import java.awt.Color;
+import java.awt.Font;
+
 import javax.swing.*;
-public class App 
+import javax.swing.border.Border;
+import java.swing.event.ActionListener;
+
+public class App extends JPanel implements ActionListener
 {
-    private static void createAndShowGUI()
+    private static void createAndShowGUI() 
     {
-        JFrame window = new JFrame("Chess");
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //Title Screen
+        JFrame titleScreen = new JFrame("Board Classics");
+        titleScreen.setSize(500,500);
+        titleScreen.setVisible(true);
+        titleScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        titleScreen.setResizable(false);
+        titleScreen.getContentPane().setBackground(Color.BLACK);
+        //Board Classics label
+        JLabel boardClassics = new JLabel();
+        Border border = BorderFactory.createLineBorder(Color.YELLOW,3);
+        boardClassics.setText("Board Classics");
+        titleScreen.add(boardClassics);
+        boardClassics.setHorizontalAlignment(JLabel.CENTER);
+        boardClassics.setForeground(Color.YELLOW);
+        boardClassics.setFont(new Font("MV Boli",Font.ITALIC,50));
+        boardClassics.setBorder(border);
+        boardClassics.setVerticalAlignment(JLabel.CENTER);
+        boardClassics.setHorizontalAlignment(JLabel.CENTER);
+        //Play button
+        JButton playButton = new JButton();
+        playButton.addActionListener(titleScreen);
+        titleScreen.add(playButton);
+        
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+            chessPanel.setVisible(true);
+        }
+        //Chess game
+        JFrame chessPanel = new JFrame("Chess");
+        chessPanel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Screen screen = new Screen();
-        window.add(screen);
-        window.addKeyListener(screen);
-        window.setResizable(false);
-        window.pack();
-        window.setLocationRelativeTo(null);
-        window.setVisible(true);
+        chessPanel.add(screen);
+        chessPanel.addKeyListener(screen);
+        chessPanel.setResizable(false);
+        chessPanel.pack();
+        chessPanel.setLocationRelativeTo(null);
+        chessPanel.setVisible(false);//
+
     }    
     /** 
      * @param args

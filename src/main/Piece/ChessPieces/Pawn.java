@@ -1,6 +1,8 @@
 package main.Piece.ChessPieces;
-import main.Piece.Piece;
+import main.java.Chess.frontend.Screen;
 import main.java.Chess.frontend.Cell;
+import main.Piece.Piece;
+
 /** 
  * and how it should move.
  */
@@ -32,24 +34,31 @@ public class Pawn extends Piece
      * @param end
      */
     @Override
-    public boolean move(Piece [][]board, Cell start, Cell end) 
+    public void move(Screen board, Cell start, Cell end) 
     {
-        Piece endMove = board[end.getX()][end.getY()];
+        Piece [][] pawn = new Piece [start.getX() ][start.getY()];
+
         if(end.getX() == start.getX() && end.getY() == start.getY())
         {
-            return false;
+            return ;
         } 
-        if(endMove != null && color.equals(endMove))
+        if(end.isOccupied() )
         {
-            return false;
+            return ;
+        }
+        if(pawn[end.getX()][end.getY()] != null && board.)
+        {
+            
+            return;
         }
         if(color.equals("white"))
         {
             if(start.getY() == 1 && end.getY() == 3 && start.getX() == end.getX())
             {
-                return true;
+                return;
             }
         }
-        return false; 
     }
 }
+
+
