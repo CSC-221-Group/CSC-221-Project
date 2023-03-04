@@ -9,7 +9,8 @@ public class Knight extends Piece
     public Knight (String color, int x, int y, int owner)
     {
         super(x, y, owner);
-        loadImage(color + "Knight");
+        String Chess = "Chess"; 
+        loadImage(Chess,color + "Knight");
         this.color = color;
     }
  

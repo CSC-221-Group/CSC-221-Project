@@ -10,7 +10,8 @@ public class Queen extends Piece
     public Queen (String color, int x, int y, int owner)
     {
         super(x, y, owner);
-        loadImage(color + "Queen");
+        String Chess = "Chess"; 
+        loadImage(Chess,color + "Queen");
         this.color = color;
     }
     @Override

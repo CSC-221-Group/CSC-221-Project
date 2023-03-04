@@ -2,6 +2,7 @@ package main.java.Chess.frontend;
 
 import javax.swing.*;
 import main.Piece.Piece;
+import main.Piece.Checkers.CheckerPiece;
 import java.awt.*;
 import java.awt.event.*;
 // import java.util.Random;
@@ -187,7 +188,8 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         cells[5][0] = new Cell(5, 0, new Bishop("white", 5, 0, 1)); // BISHOP
         cells[6][0] = new Cell(6, 0, new Knight("white", 6, 0, 1)); // KNIGHT
         cells[7][0] = new Cell(7, 0, new Rook("white", 7, 0, 1)); // ROOK
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 8; i++) 
+        {
             cells[i][1] = new Cell(i, 1, new Pawn("white", i, 1,1)); // PAWN
         }
 
@@ -199,7 +201,8 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         cells[5][7] = new Cell(5, 7, new Bishop("black", 5, 7, 2)); // BISHOP
         cells[6][7] = new Cell(6, 7, new Knight("black", 6, 7, 2)); // KNIGHT
         cells[7][7] = new Cell(7, 7, new Rook("black", 7, 7, 2)); // ROOK
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 8; i++) 
+        {
             cells[i][6] = new Cell(i, 6, new Pawn("black", i, 6, 2)); // PAWN
         }
 
@@ -210,6 +213,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
                 cells[i][j] = new Cell(i, j);
             }
         }
+        //cells[0][0] = new Cell(0,0, new CheckerPiece("red",0,0,1)); 
     }
 
     private void assignPieces() 

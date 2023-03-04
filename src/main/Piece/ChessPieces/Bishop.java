@@ -10,8 +10,9 @@ public class Bishop extends Piece
     public String color;
     public Bishop(String color, int x, int y, int owner)
     {
-        super(x, y, owner);
-        loadImage(color + "Bishop");
+        super(x, y, owner);   
+        String Chess = "Chess"; 
+        loadImage(Chess,color + "Bishop");
         this.color = color;
     }
     @Override

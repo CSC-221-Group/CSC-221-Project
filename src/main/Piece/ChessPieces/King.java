@@ -9,7 +9,8 @@ public class King extends Piece
     public King (String color, int x, int y, int owner)
     {
         super(x, y, owner);
-        loadImage(color + "Bishop");
+        String Chess = "Chess"; 
+        loadImage(Chess,color + "Bishop");
         this.color = color;
     }
     @Override

@@ -39,11 +39,13 @@ public abstract class Piece
      * @param path
      */
     // Image loading
-    protected void loadImage(String path)
+    protected void loadImage(String game,String path)
     {
-        try {
-            icon = ImageIO.read(new File("images/Chess/" + path + ".png"));
-        } catch (IOException e) {
+        try 
+        {
+            icon = ImageIO.read(new File("images/" + game + "/" + path + ".png"));
+        } catch (IOException e) 
+        {
             System.out.println("Error loading player image " + e.getMessage());
         }
     }

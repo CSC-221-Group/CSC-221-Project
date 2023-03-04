@@ -9,7 +9,8 @@ public class Rook extends Piece
     public Rook (String color, int x, int y, int owner)
     {
         super(x, y, owner);
-        loadImage(color + "Rook");
+        String Chess = "Chess"; 
+        loadImage(Chess,color + "Rook");
         this.color = color;
     }
     @Override

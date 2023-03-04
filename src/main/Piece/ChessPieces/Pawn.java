@@ -24,7 +24,8 @@ public class Pawn extends Piece
         super(x,y, owner);
 
         //Sets image of pawn depending on color passed.
-        loadImage(color + "Pawn");
+        String Chess = "Chess"; 
+        loadImage(Chess,color + "Pawn");
         this.color = color;
     }
 
