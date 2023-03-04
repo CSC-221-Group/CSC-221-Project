@@ -7,38 +7,6 @@ import java.awt.Font;
 
 public class App 
 {  
-    public void createGuiAndDisplay()
-    {
-        JFrame titleScreen = new JFrame("Board Classics");
-        titleScreen.setSize(500,500);
-        titleScreen.setVisible(true);
-        titleScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        titleScreen.setResizable(false);
-        titleScreen.getContentPane().setBackground(Color.BLACK);
-        
-        //Board Classics label
-        JLabel boardClassics = new JLabel();
-        Border border = BorderFactory.createLineBorder(Color.YELLOW,3);
-        boardClassics.setText("Board Classics");
-        
-        titleScreen.add(boardClassics);
-        boardClassics.setHorizontalAlignment(JLabel.CENTER);
-        boardClassics.setForeground(Color.YELLOW);
-        boardClassics.setFont(new Font("MV Boli",Font.ITALIC,50));
-        boardClassics.setBorder(border);
-        boardClassics.setVerticalAlignment(JLabel.CENTER);
-        boardClassics.setHorizontalAlignment(JLabel.CENTER);
-     
-        JFrame chessPanel = new JFrame("Chess");
-        chessPanel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);       
-        Screen screen = new Screen();
-        chessPanel.add(screen);
-        chessPanel.addKeyListener(screen);
-        chessPanel.setResizable(false);
-        chessPanel.pack();
-        chessPanel.setLocationRelativeTo(null);
-        chessPanel.setVisible(true);
-    } 
     /** 
      * @param args
      * @throws Exception

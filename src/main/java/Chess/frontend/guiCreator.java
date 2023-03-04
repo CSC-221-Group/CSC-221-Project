@@ -18,25 +18,35 @@ public class guiCreator extends JFrame
 {
     public static void makeTitle() 
     {
-        
-        JFrame mainScreen = new JFrame("Board Classics");
-        mainScreen.setSize(500,500);
-        mainScreen.setVisible(true);
-        mainScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainScreen.setResizable(false);
-        mainScreen.getContentPane().setBackground(Color.BLACK);
-        mainScreen.setLayout(null);
+        JFrame titleScreen = new JFrame();
+        Border mainScreenBorder;
+        JLabel mainScreentitle = new JLabel();
 
-        JLabel title = new JLabel();
-        Border border = BorderFactory.createLineBorder(Color.YELLOW, 3);
-        title.setBorder(border);
-        title.setText("Board Classics");;
-        title.setForeground(Color.YELLOW);
-        title.setFont(new Font("", Font.PLAIN, 30));
-        title.setHorizontalAlignment(JLabel.CENTER);;
-        title.setVerticalAlignment(JLabel.CENTER);
-        title.setBounds(new Rectangle(20,5, 450,450));;
-        mainScreen.add(title);
+        //title of frame
+        titleScreen.setTitle("Board Classics");
+        //size of main Screen
+        titleScreen.setSize(500,500);
+        //frame is visible 
+        titleScreen.setVisible(true);
+        //when user presses the x on the top left of frame it stops running the programs
+        titleScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //user can't make frame bigger or smaller 
+        titleScreen.setResizable(false);
+        //makes frame background black
+        titleScreen.getContentPane().setBackground(Color.BLACK);
+        titleScreen.setLayout(null);
+
+        //makes a hollow square 
+        mainScreenBorder = BorderFactory.createLineBorder(Color.YELLOW, 1);
+       
+        mainScreentitle.setBorder(mainScreenBorder);
+        mainScreentitle.setText("Board Classics");;
+        mainScreentitle.setForeground(Color.YELLOW);
+        mainScreentitle.setFont(new Font("", Font.PLAIN, 30));
+        mainScreentitle.setHorizontalAlignment(JLabel.CENTER);;
+        mainScreentitle.setVerticalAlignment(JLabel.CENTER);
+        mainScreentitle.setBounds(new Rectangle(0,0, 480,60));;
+        titleScreen.add(mainScreentitle);
     
         JButton playGameButton = new JButton();
         playGameButton.setText("Play game");
@@ -46,11 +56,11 @@ public class guiCreator extends JFrame
             @Override
             public void actionPerformed(ActionEvent e) 
             {
-                mainScreen.setVisible(false);
+                titleScreen.setVisible(false);
                 makeGameSelect();
          }
         });
-        mainScreen.add(playGameButton);
+        titleScreen.add(playGameButton);
     }
     public static void makeGameSelect()
     {
