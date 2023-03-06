@@ -51,7 +51,7 @@ public class Pawn extends Piece {
                 return true;
             } else if (y == yStart + 2 && x == xStart && canDoubleMovement) {
                 return true;
-            } else if (y == yStart + 1 && (x == xStart + 1 || x == xStart - 1)) {
+            } else if (y == yStart + 1 && (x == xStart + 1)) {
                 if (end.getPiece() != null) {
                     return true;
                 }
@@ -61,7 +61,7 @@ public class Pawn extends Piece {
                 return true;
             } else if (y == yStart - 2 && x == xStart && canDoubleMovement) {
                 return true;
-            } else if (y == yStart - 1 && (x == xStart + 1 || x == xStart - 1)) {
+            } else if (y == yStart - 1 && ( x == xStart - 1)) {
                 if (end.getPiece() != null) {
                     return true;
                 }
