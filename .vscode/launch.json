@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "guiCreator",
+            "request": "launch",
+            "mainClass": "main.java.Chess.frontend.guiCreator",
+            "projectName": "CSC-221-Project_37fd9d49"
+        },
+        {
+            "type": "java",
             "name": "Launch Current File",
             "request": "launch",
             "mainClass": "${file}"

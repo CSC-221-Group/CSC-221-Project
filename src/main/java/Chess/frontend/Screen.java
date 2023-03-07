@@ -2,7 +2,6 @@ package main.java.Chess.frontend;
 
 import javax.swing.*;
 import main.Piece.Piece;
-import main.Piece.Checkers.CheckerPiece;
 import java.awt.*;
 import java.awt.event.*;
 // import java.util.Random;

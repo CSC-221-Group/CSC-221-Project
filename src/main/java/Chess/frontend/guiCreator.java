@@ -223,5 +223,18 @@ public class guiCreator extends JFrame
         });
         winFrame.add(gameSelectButton);
        }
+       public static void main(String[] args) throws Exception 
+    {
+        SwingUtilities.invokeLater(new Runnable() 
+        {
+            public void run() 
+            {
+                makeTitle();
+                System.out.println("Space changes turns, it has to be player 1's turn to move white's pieces" +
+                " and player 2's turn to move black's pieces") ;
+            }
+
+        });
+    }
 } 
 
