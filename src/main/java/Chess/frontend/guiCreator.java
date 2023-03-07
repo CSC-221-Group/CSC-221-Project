@@ -1,26 +1,35 @@
 package main.java.Chess.frontend;
+
 import java.awt.Color;
 import java.awt.Dimension;
-
-import javax.naming.TimeLimitExceededException;
 import javax.swing.*;
 import javax.swing.border.Border;
-
-import main.Piece.Piece;
-
 import java.awt.Font;
-import java.awt.LayoutManager;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+/**
+ * guiCreator holds all the gui related 
+ * methods for 'Board Classics'.
+ */
 public class guiCreator extends JFrame
 {
+    /**
+     * make the title screen and display it,
+     * has a 3 buttons. "play game" opens up another
+     * frame where user picks a game.
+     * "options" sets the size of games.
+     * "Quit" closes program.
+     * @author Alan
+     */
     public static void makeTitle() 
     {
         JFrame titleScreen = new JFrame();
         Border mainScreenBorder;
+        Border playGameButtonBorder;
         JLabel mainScreentitle = new JLabel();
+        JButton playGameButton = new JButton();
 
         //title of frame
         titleScreen.setTitle("Board Classics");
@@ -36,149 +45,204 @@ public class guiCreator extends JFrame
         titleScreen.getContentPane().setBackground(Color.BLACK);
         titleScreen.setLayout(null);
 
-        //makes a hollow square 
-        mainScreenBorder = BorderFactory.createLineBorder(Color.YELLOW, 1);
-       
-        mainScreentitle.setBorder(mainScreenBorder);
         mainScreentitle.setText("Board Classics");;
         mainScreentitle.setForeground(Color.YELLOW);
-        mainScreentitle.setFont(new Font("", Font.PLAIN, 30));
+        mainScreentitle.setFont(new Font("Colon", Font.BOLD, 30));
+        //makes a hollow yellow square 
+        mainScreenBorder = BorderFactory.createLineBorder(Color.YELLOW, 3);
+        mainScreentitle.setBorder(mainScreenBorder);
+        //label location horizontal location is set to the center of the frame
         mainScreentitle.setHorizontalAlignment(JLabel.CENTER);;
+        //label location vertical location is set to the center of the frame
         mainScreentitle.setVerticalAlignment(JLabel.CENTER);
-        mainScreentitle.setBounds(new Rectangle(0,0, 480,60));;
+        mainScreentitle.setBounds(new Rectangle(0,3, 485,450));;
         titleScreen.add(mainScreentitle);
     
-        JButton playGameButton = new JButton();
         playGameButton.setText("Play game");
-        playGameButton.setBounds(new Rectangle(new Point(200,250), playGameButton.getPreferredSize()));
+        playGameButton.setBounds(new Rectangle(new Point(190,250), playGameButton.getPreferredSize()));
+        playGameButton.setBackground(Color.yellow);
+        playGameButton.setForeground(Color.BLACK);
+        
+        playGameButtonBorder = BorderFactory.createRaisedBevelBorder();
+        playGameButton.setBorder(playGameButtonBorder);
+        //When playgameButton is clicked
         playGameButton.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e) 
             {
+                //make titleScreen close
                 titleScreen.setVisible(false);
+                //open game select screen
                 makeGameSelect();
          }
         });
         titleScreen.add(playGameButton);
     }
+    /**
+     * Display a screen where user select 
+     * a game in 'Board Classics'.
+     * 
+     * @author Alan
+     */
     public static void makeGameSelect()
     {
-        JFrame gameSelect = new JFrame();
-        gameSelect.setSize(500,500);
-        gameSelect.setVisible(true);
-        gameSelect.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        gameSelect.setResizable (false);
-        gameSelect.getContentPane().setBackground(Color.BLACK);
-        gameSelect.setLayout(null);
-
+        JFrame gameSelectFrame = new JFrame();
         JLabel gameSelectTitle = new JLabel();
-        Border border = BorderFactory.createLineBorder(Color.YELLOW, 3);
-        gameSelectTitle.setBorder(border);
+        Border gameSelectScreenBorder;
+        JButton playChessButton = new JButton();
+        JButton playCheckersButton = new JButton();
+
+        gameSelectFrame.setSize(500,500);
+        gameSelectFrame.setResizable(false);
+        gameSelectFrame.getContentPane().setBackground(Color.BLACK);
+        gameSelectFrame.setLayout(null);
+        gameSelectFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        gameSelectFrame.setVisible(true);
+        
+        gameSelectScreenBorder = BorderFactory.createLineBorder(Color.YELLOW, 3);
+        gameSelectTitle.setBorder(gameSelectScreenBorder);
+
         gameSelectTitle.setText("Game Selection");;
         gameSelectTitle.setForeground(Color.YELLOW);
-        gameSelectTitle.setFont(new Font("", Font.PLAIN, 30));
+        gameSelectTitle.setFont(new Font("Colon", Font.BOLD, 30));
         gameSelectTitle.setHorizontalAlignment(JLabel.CENTER);;
         gameSelectTitle.setVerticalAlignment(JLabel.CENTER);
-        gameSelectTitle.setBounds(new Rectangle(25,5, 450,450));;
-        gameSelect.add(gameSelectTitle);
+        gameSelectTitle.setBounds(new Rectangle(0,3, 485,450));;
+        gameSelectFrame.add(gameSelectTitle);
 
-        JButton chess = new JButton();
-        chess.setText("Play chess");
-        chess.setSize(100,100);
-        chess.setBounds(new Rectangle(new Point(200,250),chess.getPreferredSize()));
-        chess.addActionListener(new ActionListener()
+        
+        playChessButton.setText("Play chess");
+        playChessButton.setBounds(new Rectangle(new Point(200,250),playChessButton.getPreferredSize()));
+        playChessButton.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
             {
-                gameSelect.setVisible(false);
+                gameSelectFrame.setVisible(false);
                 chessGame();
             } 
         });
-        gameSelect.add(chess);
+        gameSelectFrame.add(playChessButton);
 
-        JButton checkers = new JButton();
-        checkers.setText("Play checkers");
-        checkers.setSize(100,100);
-        checkers.setBounds(new Rectangle(new Point(190,300),checkers.getPreferredSize()));
-        checkers.addActionListener(new ActionListener()
+        playCheckersButton.setText("Play checkers");
+        playCheckersButton.setBounds(new Rectangle(new Point(190,300),playCheckersButton.getPreferredSize()));
+        playCheckersButton.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e) 
             {
-                gameSelect.setVisible(false);
+                gameSelectFrame.setVisible(false);
                 checkersGame();
             }  
         });
-        gameSelect.add(checkers);
+        gameSelectFrame.add(playCheckersButton);
     }  
+    /**
+     * Displays chess game.
+     * 
+     * @author Alan
+    */
     public static void chessGame()
     {
         Screen screen = new Screen();
-        JFrame chessPanel = new JFrame();
-
-        chessPanel.add(screen);
-        chessPanel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        chessPanel.setBackground(Color.BLACK);
-        chessPanel.addKeyListener(screen);
-        chessPanel.pack();
-        chessPanel.setSize(new Dimension(360,300));
-        chessPanel.setLayout(null);
-        chessPanel.setVisible(true);
-
+        JFrame chessFrame = new JFrame();
         JButton surrenderButton = new JButton();
+
+        chessFrame.add(screen);
+        chessFrame.addKeyListener(screen);
+        chessFrame.pack();
+        chessFrame.setSize(new Dimension(360,300));
+        chessFrame.setLayout(null);
+        chessFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        chessFrame.setVisible(true);
+
         surrenderButton.setText("Surrender");
-        surrenderButton.setSize(100,100);
         surrenderButton.setBounds(new Rectangle(new Point(255,100),surrenderButton.getPreferredSize()));
         surrenderButton.addActionListener(new ActionListener() 
         {
             @Override
             public void actionPerformed(ActionEvent e) 
             {
-               chessPanel.setVisible(false);
+               chessFrame.setVisible(false);
                winScreen();
             }
             
         });
-        chessPanel.add(surrenderButton);
+        chessFrame.add(surrenderButton);
     }
+    /**
+     * Displays checkers game.
+     * 
+     * @author Alan
+     */
     public static void checkersGame()
     {
-        JFrame checkersPanel = new JFrame();
+        JFrame checkersFrame = new JFrame();
         Screen screen = new Screen();
+        JButton surrenderButton = new JButton();
 
-        checkersPanel.add(screen);  
-        checkersPanel.addKeyListener(screen);
-        checkersPanel.setVisible(true);
-        checkersPanel.pack();
-        checkersPanel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        checkersPanel.setLayout(new BoxLayout(checkersPanel, MAXIMIZED_BOTH));
-        checkersPanel.setBounds(new Rectangle(new Point(190,300),checkersPanel.getPreferredSize()));
+        checkersFrame.add(screen);  
+        checkersFrame.addKeyListener(screen);
+        checkersFrame.pack();
+        checkersFrame.setSize(new Dimension(360,300));
+        checkersFrame.setLayout(null);
+        checkersFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        checkersFrame.setVisible(true);
+        
+        surrenderButton.setText("Surrender");
+        surrenderButton.setBounds(new Rectangle(new Point(255,100),surrenderButton.getPreferredSize()));
+        surrenderButton.addActionListener(new ActionListener() 
+        {
+            @Override
+            public void actionPerformed(ActionEvent e) 
+            {
+               checkersFrame.setVisible(false);
+               winScreen();
+            }
+            
+        }); 
+        checkersFrame.add(surrenderButton);
     }
+    /**
+     * Displays screen after winning or 
+     * one of the players surrender.
+     * Screen has 3 buttons, 'play again'
+     * runs game user was playing again, 
+     * 'title screen' open up the 'Board classics'
+     * title screen, and 'game select' opens up
+     * game select screen for user to pick one of
+     * the game.
+     * 
+     * @author Alan
+     */
     public static void winScreen()
     {
         JFrame winFrame = new JFrame();
+        JLabel playerXWon = new JLabel();
+        Border winFrameBorder;
+        JButton playAgainButon = new JButton();
+        JButton titleScreenButton = new JButton();
+        JButton gameSelectButton = new JButton();
+
         winFrame.setSize(500,500);
-        winFrame.setVisible(true);
-        winFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         winFrame.setResizable (false);
         winFrame.getContentPane().setBackground(Color.BLACK);
         winFrame.setLayout(null);
+        winFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        winFrame.setVisible(true);
 
-        JLabel playerXWon = new JLabel();
-        Border border = BorderFactory.createLineBorder(Color.YELLOW, 3);
-        playerXWon.setBorder(border);
+        winFrameBorder = BorderFactory.createLineBorder(Color.YELLOW, 3);
+        playerXWon.setBorder(winFrameBorder);
+
         playerXWon.setText("Player 1 Won");;
         playerXWon.setForeground(Color.YELLOW);
         playerXWon.setFont(new Font("", Font.PLAIN, 30));
         playerXWon.setHorizontalAlignment(JLabel.CENTER);
         playerXWon.setVerticalAlignment(JLabel.CENTER);
-        playerXWon.setBounds(new Rectangle(20,5, 450,450));
+        playerXWon.setBounds(new Rectangle(0,3, 485,450));
         winFrame.add(playerXWon);
         
-        JButton playAgainButon = new JButton();
         playAgainButon.setText("Play again");
-        playAgainButon.setSize(100,100);
         playAgainButon.setBounds(new Rectangle(new Point(190,250),playAgainButon.getPreferredSize()));
         playAgainButon.addActionListener(new ActionListener()
         {
@@ -191,7 +255,6 @@ public class guiCreator extends JFrame
         });
         winFrame.add(playAgainButon);
 
-        JButton titleScreenButton = new JButton();
         titleScreenButton.setText("Title Screen");
         titleScreenButton.setSize(200,100);
         titleScreenButton.setBounds(new Rectangle(new Point(190,290),titleScreenButton.getPreferredSize()));
@@ -201,15 +264,13 @@ public class guiCreator extends JFrame
             public void actionPerformed(ActionEvent e)
             {
                 winFrame.setVisible(false);
-                makeGameSelect();
+                makeTitle();
             }
 
         });
         winFrame.add(titleScreenButton);
 
-        JButton gameSelectButton = new JButton();
         gameSelectButton.setText("Game select");
-        gameSelectButton.setSize(100,100);
         gameSelectButton.setBounds(new Rectangle(new Point(190,320),gameSelectButton.getPreferredSize()));
         gameSelectButton.addActionListener(new ActionListener()
         {
@@ -223,7 +284,15 @@ public class guiCreator extends JFrame
         });
         winFrame.add(gameSelectButton);
        }
+<<<<<<< Updated upstream
        public static void main(String[] args) throws Exception 
+=======
+    /** 
+     * @param args
+     * @throws Exception
+     */
+    public static void main(String[] args) throws Exception 
+>>>>>>> Stashed changes
     {
         SwingUtilities.invokeLater(new Runnable() 
         {
