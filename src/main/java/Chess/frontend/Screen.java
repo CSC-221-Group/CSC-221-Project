@@ -266,4 +266,9 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         }
     }
 
+    public int getCurrentTurn() 
+    {
+        return currentTurn;
+    }
+
 }
