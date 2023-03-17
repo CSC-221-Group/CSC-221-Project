@@ -94,9 +94,12 @@ public class Screen extends JPanel implements ActionListener, KeyListener {
         public void updateLocation(MouseEvent e) {
             int x = e.getX() / TILE_SIZE;
             int y = e.getY() / TILE_SIZE;
-            int dx = x - preX;
-            int dy = y - preY;
-            currentPiece.setPos(dx, dy);
+            try {
+                currentPiece.move(x, y);
+            }
+            catch (InvalidMovementException ex) {
+                System.out.println(ex.getMessage());
+            }
             repaint();
         }
 
