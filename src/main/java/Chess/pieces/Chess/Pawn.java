@@ -46,7 +46,7 @@ public class Pawn extends Piece
         //local vars
         int originx = this.getPos().x;
         int originy = this.getPos().y;
-        int totalMoved = originy - y;
+        int totalMoved = originy - (7 - y);
         boolean allow2Tiles = false;
         System.out.println(y + " - " + originy + " = " + totalMoved);
         //check if x value changed 
@@ -74,7 +74,7 @@ public class Pawn extends Piece
             throw new InvalidMovementException("This pawn already moved therefore it can no longer move 2 tiles.");
         }
         //set position
-        this.setPos(x, originy + y);
+        this.setPos(x, 7 - y);
     }
 }
 

@@ -6,7 +6,7 @@ import Chess.pieces.Piece;
 public class Queen extends Piece
 {
     public boolean color;
-    public Queen (boolean color, int x, int y, boolean owner)
+    public Queen (boolean color, int x, int y)
     {
         //Calls Piece contructor 
         super(x,y);
@@ -27,11 +27,9 @@ public class Queen extends Piece
         int originx = this.getPos().x;
         int originy = this.getPos().y;
         int totalXMoved = originx - x;
-        int totalYMoved = originy - y;
+        int totalYMoved = originy - (7 - y);
         int absXMoved = totalXMoved;
         int absYMoved = totalYMoved;
-        System.out.println(x + " - " + originx + " = " + totalXMoved);
-        System.out.println(y + " - " + originy + " = " + totalYMoved);
         if (totalXMoved < 0) {
             absXMoved*=-1;
         }
@@ -43,7 +41,7 @@ public class Queen extends Piece
             throw new InvalidMovementException("Queens can only move diagonally, vertically or horizontally");
         }
         //set position
-        this.setPos(originx + x, originy + y);
+        this.setPos(x, 7 - y);
     }
 }
 

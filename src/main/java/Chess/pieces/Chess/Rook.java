@@ -27,7 +27,7 @@ public class Rook extends Piece
         int originx = this.getPos().x;
         int originy = this.getPos().y;
         int totalXMoved = originx - x;
-        int totalYMoved = originy - y;
+        int totalYMoved = originy - (7 - y);
         System.out.println(x + " - " + originx + " = " + totalXMoved);
         System.out.println(y + " - " + originy + " = " + totalYMoved);
         //check if x value changed 
@@ -35,7 +35,7 @@ public class Rook extends Piece
             throw new InvalidMovementException("Rooks can only move horizontally or vertically");
         }
         //set position
-        this.setPos(originx + x, originy + y);
+        this.setPos(x, 7 - y);
     }
 }    
 

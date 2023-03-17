@@ -28,7 +28,7 @@ public class Knight extends Piece
         int originx = this.getPos().x;
         int originy = this.getPos().y;
         int totalXMoved = originx - x;
-        int totalYMoved = originy - y;
+        int totalYMoved = originy - (7 - y);
         int absXMoved = totalXMoved;
         int absYMoved = totalYMoved;
         if (totalXMoved < 0) {
@@ -46,7 +46,7 @@ public class Knight extends Piece
             }
         }
         //set position
-        this.setPos(originx + x, originy + y);
+        this.setPos(x, 7 - y);
     }
 }
     
