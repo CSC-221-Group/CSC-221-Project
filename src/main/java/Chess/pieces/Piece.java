@@ -11,6 +11,7 @@ import java.awt.Point;
 
 //mouse listener imports
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 
 /**
@@ -24,6 +25,7 @@ public abstract class Piece
     private BufferedImage icon;
     private Point pos;
     private boolean captured = false;
+    protected static ArrayList<Piece> totalPieces = new ArrayList<>();
 
     /*
      * Constructor
@@ -31,6 +33,7 @@ public abstract class Piece
     public Piece(int x, int y) 
     {
         pos = new Point(x, y);
+        totalPieces.add(this);
     }
     
     /** 
