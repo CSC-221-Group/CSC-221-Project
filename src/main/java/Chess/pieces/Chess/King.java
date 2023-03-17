@@ -45,6 +45,11 @@ public class King extends Piece
         if (absYMoved > 1 || absXMoved > 1) {
             throw new InvalidMovementException("Kings can't move more than 1 tile");
         }
+        for (Piece key : Piece.totalPieces) {
+            if ((key.getPos().x == x && key.getPos().y == (7 - y))) {
+                throw new InvalidMovementException("You should be calling the capture method when pieces touch each other");
+            }
+        }
         //set position
         this.setPos(x, 7 - y);
     }

@@ -73,6 +73,11 @@ public class Pawn extends Piece
         if (allow2Tiles == false && (totalMoved == 2)) {
             throw new InvalidMovementException("This pawn already moved therefore it can no longer move 2 tiles.");
         }
+        for (Piece key : Piece.totalPieces) {
+            if ((key.getPos().x == x && key.getPos().y == (7 - y))) {
+                throw new InvalidMovementException("You should be calling the capture method when pieces touch each other");
+            }
+        }
         //set position
         this.setPos(x, 7 - y);
     }

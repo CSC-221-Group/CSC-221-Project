@@ -42,6 +42,11 @@ public class Bishop extends Piece
         if (absYMoved != absXMoved) {
             throw new InvalidMovementException("Bishops can only move diagonally");
         }
+        for (Piece key : Piece.totalPieces) {
+            if ((key.getPos().x == x && key.getPos().y == (7 - y))) {
+                throw new InvalidMovementException("You should be calling the capture method when pieces touch each other");
+            }
+        }
         //set position
         this.setPos(x, 7 - y);
     }
