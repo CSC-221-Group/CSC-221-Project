@@ -36,7 +36,15 @@ public class guiCreator extends JFrame
     private static final int FONT_SIZE = 48;
     //Class variables 
     /*******************************************/
-
+    /**
+     * This method creates a Jlabel and return it.
+     * @param text - text that will be put on jlable 
+     * @param x 
+     * @param y
+     * @param w
+     * @param h
+     * @return jlabel 
+     */
     private static JLabel makeText(String text, int x, int y, int w, int h) 
     {
         //local constants
@@ -57,7 +65,10 @@ public class guiCreator extends JFrame
         
         return mainScreentitle;
     }//end makeText 
-
+/**
+     * This method creates a Frame and return it.
+     * @return Jframe
+     */
     private static JFrame makeMainFrame() 
     {
         //local constants
@@ -75,7 +86,15 @@ public class guiCreator extends JFrame
 
         return frame;
     }//end makeMainFrame 
-
+    /**
+     * This method creates a JButton and return it.
+     * @param text - text that will be put on Button
+     * @param x 
+     * @param y
+     * @param w
+     * @param h
+     * @return jButton
+     */
     private static JButton makeButton(String text, int x, int y, int w, int h) 
     {
         //local constants
@@ -91,13 +110,9 @@ public class guiCreator extends JFrame
         return button;
     }//end makeButton
     /**
-     * make the title screen and display it,
-     * has a 3 buttons. "play game" opens up another
-     * frame where user picks a game.
-     * "options" sets the size of games.
-     * "Quit" closes program.
-     * @author Alan
-     */
+    * This method creates the title screen for 
+    * boardClassics
+    */
     public static void makeTitleScreen() 
     {
         //local constants
@@ -128,7 +143,6 @@ public class guiCreator extends JFrame
      * Display a screen where user select 
      * a game in 'Board Classics'.
      * 
-     * @author Alan
      */
     public static void makeGameSelect()
     {
@@ -241,9 +255,7 @@ public class guiCreator extends JFrame
         checkersFrame.add(surrenderButton);
     }//end checkerGame
     /**
-     * 
-     * 
-     * @author Alan
+     * Displays win screen of 'board classics'
      */
     public static void winScreen(int turn)
     {
@@ -327,4 +339,3 @@ public class guiCreator extends JFrame
         });
     }//end main
 }//end guiCreator
-
