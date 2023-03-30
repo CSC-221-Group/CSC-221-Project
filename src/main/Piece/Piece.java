@@ -38,6 +38,7 @@ public abstract class Piece
     private Point pos;               // Postiong of Piece 
     private int ownedBy;             //1 for white or 2 for black
     private boolean captured = false;//if the piece was captured or no.
+    private int gameSize = 1;
     /***********************************************************************/
     /**
     * Constructor for the Piece class.
@@ -46,9 +47,10 @@ public abstract class Piece
     * @param x The x position of the Piece.
     * @param y The y position of the Piece.
     */
-    public Piece(int x, int y)
+    public Piece(int x, int y, Screen board) 
     {
         //set position of piece to the given (x,y) cords.
+        gameSize = board.getGameSize();
         pos = new Point(x, y);
     }//END Piece
 
@@ -60,10 +62,11 @@ public abstract class Piece
     * @param ownedBy An int representing which color owns the piece. 1 = white 2 = black
     *        
     */
-    public Piece(int x, int y, int ownedBy) 
+    public Piece(int x, int y, int ownedBy, Screen board) 
     {
         pos = new Point(x, y); 
         // Set ownedBy to white or black
+        gameSize = board.getGameSize();
         this.ownedBy = ownedBy;
     }//END Piece
     
@@ -73,12 +76,31 @@ public abstract class Piece
      * @param path String representing the Pieces in the specified game.
      *       
      */
+
+    //  BufferedImage otherImage = // .. created somehow
+    //  BufferedImage newImage = new BufferedImage(SMALL_SIZE, SMALL_SIZE, BufferedImage.TYPE_INT_RGB);
+     
+    //  Graphics g = newImage.createGraphics();
+    //  g.drawImage(otherImage, 0, 0, SMALL_SIZE, SMALL_SIZE, null);
+    //  g.dispose();
+
+
+
     protected void loadImage(String game, String path)
     {
         try 
         {
             //loads image depending on game and pieces name
             icon = ImageIO.read(new File("images/" + game + "/" + path + ".png"));
+            System.out.println(gameSize + " " + icon.getWidth() + " " + icon.getHeight());
+            if(gameSize >= 2)
+            {
+                BufferedImage newImage = new BufferedImage(icon.getWidth() * gameSize, icon.getHeight() * gameSize, BufferedImage.TYPE_INT_ARGB);
+                Graphics g = newImage.createGraphics();
+                g.drawImage(icon, 0, 0, icon.getWidth() * gameSize, icon.getHeight() * gameSize, null);
+                g.dispose();
+                icon = newImage;
+            }
         } 
         catch (IOException e) 
         {
@@ -127,7 +149,7 @@ public abstract class Piece
      */
     public void draw(Graphics g, ImageObserver obs) 
     {
-        g.drawImage(icon, pos.x * Screen.TILE_SIZE, (7 * Screen.TILE_SIZE) - pos.y * Screen.TILE_SIZE, obs);
+        g.drawImage(icon, pos.x * (Screen.TILE_SIZE * gameSize), (7 * (Screen.TILE_SIZE * gameSize)) - pos.y * (Screen.TILE_SIZE * gameSize), obs);
     }//END Draw
 
     /**
@@ -203,6 +225,6 @@ public abstract class Piece
         return captured;
     }//end is captured
 
-    public abstract void move(Screen board, Cell start, Cell end);
+    public abstract void move(Screen board, Cell start, Cell end) throws InvalidMovementException;
     
 }//End Piece

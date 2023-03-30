@@ -6,9 +6,9 @@ import main.java.Chess.frontend.Screen;
 public class Rook extends Piece
 {
     public String color;
-    public Rook (String color, int x, int y, int owner)
+    public Rook (String color, int x, int y, int owner, Screen board)
     {
-        super(x, y, owner);
+        super(x, y, owner, board);
         String Chess = "Chess"; 
         loadImage(Chess,color + "Rook");
         this.color = color;

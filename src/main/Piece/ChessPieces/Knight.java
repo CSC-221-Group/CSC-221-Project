@@ -6,9 +6,9 @@ import main.Piece.Piece;
 public class Knight extends Piece
 {
     public String color;
-    public Knight (String color, int x, int y, int owner)
+    public Knight (String color, int x, int y, int owner, Screen board)
     {
-        super(x, y, owner);
+        super(x, y, owner, board);
         String Chess = "Chess"; 
         loadImage(Chess,color + "Knight");
         this.color = color;

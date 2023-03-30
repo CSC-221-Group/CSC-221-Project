@@ -2,6 +2,7 @@ package main.Piece.ChessPieces;
 import main.java.Chess.frontend.Screen;
 import main.java.Chess.frontend.Cell;
 import main.Piece.Piece;
+import main.Piece.InvalidMovementException;
 
 /** 
  * and how it should move.
@@ -18,10 +19,10 @@ public class Pawn extends Piece
      * @param y -Vertical location of pawn.
      * @param owner - which color(White/Black) owns the piece.
      */
-        public Pawn(String color, int x, int y, int owner) 
+        public Pawn(String color, int x, int y, int owner, Screen board) 
     {
         //Calls Piece contructor 
-        super(x,y, owner);
+        super(x,y, owner, board);
 
         //Sets image of pawn depending on color passed.
         String Chess = "Chess"; 
@@ -33,19 +34,23 @@ public class Pawn extends Piece
      * @param board
      * @param start
      * @param end
+     * @throws InvalidMovementException
      */
     @Override
-    public void move(Screen board, Cell start, Cell end) 
+    public void move(Screen board, Cell start, Cell end) throws InvalidMovementException 
     {
         Piece [][] pawn = new Piece [start.getX() ][start.getY()];
 
+
+
         if(end.getX() == start.getX() && end.getY() == start.getY())
         {
-            return ;
+            throw new InvalidMovementException("You cannot move to the same spot");
         } 
         if(end.isOccupied() )
         {
-            return ;
+            // handle capturing, ensure that the piece is of the opposite color and it can capture like that
+            return;
         }
         if(pawn[end.getX()][end.getY()] != null)
         {
