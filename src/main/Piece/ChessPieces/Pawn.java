@@ -30,9 +30,12 @@ public class Pawn extends Piece
      * @param y - y position of Pawn piece 
      * @param owner - sets owner of Pawn piece
      */
-    public Pawn(String color, int x, int y, int owner) 
+        public Pawn(String color, int x, int y, int owner, Screen board) 
     {
-        super(x,y, owner);
+        //Calls Piece contructor 
+        super(x,y, owner, board);
+
+        //Sets image of pawn depending on color passed.
         String Chess = "Chess"; 
         loadImage(Chess,color + "Pawn");
         this.color = color;
@@ -41,19 +44,23 @@ public class Pawn extends Piece
      * @param board
      * @param start
      * @param end
+     * @throws InvalidMovementException
      */
     @Override
-    public void move(Screen board, Cell start, Cell end) 
+    public void move(Screen board, Cell start, Cell end) throws InvalidMovementException 
     {
         Piece [][] pawn = new Piece [start.getX() ][start.getY()];
 
+
+
         if(end.getX() == start.getX() && end.getY() == start.getY())
         {
-            return ;
+            throw new InvalidMovementException("You cannot move to the same spot");
         } 
         if(end.isOccupied() )
         {
-            return ;
+            // handle capturing, ensure that the piece is of the opposite color and it can capture like that
+            return;
         }
         if(pawn[end.getX()][end.getY()] != null)
         {

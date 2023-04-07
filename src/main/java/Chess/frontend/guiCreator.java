@@ -36,6 +36,7 @@ public class guiCreator extends JFrame
     private static final int WIDTH = 500;
     private static final int HEIGHT = 500;
     private static final int FONT_SIZE = 48;
+    public static int gameSize = 2;
     //Class variables 
     public static Cell cell;
     /*******************************************/
@@ -79,7 +80,7 @@ public class guiCreator extends JFrame
         JFrame frame = new JFrame();
         /*******************************************/
         //sets size of frame to the classes constants 
-        frame.setSize(WIDTH,HEIGHT);
+        frame.setSize(WIDTH*gameSize,HEIGHT*gameSize);
         frame.setResizable(false);
         //set background to black 
         frame.getContentPane().setBackground(Color.BLACK);
@@ -205,7 +206,7 @@ public class guiCreator extends JFrame
     {
         //local constants 
         //local variables 
-        Screen screen = new Screen(); //TODO make screen chess class
+        Screen screen = new Screen(gameSize); //TODO make screen chess class
         JFrame chessFrame = new JFrame();
         JButton surrenderButton = makeButton("surrender", 255, 100, 96, 30);
         /*****************************************************/
@@ -213,7 +214,14 @@ public class guiCreator extends JFrame
         chessFrame.add(screen);
         chessFrame.addKeyListener(screen);
         chessFrame.pack();
-        chessFrame.setSize(new Dimension(360,300));
+        if(gameSize == 2)
+        {
+            chessFrame.setSize(new Dimension(720,600));
+        }
+        else if(gameSize == 1)
+        {
+            chessFrame.setSize(new Dimension(360,300));
+        }
         chessFrame.setLayout(null);
         chessFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         chessFrame.setVisible(true);
@@ -243,14 +251,21 @@ public class guiCreator extends JFrame
         //local constants
         //local variables 
         JFrame checkersFrame = new JFrame();
-        Screen screen = new Screen();
+        Screen screen = new Screen(gameSize);
         JButton surrenderButton = new JButton();
         /************************************/
 
         checkersFrame.add(screen);  
         checkersFrame.addKeyListener(screen);
         checkersFrame.pack();
-        checkersFrame.setSize(new Dimension(360,300));
+        if(gameSize == 2)
+        {
+            checkersFrame.setSize(new Dimension(720,600));
+        }
+        else if(gameSize == 1)
+        {
+            checkersFrame.setSize(new Dimension(360,300));
+        }
         checkersFrame.setLayout(null);
         checkersFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         checkersFrame.setVisible(true);

@@ -30,9 +30,9 @@ public class Queen extends Piece
      * @param y - y position of Queen piece 
      * @param owner - sets owner of Queen piece,
      */
-    public Queen (String color, int x, int y, int owner)
+    public Queen (String color, int x, int y, int owner, Screen board)
     {
-        super(x, y, owner);
+        super(x, y, owner, board);
         String Chess = "Chess"; 
         loadImage(Chess,color + "Queen");
         this.color = color;

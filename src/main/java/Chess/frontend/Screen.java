@@ -35,6 +35,7 @@ import main.Piece.ChessPieces.*;
 public class Screen extends JPanel implements ActionListener, KeyListener 
 {
     //class constants 
+    public static int gameSize = 1;  //size of the board
     private final int DELAY = 10;          //delay between each frame in ms
     public static final int TILE_SIZE = 32;//size of square on board
     public static final int ROWS = 8;      //size of the board horizontally 
@@ -69,6 +70,14 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         boolean mousePressed = false;
         Piece currentPiece = null;
 
+        private void displayLocationError() {
+            System.out.println("Mouse pressed outside of board");
+            System.out.println("GameSize = " + gameSize + " Tile Size = " + TILE_SIZE);
+            System.out.println("Mouse X: " + preX + " Mouse Y: " + preY);
+            System.out.println("Cords: " + (preX / TILE_SIZE) + ", " + ((ROWS-1) - (preY / TILE_SIZE)));
+            System.out.println("Adjusted Cords: " + (preX / (TILE_SIZE * gameSize)) + ", " + ((ROWS-1) - (preY / (TILE_SIZE * gameSize))));
+        }
+
         /**
         * This methode determines which cell was clicked and sets the currentPiece variable
         * to the piece occupying that cell if it is owned by the current turn's player.
@@ -78,13 +87,20 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         public void mousePressed(MouseEvent e)
         {
             //if the where the mouse click is outside the game board.
-            if(e.getX() / TILE_SIZE > COLS || e.getY() / TILE_SIZE > ROWS)
+            int x = e.getX() / (TILE_SIZE * gameSize);
+            int y = (ROWS-1) - (e.getY() / (TILE_SIZE * gameSize));
+            if(x < 0 || y < 0) {
+                displayLocationError();
+                return;
+            }
+            if(x > COLS || y > ROWS )
             {
+                displayLocationError();
                 return;
             }//end IF
 
             //the cell that was clicked.
-            Cell cell = cells[e.getX() / TILE_SIZE][(ROWS-1) - (e.getY() / TILE_SIZE)];
+            Cell cell = cells[e.getX() / (TILE_SIZE * gameSize)][(ROWS-1) - (e.getY() / (TILE_SIZE * gameSize))];
 
             //if the cell is unoccupied.
             if(!cell.isOccupied())
@@ -102,8 +118,8 @@ public class Screen extends JPanel implements ActionListener, KeyListener
 
             currentPiece = cell.getPiece();
             mousePressed = true;
-            preX = e.getX() / TILE_SIZE;
-            preY = (ROWS-1) - (e.getY() / TILE_SIZE);
+            preX = e.getX() / (TILE_SIZE * gameSize);
+            preY = (ROWS-1) - (e.getY() / (TILE_SIZE * gameSize));
         }//end mousePressed
 
 
@@ -130,7 +146,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
             }//end IF
 
             //print where the mouse was clikced 
-            System.out.println("Mouse released at " + x + ", " + y );
+            System.out.println("Mouse released at " + e.getX() / TILE_SIZE + ", " + ((ROWS-1) - (e.getY() / TILE_SIZE)));
             mousePressed = false;
             updateLocation(e);
         }//end mouseRelease
@@ -144,8 +160,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         {
             int x = e.getX() / TILE_SIZE;
             int y = (ROWS-1) - (e.getY() / TILE_SIZE);
-            guiCreator promote = new guiCreator();
-            
+
             //if x or y outside the board 
             if (x > COLS || y > ROWS)
             {
@@ -188,20 +203,21 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     * Constructor for Screen.
     * Displays the screen and pieces.
     */
-    public Screen()
+    public Screen(int gameSize)
     {
-        initScreen();
+        initScreen(gameSize);
     }
 
     /**
     * Initializes the screen with appropriate listeners
     * and dimensions, and initializes the game.
     */
-    private void initScreen()
+    private void initScreen(int gameSize)
     {
+        setGameSize(gameSize);
         addKeyListener(this);
         setFocusable(true);
-        setPreferredSize(new Dimension(COLS * TILE_SIZE, ROWS * TILE_SIZE));
+        setPreferredSize(new Dimension(COLS * (TILE_SIZE * gameSize), ROWS * (TILE_SIZE * gameSize)));
         addMouseMotionListener(new mouseAdapter());
         addMouseListener(new mouseAdapter());
         setBackground(Color.BLACK);
@@ -302,34 +318,34 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     */
     private void resetBoard() 
     {
-        cells[0][0] = new Cell(0, 0, new Rook("white", 0, 0, 1)); // ROOK
-        cells[1][0] = new Cell(1, 0, new Knight("white", 1, 0, 1)); // KNIGHT
-        cells[2][0] = new Cell(2, 0, new Bishop("white", 2, 0, 1)); // BISHOP
-        cells[3][0] = new Cell(3, 0, new Queen("white", 3, 0, 1)); // QUEEN
-        cells[4][0] = new Cell(4, 0, new King("white", 4, 0, 1)); // KING
-        cells[5][0] = new Cell(5, 0, new Bishop("white", 5, 0, 1)); // BISHOP
-        cells[6][0] = new Cell(6, 0, new Knight("white", 6, 0, 1)); // KNIGHT
-        cells[7][0] = new Cell(7, 0, new Rook("white", 7, 0, 1)); // ROOK
+        cells[0][0] = new Cell(0, 0, new Rook("white", 0, 0, 1, this)); // ROOK
+        cells[1][0] = new Cell(1, 0, new Knight("white", 1, 0, 1, this)); // KNIGHT
+        cells[2][0] = new Cell(2, 0, new Bishop("white", 2, 0, 1, this)); // BISHOP
+        cells[3][0] = new Cell(3, 0, new Queen("white", 3, 0, 1, this)); // QUEEN
+        cells[4][0] = new Cell(4, 0, new King("white", 4, 0, 1, this)); // KING
+        cells[5][0] = new Cell(5, 0, new Bishop("white", 5, 0, 1, this)); // BISHOP
+        cells[6][0] = new Cell(6, 0, new Knight("white", 6, 0, 1, this)); // KNIGHT
+        cells[7][0] = new Cell(7, 0, new Rook("white", 7, 0, 1, this)); // ROOK
         
         for (int i = 0; i < 8; i++) 
         {
             //set a white pawn on the board in the x positon of i and y positon of 1.
-            cells[i][1] = new Cell(i, 1, new Pawn("white", i, 1,1)); // PAWN
+            cells[i][1] = new Cell(i, 1, new Pawn("white", i, 1,1, this)); // PAWN
         }//end For
 
-        cells[0][7] = new Cell(0, 7, new Rook("black", 0, 7, 2)); // ROOK
-        cells[1][7] = new Cell(1, 7, new Knight("black", 1, 7, 2)); // KNIGHT
-        cells[2][7] = new Cell(2, 7, new Bishop("black", 2, 7, 2)); // BISHOP
-        cells[3][7] = new Cell(3, 7, new Queen("black", 3, 7, 2)); // QUEEN
-        cells[4][7] = new Cell(4, 7, new King("black", 4, 7, 2)); // KING
-        cells[5][7] = new Cell(5, 7, new Bishop("black", 5, 7, 2)); // BISHOP
-        cells[6][7] = new Cell(6, 7, new Knight("black", 6, 7, 2)); // KNIGHT
-        cells[7][7] = new Cell(7, 7, new Rook("black", 7, 7, 2)); // ROOK
+        cells[0][7] = new Cell(0, 7, new Rook("black", 0, 7, 2, this)); // ROOK
+        cells[1][7] = new Cell(1, 7, new Knight("black", 1, 7, 2, this)); // KNIGHT
+        cells[2][7] = new Cell(2, 7, new Bishop("black", 2, 7, 2, this)); // BISHOP
+        cells[3][7] = new Cell(3, 7, new Queen("black", 3, 7, 2, this)); // QUEEN
+        cells[4][7] = new Cell(4, 7, new King("black", 4, 7, 2, this)); // KING
+        cells[5][7] = new Cell(5, 7, new Bishop("black", 5, 7, 2, this)); // BISHOP
+        cells[6][7] = new Cell(6, 7, new Knight("black", 6, 7, 2, this)); // KNIGHT
+        cells[7][7] = new Cell(7, 7, new Rook("black", 7, 7, 2, this)); // ROOK
         
         for (int i = 0; i < 8; i++) 
         {
             //set a black pawn on the board in the the x position of i and y positon of 6.
-            cells[i][6] = new Cell(i, 6, new Pawn("black", i, 6, 2)); // PAWN
+            cells[i][6] = new Cell(i, 6, new Pawn("black", i, 6, 2, this)); // PAWN
         }//end FOF
 
         for (int i = 0; i < ROWS; i++) 
@@ -392,7 +408,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
             {
                 if ((i + j) % 2 == 0) 
                 {
-                    g.fillRect(j * TILE_SIZE, i * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+                    g.fillRect(j * (TILE_SIZE * gameSize), i * (TILE_SIZE * gameSize), TILE_SIZE * gameSize, TILE_SIZE * gameSize);
                 }
             }
         }
@@ -419,6 +435,23 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     public int getCurrentTurn() 
     {
         return currentTurn;
+    }
+
+    /**
+     * Returns the game size of the game.
+     * @return an integer representing the game size.
+     */
+    public int getGameSize()
+    {
+        return gameSize;
+    }
+    /**
+     * Sets the game size of the game.
+     * @param gameSize an integer representing the game size.
+     */
+    public void setGameSize(int gameSize)
+    {
+        this.gameSize = gameSize;
     }
 
     public static void promotePawn(String color,int ownedBy,int x, int y,String promoteType)
