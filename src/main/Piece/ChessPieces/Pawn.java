@@ -3,6 +3,7 @@ package main.Piece.ChessPieces;
 import main.java.Chess.frontend.Screen;
 import main.java.Chess.frontend.Cell;
 import main.Piece.Piece;
+import main.Piece.InvalidMovementException; 
 /**********************************************************
  * Program Name   : Pawn
  * Author         : 

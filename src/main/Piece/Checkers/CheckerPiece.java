@@ -30,9 +30,9 @@ public class CheckerPiece extends Piece
      * @param y - y position of checkers piece 
      * @param owner - sets owner of checkers piece,
      */
-    public CheckerPiece(String color,int x, int y, int owner) 
+    public CheckerPiece(String color,int x, int y, int owner,Screen board) 
     {
-        super(x,y,owner);
+        super(x,y,owner,board);
         String Checkers = "Checkers";
         loadImage(Checkers, color + "CheckerPiece");
         this.color = color;

@@ -9,6 +9,7 @@ import main.java.Chess.frontend.Cell;
 import main.java.Chess.frontend.Screen;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
+import main.Piece.InvalidMovementException;
 /**********************************************************
  * Program Name   : Piece
  * Author         : Jordan 

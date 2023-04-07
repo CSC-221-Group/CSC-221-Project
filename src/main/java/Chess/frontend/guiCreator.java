@@ -37,6 +37,7 @@ public class guiCreator extends JFrame
     private static final int HEIGHT = 500;
     private static final int FONT_SIZE = 48;
     public static int gameSize = 2;
+    private static Screen screen = new Screen(gameSize);
     //Class variables 
     public static Cell cell;
     /*******************************************/
@@ -206,7 +207,7 @@ public class guiCreator extends JFrame
     {
         //local constants 
         //local variables 
-        Screen screen = new Screen(gameSize); //TODO make screen chess class
+        //TODO make screen chess class
         JFrame chessFrame = new JFrame();
         JButton surrenderButton = makeButton("surrender", 255, 100, 96, 30);
         /*****************************************************/
@@ -363,13 +364,12 @@ public class guiCreator extends JFrame
 
     }
 
-    public void promoteScreen(int x , int y)
+    public static void promoteScreen(int x , int y)
     {
         JFrame promoteScreen = new JFrame();
         //Screen screen = new Screen();
         promoteScreen.setLayout(new GridLayout(0,1));
         promoteScreen.setVisible(true);
-
         JButton Queenbt = new JButton();
         Queenbt.setIcon(new ImageIcon("images/Chess/whiteQueen.png"));
         Queenbt.setSize(100,100);
@@ -381,13 +381,13 @@ public class guiCreator extends JFrame
             {
                 if(y == 0)
                 {
-                    Screen.promotePawn("black",2,x,y, "Queen");
+                    screen.promotePawn("black",2,x,y, "Queen");
                     promoteScreen.setVisible(false);
                 }
                 else
                 {
                     
-                    Screen.promotePawn("white",1,x,y, "Queen");
+                    screen.promotePawn("white",1,x,y, "Queen");
                     promoteScreen.setVisible(false);
 
                 }
@@ -408,14 +408,14 @@ public class guiCreator extends JFrame
             {
                 if(y == 0)
                 {
-                    Screen.promotePawn("black",2,x,y, "Rook");
+                    screen.promotePawn("black",2,x,y, "Rook");
                     promoteScreen.setVisible(false);
 
 
                 }
                 else
                 {
-                    Screen.promotePawn("white",1,x,y, "Rook");
+                    screen.promotePawn("white",1,x,y, "Rook");
                     promoteScreen.setVisible(false);
                 }
               
@@ -435,12 +435,12 @@ public class guiCreator extends JFrame
             {
                 if(y == 0)
                 {
-                    Screen.promotePawn("black",2,x,y, "Knight");
+                    screen.promotePawn("black",2,x,y, "Knight");
                     promoteScreen.setVisible(false); 
                 }
                 else
                 {
-                    Screen.promotePawn("white",1,x,y, "Knight");
+                    screen.promotePawn("white",1,x,y, "Knight");
                     promoteScreen.setVisible(false);
 
                 }
@@ -462,13 +462,13 @@ public class guiCreator extends JFrame
             {
                 if(y == 0)
                 {
-                    Screen.promotePawn("black",2,x,y, "Bishop");
+                    screen.promotePawn("black",2,x,y, "Bishop");
                     promoteScreen.setVisible(false);
 
                 }
                 else
                 {
-                    Screen.promotePawn("white",1,x,y, "Bishop");
+                    screen.promotePawn("white",1,x,y, "Bishop");
                     promoteScreen.setVisible(false);
                 }
             }

@@ -70,7 +70,8 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         boolean mousePressed = false;
         Piece currentPiece = null;
 
-        private void displayLocationError() {
+        private void displayLocationError()
+        {
             System.out.println("Mouse pressed outside of board");
             System.out.println("GameSize = " + gameSize + " Tile Size = " + TILE_SIZE);
             System.out.println("Mouse X: " + preX + " Mouse Y: " + preY);
@@ -146,7 +147,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
             }//end IF
 
             //print where the mouse was clikced 
-            System.out.println("Mouse released at " + e.getX() / TILE_SIZE + ", " + ((ROWS-1) - (e.getY() / TILE_SIZE)));
+            System.out.println("Mouse released at " + x + ", " + y);
             mousePressed = false;
             updateLocation(e);
         }//end mouseRelease
@@ -158,17 +159,15 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         */
         public void updateLocation(MouseEvent e)
         {
-            int x = e.getX() / TILE_SIZE;
-            int y = (ROWS-1) - (e.getY() / TILE_SIZE);
-
+            int x = e.getX() / (TILE_SIZE * gameSize);
+            int y = (ROWS-1) - (e.getY() / (TILE_SIZE * gameSize));
             //if x or y outside the board 
             if (x > COLS || y > ROWS)
             {
                 return;
             }//end if 
 
-            Cell cell = cells[x][y];
-
+            Cell cell = cells[e.getX() / (TILE_SIZE * gameSize)][(ROWS-1) - (e.getY() / (TILE_SIZE * gameSize))];
             //if square is occupied 
             if (cell.isOccupied())
             {
@@ -179,7 +178,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
             {
                 if(currentPiece.getClass() == Pawn.class)
                 {
-                    promote.promoteScreen(x,y); 
+                   guiCreator.promoteScreen(x, y);
                 }
             }
             if(currentPiece.getOwnedBy() == 1)
@@ -194,7 +193,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
                 cells[preX][preY].setPiece(null);
                 cells[x][y].setPiece(currentPiece);
                 currentPiece = null;
-                draw(getGraphics());
+                //draw(getGraphics());
                 repaint();
         }//end update location
 
@@ -436,7 +435,6 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     {
         return currentTurn;
     }
-
     /**
      * Returns the game size of the game.
      * @return an integer representing the game size.
@@ -453,29 +451,28 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     {
         this.gameSize = gameSize;
     }
-
-    public static void promotePawn(String color,int ownedBy,int x, int y,String promoteType)
+    public void promotePawn(String color,int ownedBy,int x, int y,String promoteType)
     { 
-        Pawn pawn = new Pawn (color,x,y,ownedBy);
+        Pawn pawn = new Pawn (color,x,y,ownedBy,this);
         cells[x][y].setPiece(null);
         cells[x][y] = null;
         if(pawn.getOwnedBy() ==  1 && y == 7)
         {
            if( promoteType.equals("Queen"))
            {
-                cells[x][y] = new Cell(x,y, new Queen(color, x, y, ownedBy));
+                cells[x][y] = new Cell(x,y, new Queen(color, x, y, ownedBy,this));
            }
            if(pawn.equals(pawn) && promoteType.equals("Bishop"))
            {
-            cells[x][y] = new Cell(x,y, new Bishop(color, x, y, ownedBy));
+            cells[x][y] = new Cell(x,y, new Bishop(color, x, y, ownedBy,this));
            }
            if(pawn.equals(pawn) && promoteType.equals("Rook"))
            {
-            cells[x][y] = new Cell(x,y, new Rook(color, x, y, ownedBy));
+            cells[x][y] = new Cell(x,y, new Rook(color, x, y, ownedBy,this));
            }
            if(pawn.equals(pawn) && promoteType.equals("Knight"))
            {
-             cells[x][y] = new Cell(x,y, new Knight(color, x, y, ownedBy));
+             cells[x][y] = new Cell(x,y, new Knight(color, x, y, ownedBy,this));
            }
             p1Pieces.add(cells[x][y].getPiece());
         }
@@ -483,24 +480,23 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         {
             if(pawn.equals(pawn) && promoteType.equals("Queen"))
             {
-                 cells[x][y] = new Cell(x,y, new Queen(color, x, y, ownedBy));
+                 cells[x][y] = new Cell(x,y, new Queen(color, x, y, ownedBy,this));
             }
             if(pawn.equals(pawn) && promoteType.equals("Bishop"))
             {
-                 cells[x][y] = new Cell(x,y, new Bishop(color, x, y, ownedBy));
+                 cells[x][y] = new Cell(x,y, new Bishop(color, x, y, ownedBy,this));
             }
             if(pawn.equals(pawn) && promoteType.equals("Rook"))
             {
-                cells[x][y] = new Cell(x,y, new Rook(color, x, y, ownedBy));
+                cells[x][y] = new Cell(x,y, new Rook(color, x, y, ownedBy,this));
             }
             if(pawn.equals(pawn) && promoteType.equals("Knight"))
             {
-                 cells[x][y] = new Cell(x,y, new Knight(color, x, y, ownedBy));
+                 cells[x][y] = new Cell(x,y, new Knight(color, x, y, ownedBy,this));
             } 
             p2Pieces.add(cells[x][y].getPiece());
         }
         cells[x][y].getPiece().update(); 
         assignPieces();
     }
-}
-//end Screen
+}//end Screen
