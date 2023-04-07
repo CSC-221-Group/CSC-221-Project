@@ -98,8 +98,8 @@ public class Cell
     */
     public boolean isHighlighted()
     {
-    // Return whether or not this cell is currently highlighted.
-    return isHighlighted;
+        // Return whether or not this cell is currently highlighted.
+        return isHighlighted;
     }//end isHighlighted
 
     /**

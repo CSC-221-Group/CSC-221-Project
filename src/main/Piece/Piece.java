@@ -93,6 +93,7 @@ public abstract class Piece
     */
     public void update() 
     {
+
         //If the Pieces x position is less than 0 
         if(pos.x < 0) 
         {
@@ -202,7 +203,6 @@ public abstract class Piece
     {
         return captured;
     }//end is captured
-
     public abstract void move(Screen board, Cell start, Cell end);
     
 }//End Piece

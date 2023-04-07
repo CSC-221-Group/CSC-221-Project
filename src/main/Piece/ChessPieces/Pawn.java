@@ -37,7 +37,6 @@ public class Pawn extends Piece
         loadImage(Chess,color + "Pawn");
         this.color = color;
     }
-
     /** 
      * @param board
      * @param start

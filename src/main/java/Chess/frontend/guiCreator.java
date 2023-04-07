@@ -3,7 +3,9 @@ package main.java.Chess.frontend;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.*;
+
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -35,6 +37,7 @@ public class guiCreator extends JFrame
     private static final int HEIGHT = 500;
     private static final int FONT_SIZE = 48;
     //Class variables 
+    public static Cell cell;
     /*******************************************/
     /**
      * This method creates a Jlabel and return it.
@@ -123,7 +126,6 @@ public class guiCreator extends JFrame
         JButton optionsButton = makeButton("options", 140, 350, 200, 64);
         /******************************************/
         titleScreen.add(mainScreentitle);
-        titleScreen.add(optionsButton);
         //When playgameButton is clicked
         playGameButton.addActionListener(new ActionListener()
         {
@@ -137,6 +139,19 @@ public class guiCreator extends JFrame
          }
         });
         titleScreen.add(playGameButton);
+
+        optionsButton.addActionListener(new ActionListener()
+        { 
+            @Override
+            public void actionPerformed(ActionEvent e) 
+            {
+                //make titleScreen close
+                titleScreen.setVisible(false);
+                //open game select screen
+                optionsScreen();
+         }
+        });
+        titleScreen.add(optionsButton);
     }//end makeTitleScreen
 
     /**
@@ -202,7 +217,6 @@ public class guiCreator extends JFrame
         chessFrame.setLayout(null);
         chessFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         chessFrame.setVisible(true);
-
         //when surrenderButton is called 
         surrenderButton.addActionListener(new ActionListener() 
         {
@@ -212,7 +226,8 @@ public class guiCreator extends JFrame
                 //close chess frame 
                 chessFrame.setVisible(false);
                 //display winScreen
-                winScreen(screen.getCurrentTurn()); //TODO add paramater for which turn it is
+                winScreen(); 
+                //TODO add paramater for which turn it is
             }
             
         });
@@ -248,7 +263,7 @@ public class guiCreator extends JFrame
             public void actionPerformed(ActionEvent e) 
             {
                checkersFrame.setVisible(false);
-               winScreen(screen.getCurrentTurn());
+               winScreen();
             }
             
         }); 
@@ -257,7 +272,7 @@ public class guiCreator extends JFrame
     /**
      * Displays win screen of 'board classics'
      */
-    public static void winScreen(int turn)
+    public static void winScreen()
     {
         //local constants
         //local variables 
@@ -267,8 +282,7 @@ public class guiCreator extends JFrame
         JButton titleScreenButton = makeButton("titleScreen", 140, 200, 200, 64);
         JButton gameSelectButton = makeButton("gameSelect", 140, 300, 200, 64);
         /***********************************************/
-
-        playerXWon.setText("Player " + turn + " Won");;
+        playerXWon.setText("Player " + Screen.currentTurn + " Won");;
         playerXWon.setForeground(Color.YELLOW);
         playerXWon.setFont(new Font("", Font.PLAIN, 30));
         playerXWon.setHorizontalAlignment(JLabel.CENTER);
@@ -320,6 +334,134 @@ public class guiCreator extends JFrame
         });
         winFrame.add(gameSelectButton);
     }//close winScreen
+
+    public static void optionsScreen()
+    {
+        JFrame optionsFrame = makeMainFrame();
+        JRadioButton fourX = new  JRadioButton ("4x");
+        JRadioButton  threeX = new   JRadioButton ("3x");
+        JRadioButton  twoX = new  JRadioButton ("2x");
+        optionsFrame.setLayout(new GridLayout(0,1));
+        optionsFrame.add(fourX);
+        optionsFrame.add(threeX);
+        optionsFrame.add(twoX);
+
+    }
+
+    public void promoteScreen(int x , int y)
+    {
+        JFrame promoteScreen = new JFrame();
+        //Screen screen = new Screen();
+        promoteScreen.setLayout(new GridLayout(0,1));
+        promoteScreen.setVisible(true);
+
+        JButton Queenbt = new JButton();
+        Queenbt.setIcon(new ImageIcon("images/Chess/whiteQueen.png"));
+        Queenbt.setSize(100,100);
+        Queenbt.setBackground(Color.BLACK);
+        Queenbt.addActionListener(new ActionListener() 
+        {
+            @Override
+            public void actionPerformed(ActionEvent e) 
+            {
+                if(y == 0)
+                {
+                    Screen.promotePawn("black",2,x,y, "Queen");
+                    promoteScreen.setVisible(false);
+                }
+                else
+                {
+                    
+                    Screen.promotePawn("white",1,x,y, "Queen");
+                    promoteScreen.setVisible(false);
+
+                }
+              
+            }
+            
+        });
+        promoteScreen.add(Queenbt);
+
+        JButton Rookbt= new JButton();
+        Rookbt.setIcon(new ImageIcon("images/Chess/whiteRook.png"));
+        Rookbt.setSize(100,100);
+        Rookbt.setBackground(Color.BLACK);
+        Rookbt.addActionListener(new ActionListener() 
+        {
+            @Override
+            public void actionPerformed(ActionEvent e) 
+            {
+                if(y == 0)
+                {
+                    Screen.promotePawn("black",2,x,y, "Rook");
+                    promoteScreen.setVisible(false);
+
+
+                }
+                else
+                {
+                    Screen.promotePawn("white",1,x,y, "Rook");
+                    promoteScreen.setVisible(false);
+                }
+              
+            }
+            
+        });
+        promoteScreen.add(Rookbt);
+
+        JButton Knightbt = new JButton();
+        Knightbt.setIcon(new ImageIcon("images/Chess/whiteKnight.png"));
+        Knightbt.setSize(100,100);
+        Knightbt.setBackground(Color.BLACK);
+        Knightbt.addActionListener(new ActionListener() 
+        {
+            @Override
+            public void actionPerformed(ActionEvent e) 
+            {
+                if(y == 0)
+                {
+                    Screen.promotePawn("black",2,x,y, "Knight");
+                    promoteScreen.setVisible(false); 
+                }
+                else
+                {
+                    Screen.promotePawn("white",1,x,y, "Knight");
+                    promoteScreen.setVisible(false);
+
+                }
+              
+            }
+            
+        });
+        promoteScreen.add(Knightbt);
+
+        JButton Bishopbt = new JButton();
+        Bishopbt.setIcon(new ImageIcon("images/Chess/whiteBishop.png"));
+        Bishopbt.setSize(100,100); 
+        Bishopbt.setBackground(Color.BLACK);
+        Bishopbt.addActionListener(new ActionListener() 
+        {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) 
+            {
+                if(y == 0)
+                {
+                    Screen.promotePawn("black",2,x,y, "Bishop");
+                    promoteScreen.setVisible(false);
+
+                }
+                else
+                {
+                    Screen.promotePawn("white",1,x,y, "Bishop");
+                    promoteScreen.setVisible(false);
+                }
+            }
+            
+        });
+        promoteScreen.add(Bishopbt);
+        promoteScreen.pack();
+    }  
     /**
      * 
      * @param args
