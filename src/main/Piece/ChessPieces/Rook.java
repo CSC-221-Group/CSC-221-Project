@@ -43,6 +43,11 @@ public class Rook extends Piece
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'move'");
     }
+    @Override
+    public String toString()
+    {
+        return "Rook";
+    }
 }    
 
 

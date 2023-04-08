@@ -48,7 +48,8 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     static int currentTurn = 1;                               //1 = player1, 2 = player2
     private static  ArrayList<Piece> p1Pieces = new ArrayList<Piece>();//Pieces owned by White
     private static ArrayList<Piece> p2Pieces = new ArrayList<Piece>();//Pieces owned by Black
-    public static Cell[][] cells = new Cell[ROWS][COLS];             //Makes a cell object for every sqaure on the board
+    public static Cell[][] cells = new Cell[ROWS][COLS];     
+    public static Piece currentPiece = null;        //Makes a cell object for every sqaure on the board
     /**********************************************************
      * Program Name   : mouseAdapter 
      * Author         : Jordan 
@@ -68,7 +69,6 @@ public class Screen extends JPanel implements ActionListener, KeyListener
 
         int preX, preY;
         boolean mousePressed = false;
-        Piece currentPiece = null;
 
         private void displayLocationError()
         {
@@ -181,19 +181,19 @@ public class Screen extends JPanel implements ActionListener, KeyListener
                    guiCreator.promoteScreen(x, y);
                 }
             }
-            if(currentPiece.getOwnedBy() == 1)
-            {
-                currentTurn = 1;
-            }
-            else
+            if(currentTurn == 1)
             {
                 currentTurn = 2;
             }
+            else
+            {
+                currentTurn = 1;
+            }
+            guiCreator.move.setText(currentPiece.toString() +"(" +  x + "," + y + ")");
                 //clears piece at starting position
                 cells[preX][preY].setPiece(null);
                 cells[x][y].setPiece(currentPiece);
                 currentPiece = null;
-                //draw(getGraphics());
                 repaint();
         }//end update location
 
@@ -205,8 +205,11 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     public Screen(int gameSize)
     {
         initScreen(gameSize);
-        System.out.println("Screen size" + Screen.gameSize);
-
+    }
+    @Override
+    public String toString()
+    {
+        return "x" + currentTurn;
     }
 
     /**
@@ -294,6 +297,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
                //set current turn to player 1
                currentTurn = 1;
            }//end if 
+           toString();
        }//end if 
     }//end keypressed 
     @Override

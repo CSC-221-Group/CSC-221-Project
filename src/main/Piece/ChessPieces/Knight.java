@@ -43,6 +43,11 @@ public class Knight extends Piece
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'move'");
     }
+    @Override
+    public String toString()
+    {
+        return "Knight";
+    }
 }
 
 

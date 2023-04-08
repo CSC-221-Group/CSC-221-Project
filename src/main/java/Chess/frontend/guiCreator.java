@@ -41,6 +41,7 @@ public class guiCreator extends JFrame
     //Class variables 
     public static int gameSize = Screen.getGameSize();
     public static Screen screen = new Screen(gameSize);
+    public static JLabel move = new JLabel();
     /*******************************************/
     /**
      * This method creates a Jlabel and return it.
@@ -211,8 +212,15 @@ public class guiCreator extends JFrame
         //TODO make screen chess class
         JFrame chessFrame = new JFrame();
         Screen screen = new Screen(gameSize);
+        JPanel movePanel = new JPanel();
+        JButton draw = new JButton();
         JButton surrenderButton = makeButton("surrender", 255, 100, 96, 30);
         /*****************************************************/
+        movePanel.setBackground(Color.BLACK);
+        move.setBounds(new Rectangle(new Point(250,170),new Dimension(100, 35)));
+        movePanel.setBounds(new Rectangle(new Point(250,190),new Dimension(100, 35)));
+        movePanel.add(move);
+        chessFrame.add(movePanel);
         chessFrame.add(screen);
         chessFrame.pack();
         chessFrame.addKeyListener(screen);
@@ -220,15 +228,19 @@ public class guiCreator extends JFrame
         if(gameSize == 1)
         {
             chessFrame.setSize(new Dimension(360,294));
-            //chessFrame.add(screen);
+            draw.setBounds(new Rectangle(new Point(250,150),new Dimension(100, 35)));
         }
         else if(gameSize == 2)
         {
             chessFrame.setSize(new Dimension(720,600));
+            surrenderButton.setLocation(510, 300);
+            draw.setBounds(new Rectangle(new Point(510,255),new Dimension(100, 35)));
         }
-        else if(Screen.gameSize == 3)
+        else if(gameSize == 3)
         {
             chessFrame.setSize(new Dimension(1080,900));
+            surrenderButton.setLocation(767, 300);
+            draw.setBounds(new Rectangle(new Point(767,255),new Dimension(100, 35)));
         }
         chessFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         chessFrame.setVisible(true);
@@ -247,6 +259,20 @@ public class guiCreator extends JFrame
             
         });
         chessFrame.add(surrenderButton);
+        draw.setBackground(Color.BLACK);
+        draw.addActionListener(new ActionListener ()
+        {
+
+            @Override
+            public void actionPerformed(ActionEvent e) 
+            {
+                Screen.currentTurn = 3;
+                chessFrame.setVisible(false);
+                winScreen();
+            }
+            
+        });
+        chessFrame.add(draw);
     }//end ChessGame
 
     /**
@@ -304,7 +330,15 @@ public class guiCreator extends JFrame
         JButton titleScreenButton = makeButton("titleScreen", 140, 200, 200, 64);
         JButton gameSelectButton = makeButton("gameSelect", 140, 300, 200, 64);
         /***********************************************/
-        playerXWon.setText("Player " + Screen.currentTurn + " Won");;
+       if(Screen.currentTurn == 1 || Screen.currentTurn == 2)
+       {
+        playerXWon.setText("Player " + Screen.currentTurn + " Won");
+       }
+       else
+       {
+        playerXWon.setText("Draw");
+        Screen.currentTurn = 1;
+       }
         playerXWon.setForeground(Color.YELLOW);
         playerXWon.setFont(new Font("", Font.PLAIN, 30));
         playerXWon.setHorizontalAlignment(JLabel.CENTER);
@@ -370,8 +404,7 @@ public class guiCreator extends JFrame
         {
             @Override
             public void actionPerformed(ActionEvent e) 
-            {
-             
+            { 
                 gameSize = 3;
                 optionsFrame.setVisible(false);
                 makeTitleScreen();
