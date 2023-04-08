@@ -35,7 +35,7 @@ import main.Piece.ChessPieces.*;
 public class Screen extends JPanel implements ActionListener, KeyListener 
 {
     //class constants 
-    public static int gameSize = 1;  //size of the board
+
     private final int DELAY = 10;          //delay between each frame in ms
     public static final int TILE_SIZE = 32;//size of square on board
     public static final int ROWS = 8;      //size of the board horizontally 
@@ -43,8 +43,8 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     //private static final int serialVersionUID = 1;
 
     //class variables 
-
-    private Timer timer;                                       //triggers actionPerformed()
+    public static int gameSize = 1;  //size of the board
+    private Timer timer;                                     //triggers actionPerformed()
     static int currentTurn = 1;                               //1 = player1, 2 = player2
     private static  ArrayList<Piece> p1Pieces = new ArrayList<Piece>();//Pieces owned by White
     private static ArrayList<Piece> p2Pieces = new ArrayList<Piece>();//Pieces owned by Black
@@ -151,7 +151,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
             mousePressed = false;
             updateLocation(e);
         }//end mouseRelease
-
+       
         /**
         * Updates the location of the current piece based on 
         *    the coordinates of the mouse release event.
@@ -205,6 +205,8 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     public Screen(int gameSize)
     {
         initScreen(gameSize);
+        System.out.println("Screen size" + Screen.gameSize);
+
     }
 
     /**
@@ -439,7 +441,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
      * Returns the game size of the game.
      * @return an integer representing the game size.
      */
-    public int getGameSize()
+    public static int getGameSize()
     {
         return gameSize;
     }
@@ -449,14 +451,13 @@ public class Screen extends JPanel implements ActionListener, KeyListener
      */
     public void setGameSize(int gameSize)
     {
-        this.gameSize = gameSize;
+        Screen.gameSize = gameSize;
     }
     public void promotePawn(String color,int ownedBy,int x, int y,String promoteType)
     { 
         Pawn pawn = new Pawn (color,x,y,ownedBy,this);
         cells[x][y].setPiece(null);
-        cells[x][y] = null;
-        if(pawn.getOwnedBy() ==  1 && y == 7)
+        if(pawn.getOwnedBy() ==  1 && y == 7|| pawn.getOwnedBy() ==  2 && y == 0)
         {
            if( promoteType.equals("Queen"))
            {
@@ -474,27 +475,14 @@ public class Screen extends JPanel implements ActionListener, KeyListener
            {
              cells[x][y] = new Cell(x,y, new Knight(color, x, y, ownedBy,this));
            }
+           if(y == 7)
+           {
             p1Pieces.add(cells[x][y].getPiece());
-        }
-        else
-        {
-            if(pawn.equals(pawn) && promoteType.equals("Queen"))
-            {
-                 cells[x][y] = new Cell(x,y, new Queen(color, x, y, ownedBy,this));
-            }
-            if(pawn.equals(pawn) && promoteType.equals("Bishop"))
-            {
-                 cells[x][y] = new Cell(x,y, new Bishop(color, x, y, ownedBy,this));
-            }
-            if(pawn.equals(pawn) && promoteType.equals("Rook"))
-            {
-                cells[x][y] = new Cell(x,y, new Rook(color, x, y, ownedBy,this));
-            }
-            if(pawn.equals(pawn) && promoteType.equals("Knight"))
-            {
-                 cells[x][y] = new Cell(x,y, new Knight(color, x, y, ownedBy,this));
-            } 
+           }
+           else
+           {
             p2Pieces.add(cells[x][y].getPiece());
+           }
         }
         cells[x][y].getPiece().update(); 
         assignPieces();

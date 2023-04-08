@@ -10,6 +10,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Currency;
 /**********************************************************
  * Program Name   : guiCreator
  * Author         : Jordan/Alan
@@ -36,10 +37,10 @@ public class guiCreator extends JFrame
     private static final int WIDTH = 500;
     private static final int HEIGHT = 500;
     private static final int FONT_SIZE = 48;
-    public static int gameSize = 2;
-    private static Screen screen = new Screen(gameSize);
+    
     //Class variables 
-    public static Cell cell;
+    public static int gameSize = Screen.getGameSize();
+    public static Screen screen = new Screen(gameSize);
     /*******************************************/
     /**
      * This method creates a Jlabel and return it.
@@ -209,21 +210,26 @@ public class guiCreator extends JFrame
         //local variables 
         //TODO make screen chess class
         JFrame chessFrame = new JFrame();
+        Screen screen = new Screen(gameSize);
         JButton surrenderButton = makeButton("surrender", 255, 100, 96, 30);
         /*****************************************************/
-
         chessFrame.add(screen);
-        chessFrame.addKeyListener(screen);
         chessFrame.pack();
-        if(gameSize == 2)
+        chessFrame.addKeyListener(screen);
+        chessFrame.setLayout(null);
+        if(gameSize == 1)
+        {
+            chessFrame.setSize(new Dimension(360,294));
+            //chessFrame.add(screen);
+        }
+        else if(gameSize == 2)
         {
             chessFrame.setSize(new Dimension(720,600));
         }
-        else if(gameSize == 1)
+        else if(Screen.gameSize == 3)
         {
-            chessFrame.setSize(new Dimension(360,300));
+            chessFrame.setSize(new Dimension(1080,900));
         }
-        chessFrame.setLayout(null);
         chessFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         chessFrame.setVisible(true);
         //when surrenderButton is called 
@@ -252,13 +258,10 @@ public class guiCreator extends JFrame
         //local constants
         //local variables 
         JFrame checkersFrame = new JFrame();
-        Screen screen = new Screen(gameSize);
         JButton surrenderButton = new JButton();
+        Screen screen = new Screen(gameSize);
         /************************************/
 
-        checkersFrame.add(screen);  
-        checkersFrame.addKeyListener(screen);
-        checkersFrame.pack();
         if(gameSize == 2)
         {
             checkersFrame.setSize(new Dimension(720,600));
@@ -267,6 +270,9 @@ public class guiCreator extends JFrame
         {
             checkersFrame.setSize(new Dimension(360,300));
         }
+        checkersFrame.add(screen);  
+        checkersFrame.addKeyListener(screen);
+        checkersFrame.pack();
         checkersFrame.setLayout(null);
         checkersFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         checkersFrame.setVisible(true);
@@ -354,20 +360,55 @@ public class guiCreator extends JFrame
     public static void optionsScreen()
     {
         JFrame optionsFrame = makeMainFrame();
-        JRadioButton fourX = new  JRadioButton ("4x");
         JRadioButton  threeX = new   JRadioButton ("3x");
         JRadioButton  twoX = new  JRadioButton ("2x");
-        optionsFrame.setLayout(new GridLayout(0,1));
-        optionsFrame.add(fourX);
-        optionsFrame.add(threeX);
-        optionsFrame.add(twoX);
+        JRadioButton oneX = new JRadioButton("1x");
 
+        optionsFrame.setBackground(Color.BLACK);
+        optionsFrame.setLayout(new GridLayout(0,1));
+        threeX.addActionListener(new ActionListener() 
+        {
+            @Override
+            public void actionPerformed(ActionEvent e) 
+            {
+             
+                gameSize = 3;
+                optionsFrame.setVisible(false);
+                makeTitleScreen();
+            }
+            
+        });
+        optionsFrame.add(threeX);
+        twoX.addActionListener(new ActionListener() 
+        {
+            @Override
+            public void actionPerformed(ActionEvent e) 
+            {
+                gameSize = 2;
+                optionsFrame.setVisible(false);
+                makeTitleScreen();
+            }
+            
+        });
+        optionsFrame.add(twoX);
+        oneX.addActionListener(new ActionListener() 
+        {
+            @Override
+            public void actionPerformed(ActionEvent e) 
+            {
+                
+                gameSize = 1;
+                optionsFrame.setVisible(false);
+                makeTitleScreen();
+            }
+            
+        });
+        optionsFrame.add(oneX);
     }
 
     public static void promoteScreen(int x , int y)
     {
         JFrame promoteScreen = new JFrame();
-        //Screen screen = new Screen();
         promoteScreen.setLayout(new GridLayout(0,1));
         promoteScreen.setVisible(true);
         JButton Queenbt = new JButton();
@@ -381,6 +422,7 @@ public class guiCreator extends JFrame
             {
                 if(y == 0)
                 {
+                    
                     screen.promotePawn("black",2,x,y, "Queen");
                     promoteScreen.setVisible(false);
                 }
@@ -440,7 +482,7 @@ public class guiCreator extends JFrame
                 }
                 else
                 {
-                    screen.promotePawn("white",1,x,y, "Knight");
+                   screen.promotePawn("white",1,x,y, "Knight");
                     promoteScreen.setVisible(false);
 
                 }
@@ -477,6 +519,7 @@ public class guiCreator extends JFrame
         promoteScreen.add(Bishopbt);
         promoteScreen.pack();
     }  
+   
     /**
      * 
      * @param args
@@ -488,6 +531,7 @@ public class guiCreator extends JFrame
         {
             public void run() 
             {
+                Screen screen = new Screen(Screen.gameSize);
                 makeTitleScreen();
 
                 System.out.println("Space changes turns, it has to be player 1's turn to move white's pieces" +

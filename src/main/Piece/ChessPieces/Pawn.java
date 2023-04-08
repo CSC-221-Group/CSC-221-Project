@@ -76,4 +76,31 @@ public class Pawn extends Piece
             }
         }
     }
+    /* protected boolean moveCheck(Cell start, Cell end) {
+        int x = end.getX();
+        int y = end.getY();
+        int xStart = start.getX();
+        int yStart = start.getY();
+        if (color) {
+            if (y == yStart + 1 && x == xStart) {
+                return true;
+            } else if (y == yStart + 2 && x == xStart && canDoubleMovement) {
+                return true;
+            } else if (y == yStart + 1 && (x == xStart + 1)) {
+                if (end.getPiece() != null) {
+                    return true;
+                }
+            }
+        } else {
+            if (y == yStart - 1 && x == xStart) {
+                return true;
+            } else if (y == yStart - 2 && x == xStart && canDoubleMovement) {
+                return true;
+            } else if (y == yStart - 1 && ( x == xStart - 1)) {
+                if (end.getPiece() != null) {
+                    return true;
+                }
+            }
+        }
+        return false;*/
 }
