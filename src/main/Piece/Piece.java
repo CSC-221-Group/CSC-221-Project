@@ -9,7 +9,6 @@ import main.java.Chess.frontend.Cell;
 import main.java.Chess.frontend.Screen;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
-import main.Piece.InvalidMovementException;
 /**********************************************************
  * Program Name   : Piece
  * Author         : Jordan 
@@ -51,7 +50,7 @@ public abstract class Piece
     public Piece(int x, int y, Screen board) 
     {
         //set position of piece to the given (x,y) cords.
-        gameSize = board.getGameSize();
+        gameSize = Screen.getGameSize();
         pos = new Point(x, y);
     }//END Piece
 
@@ -67,7 +66,7 @@ public abstract class Piece
     {
         pos = new Point(x, y); 
         // Set ownedBy to white or black
-        gameSize = board.getGameSize();
+        gameSize = Screen.getGameSize();
         this.ownedBy = ownedBy;
     }//END Piece
     

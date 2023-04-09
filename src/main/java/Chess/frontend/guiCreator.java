@@ -1,16 +1,13 @@
 package main.java.Chess.frontend;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.*;
-
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Currency;
 /**********************************************************
  * Program Name   : guiCreator
  * Author         : Jordan/Alan
@@ -34,23 +31,24 @@ import java.util.Currency;
 public class guiCreator extends JFrame
 {
     //Class constants
-    private static final int WIDTH = 500;
-    private static final int HEIGHT = 500;
-    private static final int FONT_SIZE = 48;
-    
+    private static final int WIDTH = 500;   //
+    private static final int HEIGHT = 500;  //
+    private static final int FONT_SIZE = 48;//
+
     //Class variables 
-    public static int gameSize = Screen.getGameSize();
-    public static Screen screen = new Screen(gameSize);
-    public static JLabel move = new JLabel();
+    public static int turn = Screen.currentTurn; 
+    public static int gameSize = Screen.getGameSize(); //
+    public static Screen screen = new Screen(gameSize);//
+    public static JLabel move = new JLabel();          //
     /*******************************************/
     /**
-     * This method creates a Jlabel and return it.
-     * @param text - text that will be put on jlable 
+     * This method creates a JLabel and return it.
+     * @param text - text that will be put on JLable 
      * @param x 
      * @param y
      * @param w
      * @param h
-     * @return jlabel 
+     * @return jlabel - returns label
      */
     private static JLabel makeText(String text, int x, int y, int w, int h) 
     {
@@ -71,10 +69,13 @@ public class guiCreator extends JFrame
         mainScreentitle.setBounds(new Rectangle(x,y, w,h));;
         
         return mainScreentitle;
+
     }//end makeText 
-/**
-     * This method creates a Frame and return it.
-     * @return Jframe
+
+    /**
+     * This method creates a JFrame and return it.
+     * 
+     * @return Jframe - returns a frame
      */
     private static JFrame makeMainFrame() 
     {
@@ -92,7 +93,9 @@ public class guiCreator extends JFrame
         frame.setVisible(true);
 
         return frame;
+
     }//end makeMainFrame 
+
     /**
      * This method creates a JButton and return it.
      * @param text - text that will be put on Button
@@ -100,7 +103,7 @@ public class guiCreator extends JFrame
      * @param y
      * @param w
      * @param h
-     * @return jButton
+     * @return jButton - return button
      */
     private static JButton makeButton(String text, int x, int y, int w, int h) 
     {
@@ -108,27 +111,31 @@ public class guiCreator extends JFrame
         //local variables
         JButton button = new JButton();
         /******************************************/
-        //get buttons png based on passed text 
+        //gets buttons png based on passed text 
         button.setIcon(new ImageIcon("images/" + text + "Gui.png"));
         button.setSize(w,h);
         button.setBounds(new Rectangle(new Point(x,y),new Dimension(w, h)));
+        //sets button color to black
         button.setBackground(Color.BLACK);
 
         return button;
+
     }//end makeButton
+
     /**
-    * This method creates the title screen for 
-    * boardClassics
+    * This method creates the title screen for Board Classics
+    * 
     */
     public static void makeTitleScreen() 
     {
         //local constants
-        final JFrame titleScreen = makeMainFrame();
         //local variables 
+        JFrame titleScreen = makeMainFrame();
         JLabel mainScreentitle = makeText("Board Classics", 0, 50, 500, 100);
         JButton playGameButton = makeButton("playGame", 140, 250, 200, 64);
         JButton optionsButton = makeButton("options", 140, 350, 200, 64);
         /******************************************/
+        
         titleScreen.add(mainScreentitle);
         //When playgameButton is clicked
         playGameButton.addActionListener(new ActionListener()
@@ -144,6 +151,7 @@ public class guiCreator extends JFrame
         });
         titleScreen.add(playGameButton);
 
+        //When optionButtons is clicked 
         optionsButton.addActionListener(new ActionListener()
         { 
             @Override
@@ -151,16 +159,16 @@ public class guiCreator extends JFrame
             {
                 //make titleScreen close
                 titleScreen.setVisible(false);
-                //open game select screen
+                //open options creen
                 optionsScreen();
-         }
+            }
         });
         titleScreen.add(optionsButton);
+
     }//end makeTitleScreen
 
     /**
-     * Display a screen where user select 
-     * a game in 'Board Classics'.
+     * Display a screen where user select a game in Board Classics.
      * 
      */
     public static void makeGameSelect()
@@ -174,7 +182,6 @@ public class guiCreator extends JFrame
         /*****************************************************/
         
         gameSelectFrame.add(gameSelectTitle);
-
         //when playchessbutton is pressed
         playChessButton.addActionListener(new ActionListener()
         {
@@ -187,6 +194,7 @@ public class guiCreator extends JFrame
             } 
         });
         gameSelectFrame.add(playChessButton);
+
         //when playcheckersbutton is pressed 
         playCheckersButton.addActionListener(new ActionListener()
         {
@@ -200,7 +208,9 @@ public class guiCreator extends JFrame
             }  
         });
         gameSelectFrame.add(playCheckersButton);
+
     }//end gameSelectScreen
+
     /**
      * Displays chess game.
      * 
@@ -210,41 +220,55 @@ public class guiCreator extends JFrame
         //local constants 
         //local variables 
         //TODO make screen chess class
-        JFrame chessFrame = new JFrame();
         Screen screen = new Screen(gameSize);
+        JFrame chessFrame = new JFrame();
         JPanel movePanel = new JPanel();
-        JButton draw = new JButton();
+        JButton drawbt = new JButton();
         JButton surrenderButton = makeButton("surrender", 255, 100, 96, 30);
         /*****************************************************/
+        
         movePanel.setBackground(Color.BLACK);
-        move.setBounds(new Rectangle(new Point(250,170),new Dimension(100, 35)));
-        movePanel.setBounds(new Rectangle(new Point(250,190),new Dimension(100, 35)));
         movePanel.add(move);
+
         chessFrame.add(movePanel);
         chessFrame.add(screen);
         chessFrame.pack();
         chessFrame.addKeyListener(screen);
         chessFrame.setLayout(null);
+
+        //IF gameSize equal 1 
         if(gameSize == 1)
         {
+            //Set variables to fit board
             chessFrame.setSize(new Dimension(360,294));
-            draw.setBounds(new Rectangle(new Point(250,150),new Dimension(100, 35)));
+            drawbt.setBounds(new Rectangle(new Point(250,150),new Dimension(100, 35)));
+            move.setBounds(new Rectangle(new Point(250,170),new Dimension(100, 35)));
+            movePanel.setBounds(new Rectangle(new Point(250,190),new Dimension(100, 35)));
         }
+        //ELSE IF gameSize equal 2
         else if(gameSize == 2)
         {
+            //Set variables to fit board
             chessFrame.setSize(new Dimension(720,600));
             surrenderButton.setLocation(510, 300);
-            draw.setBounds(new Rectangle(new Point(510,255),new Dimension(100, 35)));
+            drawbt.setBounds(new Rectangle(new Point(510,255),new Dimension(100, 35)));
+            move.setBounds(new Rectangle(new Point(510,170),new Dimension(100, 35)));
+            movePanel.setBounds(new Rectangle(new Point(510,190),new Dimension(100, 35)));
         }
-        else if(gameSize == 3)
+        //ELSE
+        else
         {
+            //Set variables to fit board
             chessFrame.setSize(new Dimension(1080,900));
             surrenderButton.setLocation(767, 300);
-            draw.setBounds(new Rectangle(new Point(767,255),new Dimension(100, 35)));
-        }
+            drawbt.setBounds(new Rectangle(new Point(767,255),new Dimension(100, 35)));
+            move.setBounds(new Rectangle(new Point(767,170),new Dimension(100, 35)));
+            movePanel.setBounds(new Rectangle(new Point(767,190),new Dimension(100, 35)));
+        }//END IF
+
         chessFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         chessFrame.setVisible(true);
-        //when surrenderButton is called 
+        //When surrenderButton is pressed 
         surrenderButton.addActionListener(new ActionListener() 
         {
             @Override
@@ -259,20 +283,24 @@ public class guiCreator extends JFrame
             
         });
         chessFrame.add(surrenderButton);
-        draw.setBackground(Color.BLACK);
-        draw.addActionListener(new ActionListener ()
-        {
 
+        drawbt.setBackground(Color.BLACK);
+        //When drawnbt is pressed 
+        drawbt.addActionListener(new ActionListener ()
+        {
             @Override
             public void actionPerformed(ActionEvent e) 
             {
-                Screen.currentTurn = 3;
+                //set Turn equal to 3
+                turn = 3;
+                //close chess frame
                 chessFrame.setVisible(false);
+                //display winScreen
                 winScreen();
             }
-            
         });
-        chessFrame.add(draw);
+        chessFrame.add(drawbt);
+
     }//end ChessGame
 
     /**
@@ -296,6 +324,7 @@ public class guiCreator extends JFrame
         {
             checkersFrame.setSize(new Dimension(360,300));
         }
+
         checkersFrame.add(screen);  
         checkersFrame.addKeyListener(screen);
         checkersFrame.pack();
@@ -316,7 +345,9 @@ public class guiCreator extends JFrame
             
         }); 
         checkersFrame.add(surrenderButton);
+
     }//end checkerGame
+
     /**
      * Displays win screen of 'board classics'
      */
@@ -330,15 +361,28 @@ public class guiCreator extends JFrame
         JButton titleScreenButton = makeButton("titleScreen", 140, 200, 200, 64);
         JButton gameSelectButton = makeButton("gameSelect", 140, 300, 200, 64);
         /***********************************************/
-       if(Screen.currentTurn == 1 || Screen.currentTurn == 2)
-       {
-        playerXWon.setText("Player " + Screen.currentTurn + " Won");
-       }
-       else
-       {
-        playerXWon.setText("Draw");
-        Screen.currentTurn = 1;
-       }
+        
+        //IF Turn equal 1 
+        if(turn == 1)
+        {
+            //Display what player two
+            playerXWon.setText("Player " + (turn + 1)  + " Won");
+        }
+        //ELSE IF currentTurn equal two
+        else if(turn == 2)
+        {
+            //Display what player 1
+            playerXWon.setText("Player " + (turn - 1) + " Won");
+        }
+        //ELSE Turn equal 3
+        else
+        {
+            //Display players have drawn
+            playerXWon.setText("Draw");
+            //set currentTurn equal to 1
+            turn = 1;
+        }//END IF
+
         playerXWon.setForeground(Color.YELLOW);
         playerXWon.setFont(new Font("", Font.PLAIN, 30));
         playerXWon.setHorizontalAlignment(JLabel.CENTER);
@@ -360,7 +404,7 @@ public class guiCreator extends JFrame
         });
         winFrame.add(playAgainButon);
 
-        //wheb titleScreen button is pressed 
+        //when titleScreen button is pressed 
         titleScreenButton.addActionListener(new ActionListener()
         {
             @Override
@@ -371,7 +415,6 @@ public class guiCreator extends JFrame
                 //call makeTitleScreen
                 makeTitleScreen();
             }
-
         });
         winFrame.add(titleScreenButton);
 
@@ -386,172 +429,212 @@ public class guiCreator extends JFrame
                 //open makegameSelect
                 makeGameSelect();
             }
-            
         });
         winFrame.add(gameSelectButton);
+
     }//close winScreen
 
+    /*
+     * Displays options screen
+     * 
+     */
     public static void optionsScreen()
     {
+        //local constants
+        //local variables
         JFrame optionsFrame = makeMainFrame();
         JRadioButton  threeX = new   JRadioButton ("3x");
         JRadioButton  twoX = new  JRadioButton ("2x");
         JRadioButton oneX = new JRadioButton("1x");
+        /************************************************/
 
         optionsFrame.setBackground(Color.BLACK);
         optionsFrame.setLayout(new GridLayout(0,1));
+
+        //When threeX is pressed
         threeX.addActionListener(new ActionListener() 
         {
             @Override
             public void actionPerformed(ActionEvent e) 
             { 
+                //set gameSize to 3 
                 gameSize = 3;
+                //close options frame 
                 optionsFrame.setVisible(false);
+                //open title screen
                 makeTitleScreen();
             }
-            
         });
         optionsFrame.add(threeX);
+
+        //When twoX is pressed 
         twoX.addActionListener(new ActionListener() 
         {
             @Override
             public void actionPerformed(ActionEvent e) 
             {
+                //set gameSize to 2
                 gameSize = 2;
+                //close options frame
                 optionsFrame.setVisible(false);
+                //open title screen
                 makeTitleScreen();
             }
-            
         });
         optionsFrame.add(twoX);
+
+        //When oneX is clicked 
         oneX.addActionListener(new ActionListener() 
         {
             @Override
             public void actionPerformed(ActionEvent e) 
             {
-                
+                //set gameSize to 1
                 gameSize = 1;
+                //close options frame 
                 optionsFrame.setVisible(false);
+                //open title screen
                 makeTitleScreen();
             }
-            
         });
         optionsFrame.add(oneX);
-    }
 
+    }//end optionsScreen
+
+    /*
+     * Displays promote screen
+     */
     public static void promoteScreen(int x , int y)
     {
+        //local constants 
+        //local variables 
         JFrame promoteScreen = new JFrame();
+        JButton Queenbt = new JButton();
+        JButton Rookbt= new JButton();
+        JButton Knightbt = new JButton();
+        JButton Bishopbt = new JButton();
+        /**************************************/
+       
         promoteScreen.setLayout(new GridLayout(0,1));
         promoteScreen.setVisible(true);
-        JButton Queenbt = new JButton();
+
         Queenbt.setIcon(new ImageIcon("images/Chess/whiteQueen.png"));
         Queenbt.setSize(100,100);
         Queenbt.setBackground(Color.BLACK);
+        //When Queenbt is pressed 
         Queenbt.addActionListener(new ActionListener() 
         {
             @Override
             public void actionPerformed(ActionEvent e) 
             {
+                //IF pawn at y:0
                 if(y == 0)
                 {
-                    
+                    //promote pawn to black Queen
                     screen.promotePawn("black",2,x,y, "Queen");
+                    //close promote screen
                     promoteScreen.setVisible(false);
                 }
+                //ELSE pawn at y:7
                 else
                 {
-                    
+                    //promote pawn to white Queen
                     screen.promotePawn("white",1,x,y, "Queen");
+                    //close promote screen
                     promoteScreen.setVisible(false);
-
-                }
-              
+                }//END IF
             }
-            
         });
         promoteScreen.add(Queenbt);
 
-        JButton Rookbt= new JButton();
         Rookbt.setIcon(new ImageIcon("images/Chess/whiteRook.png"));
         Rookbt.setSize(100,100);
         Rookbt.setBackground(Color.BLACK);
+        //when Rookbt is pressed 
         Rookbt.addActionListener(new ActionListener() 
         {
             @Override
             public void actionPerformed(ActionEvent e) 
             {
+                //IF pawn at y:0
                 if(y == 0)
                 {
+                    //promote pawn to black rook
                     screen.promotePawn("black",2,x,y, "Rook");
+                    //close promote screen
                     promoteScreen.setVisible(false);
-
-
                 }
+                //ELSE pawn at y:7
                 else
                 {
                     screen.promotePawn("white",1,x,y, "Rook");
                     promoteScreen.setVisible(false);
-                }
-              
+                }//END IF
             }
-            
         });
         promoteScreen.add(Rookbt);
 
-        JButton Knightbt = new JButton();
         Knightbt.setIcon(new ImageIcon("images/Chess/whiteKnight.png"));
         Knightbt.setSize(100,100);
         Knightbt.setBackground(Color.BLACK);
+        //When Knighbt is pressed 
         Knightbt.addActionListener(new ActionListener() 
         {
             @Override
             public void actionPerformed(ActionEvent e) 
             {
+                //IF pawn at y:0
                 if(y == 0)
                 {
+                    //promote pawn to black Knight
                     screen.promotePawn("black",2,x,y, "Knight");
+                    //close promote screen
                     promoteScreen.setVisible(false); 
                 }
+                //ELSE pawn at y:7
                 else
                 {
                    screen.promotePawn("white",1,x,y, "Knight");
                     promoteScreen.setVisible(false);
 
-                }
-              
+                }//END IF
             }
-            
         });
         promoteScreen.add(Knightbt);
-
-        JButton Bishopbt = new JButton();
+        
         Bishopbt.setIcon(new ImageIcon("images/Chess/whiteBishop.png"));
         Bishopbt.setSize(100,100); 
         Bishopbt.setBackground(Color.BLACK);
+        //When Bishopbt is pressed 
         Bishopbt.addActionListener(new ActionListener() 
         {
-            
             @Override
             public void actionPerformed(ActionEvent e) 
             {
+                //IF pawn at y:0
                 if(y == 0)
                 {
+                    //promote pawn to black bishop
                     screen.promotePawn("black",2,x,y, "Bishop");
+                    //close promote screen
                     promoteScreen.setVisible(false);
-
                 }
+                //ELSE pawn at y:7
                 else
                 {
+                    //promote pawn to white bishop
                     screen.promotePawn("white",1,x,y, "Bishop");
+                    //close promote screen
                     promoteScreen.setVisible(false);
-                }
-            }
-            
+                }//END IF
+            }       
         });
         promoteScreen.add(Bishopbt);
+
+        promoteScreen.setVisible(true);
         promoteScreen.pack();
-    }  
+
+    }//end promoteScreen
    
     /**
      * 
@@ -564,12 +647,9 @@ public class guiCreator extends JFrame
         {
             public void run() 
             {
-                Screen screen = new Screen(Screen.gameSize);
                 makeTitleScreen();
-
-                System.out.println("Space changes turns, it has to be player 1's turn to move white's pieces" +
-                " and player 2's turn to move black's pieces") ;
             }
         });
     }//end main
+
 }//end guiCreator
