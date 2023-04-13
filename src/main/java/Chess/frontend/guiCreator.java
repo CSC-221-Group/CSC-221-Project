@@ -42,7 +42,7 @@ import javax.imageio.ImageIO;
 
 
  
-public class guiCreator extends JFrame
+public class guiCreator
 {
     //Class constants
     private static final int WIDTH = 500;
@@ -55,7 +55,6 @@ public class guiCreator extends JFrame
     public static int gameSize = 6;
     //Class variables 
     public static int turn = Screen.currentTurn; 
-    public static int gameSize = Screen.getGameSize(); //
     public static Screen screen = new Screen(gameSize);//
     public static JLabel move = new JLabel();          //
     /*******************************************/
@@ -141,10 +140,6 @@ public class guiCreator extends JFrame
         //local variables
         JButton button = new JButton();
         /******************************************/
-        w *= gameSize;
-        h *= gameSize;
-        x *= gameSize;
-        y *= gameSize;
         //get buttons png based on passed text 
         button.setIcon(new ImageIcon("images/" + text + "Gui.png"));
         if(imageSize >= 2)
@@ -192,7 +187,8 @@ public class guiCreator extends JFrame
     {
         //local constants
         //local variables 
-        JLabel mainScreentitle = makeText("Board Classics", 0, 0, 500, 100, gameSize);
+        JFrame titleScreen = makeMainFrame();
+        JLabel mainScreentitle = makeText("Board Classics", 0, 0, 500, 100);
         JButton playGameButton = makeButton("playGame", WIDTH/4, HEIGHT/2, BUTTON_WIDTH, BUTTON_HEIGHT, gameSize);
         JButton optionsButton = makeButton("options", WIDTH/4, (HEIGHT/2) + BUTTON_WIDTH, BUTTON_WIDTH, BUTTON_HEIGHT, gameSize);
         /******************************************/
@@ -220,7 +216,7 @@ public class guiCreator extends JFrame
             {
                 //make titleScreen close
                 titleScreen.setVisible(false);
-                //open options creen
+                //open options screen
                 optionsScreen();
             }
         });
@@ -237,7 +233,7 @@ public class guiCreator extends JFrame
         //local constants
         //local variabels 
         JFrame gameSelectFrame = makeMainFrame();
-        JLabel gameSelectTitle = makeText("Game Selection", 0, 0,  500, 100, gameSize);
+        JLabel gameSelectTitle = makeText("Game Selection", 0, 0,  500, 100);
         JButton playChessButton = makeButton("playChess",WIDTH/4, HEIGHT/2, BUTTON_WIDTH, BUTTON_HEIGHT, gameSize);
         JButton playCheckersButton = makeButton("playCheckers",  WIDTH/4, (HEIGHT/2) + BUTTON_WIDTH, BUTTON_WIDTH, BUTTON_HEIGHT, gameSize);
         /*****************************************************/
@@ -285,7 +281,7 @@ public class guiCreator extends JFrame
         JFrame chessFrame = new JFrame();
         JPanel movePanel = new JPanel();
         JButton drawbt = new JButton();
-        JButton surrenderButton = makeButton("surrender", 255, 100, 96, 30,gameSize, gameSize);
+        JButton surrenderButton = makeButton("surrender", 255, 100, 96, 30, gameSize);
         /*****************************************************/
         
         movePanel.setBackground(Color.BLACK);
