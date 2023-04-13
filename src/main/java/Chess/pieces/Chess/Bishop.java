@@ -5,11 +5,9 @@ import Chess.pieces.Piece;
 
 public class Bishop extends Piece
 {
-    public boolean color;
-    public Bishop(boolean color, int x, int y)
+    public Bishop(boolean color,int x, int y, int ownedBy) 
     {
-        //Calls Piece contructor 
-        super(x,y);
+        super(color, x,y, ownedBy);
 
         //Sets image of pawn depending on color passed.
         String Chess = "Chess"; 
@@ -19,15 +17,14 @@ public class Bishop extends Piece
         else {
             loadImage(Chess, "blackBishop");
         }
-        this.color = color;
     }
     @Override
     public void move(int x, int y) throws InvalidMovementException {
         //local vars
         int originx = this.getPos().x;
         int originy = this.getPos().y;
-        int totalXMoved = originx - x;
-        int totalYMoved = originy - (7 - y);
+        int totalXMoved = x - originx;
+        int totalYMoved = y - originy;
         int absXMoved = totalXMoved;
         int absYMoved = totalYMoved;
         System.out.println(x + " - " + originx + " = " + totalXMoved);
@@ -43,11 +40,20 @@ public class Bishop extends Piece
             throw new InvalidMovementException("Bishops can only move diagonally");
         }
         for (Piece key : Piece.totalPieces) {
-            if ((key.getPos().x == x && key.getPos().y == (7 - y))) {
-                throw new InvalidMovementException("You should be calling the capture method when pieces touch each other");
+            if (key != this && (key.getPos().x == x && key.getPos().y == y)) {
+                capture(key, x, y);
             }
         }
         //set position
-        this.setPos(x, 7 - y);
+        this.setPos(x, y);
+    }
+
+    @Override
+    public void capture(Piece piece, int x, int y) throws InvalidMovementException {
+        if (piece.getColor() == this.getColor()) {
+            throw new InvalidMovementException("You can't capture your own pieces");
+        }
+        this.setPos(x, y);
+        piece.setIsCaptured(true);
     }
 }

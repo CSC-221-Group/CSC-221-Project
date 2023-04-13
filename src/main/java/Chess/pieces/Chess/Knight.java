@@ -6,10 +6,9 @@ import Chess.pieces.Piece;
 public class Knight extends Piece
 {
     public boolean color;
-    public Knight (boolean color, int x, int y)
+    public Knight (boolean color,int x, int y, int ownedBy) 
     {
-        //Calls Piece contructor 
-        super(x,y);
+        super(color, x,y, ownedBy);
 
         //Sets image of pawn depending on color passed.
         String Chess = "Chess"; 
@@ -27,8 +26,8 @@ public class Knight extends Piece
         //local vars
         int originx = this.getPos().x;
         int originy = this.getPos().y;
-        int totalXMoved = originx - x;
-        int totalYMoved = originy - (7 - y);
+        int totalXMoved = x - originx;
+        int totalYMoved = y - originy;
         int absXMoved = totalXMoved;
         int absYMoved = totalYMoved;
         if (totalXMoved < 0) {
@@ -46,12 +45,21 @@ public class Knight extends Piece
             }
         }
         for (Piece key : Piece.totalPieces) {
-            if ((key.getPos().x == x && key.getPos().y == (7 - y))) {
-                throw new InvalidMovementException("You should be calling the capture method when pieces touch each other");
+            if (key != this && (key.getPos().x == x && key.getPos().y == y)) {
+                capture(key, x, y);
             }
         }
         //set position
-        this.setPos(x, 7 - y);
+        this.setPos(x, y);
+    }
+
+    @Override
+    public void capture(Piece piece, int x, int y) throws InvalidMovementException {
+        if (piece.getColor() == this.getColor()) {
+            throw new InvalidMovementException("You can't capture your own pieces");
+        }
+        this.setPos(x, y);
+        piece.setIsCaptured(true);
     }
 }
     
