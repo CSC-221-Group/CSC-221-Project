@@ -42,8 +42,8 @@ public class guiCreator
     private static final int WIDTH = 500;
     private static final int HEIGHT = 400;
     private static final int FONT_SIZE = 48;
-    private static final int BUTTON_WIDTH = 96;
-    private static final int BUTTON_HEIGHT = 30;
+    private static final int BUTTON_WIDTH = 200;
+    private static final int BUTTON_HEIGHT = 64;
     private static final int OPTIONS_BUTTON_WIDTH = 32;
     private static final int OPTIONS_BUTTON_HEIGHT = 32;
     public static int gameSize = 6;
@@ -184,7 +184,7 @@ public class guiCreator
         JFrame titleScreen = makeMainFrame();
         JLabel mainScreentitle = makeText("Board Classics", 0, 0, 500, 100);
         JButton playGameButton = makeButton("playGame", WIDTH/4, HEIGHT/2, BUTTON_WIDTH, BUTTON_HEIGHT, gameSize);
-        JButton optionsButton = makeButton("options", WIDTH/4, (HEIGHT/2) + BUTTON_WIDTH, BUTTON_WIDTH, BUTTON_HEIGHT, gameSize);
+        JButton optionsButton = makeButton("options", WIDTH/4, (HEIGHT/2) + (BUTTON_HEIGHT+(BUTTON_HEIGHT/2)), BUTTON_WIDTH, BUTTON_HEIGHT, gameSize);
         /******************************************/
         
         titleScreen.add(mainScreentitle);
@@ -228,8 +228,8 @@ public class guiCreator
         //local variabels 
         JFrame gameSelectFrame = makeMainFrame();
         JLabel gameSelectTitle = makeText("Game Selection", 0, 0,  500, 100);
-        JButton playChessButton = makeButton("playChess",WIDTH/4, HEIGHT/2, BUTTON_WIDTH, BUTTON_HEIGHT, gameSize);
-        JButton playCheckersButton = makeButton("playCheckers",  WIDTH/4, (HEIGHT/2) + BUTTON_WIDTH, BUTTON_WIDTH, BUTTON_HEIGHT, gameSize);
+        JButton playChessButton = makeButton("playChess", WIDTH/4, HEIGHT/2, BUTTON_WIDTH, BUTTON_HEIGHT, gameSize);
+        JButton playCheckersButton = makeButton("playCheckers",  WIDTH/4, (HEIGHT/2) + (BUTTON_HEIGHT+(BUTTON_HEIGHT/2)), BUTTON_WIDTH, BUTTON_HEIGHT, gameSize);
         /*****************************************************/
         
         gameSelectFrame.add(gameSelectTitle);
@@ -476,9 +476,9 @@ public class guiCreator
         //local variables
         JLabel options = makeText("Set size",0, 0,  500, 100);
         JFrame optionsFrame = makeMainFrame();
-        JButton twoX =  makeButton("2x",230, 100, 230, 64,gameSize);
-        JButton oneX =  makeButton("1x",230, 150, 230, 64,gameSize);
-        JButton accept = makeButton("accept", 200, 190, 230, 64,gameSize);
+        JButton twoX =  makeButton("2x", WIDTH/2, HEIGHT/4, OPTIONS_BUTTON_WIDTH, OPTIONS_BUTTON_HEIGHT,gameSize);
+        JButton oneX =  makeButton("1x",WIDTH/2, (HEIGHT/4) + (OPTIONS_BUTTON_HEIGHT+(OPTIONS_BUTTON_HEIGHT/2)), OPTIONS_BUTTON_WIDTH, OPTIONS_BUTTON_HEIGHT,gameSize);
+        JButton accept = makeButton("accept", WIDTH/3,  (HEIGHT/4) + (OPTIONS_BUTTON_HEIGHT*2+(BUTTON_HEIGHT)), BUTTON_WIDTH, BUTTON_HEIGHT,gameSize);
         /************************************************/
         optionsFrame.add(options);
         optionsFrame.setBackground(Color.BLACK);

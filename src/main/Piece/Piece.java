@@ -92,7 +92,6 @@ public abstract class Piece
         {
             //loads image depending on game and pieces name
             icon = ImageIO.read(new File("images/" + game + "/" + path + ".png"));
-            System.out.println(gameSize + " " + icon.getWidth() + " " + icon.getHeight());
             if(gameSize >= 2)
             {
                 BufferedImage newImage = new BufferedImage(icon.getWidth() * gameSize, icon.getHeight() * gameSize, BufferedImage.TYPE_INT_ARGB);
