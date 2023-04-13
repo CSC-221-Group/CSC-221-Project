@@ -1,9 +1,7 @@
 package main.java.Chess.frontend;
 import java.awt.Color;
 import java.awt.Dimension;
-
 import javax.imageio.ImageIO;
-import javax.lang.model.element.Element;
 import javax.swing.*;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -12,13 +10,9 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
-import javax.imageio.ImageIO;
 /**********************************************************
  * Program Name   : guiCreator
  * Author         : Jordan/Alan
@@ -54,9 +48,9 @@ public class guiCreator
     private static final int OPTIONS_BUTTON_HEIGHT = 32;
     public static int gameSize = 6;
     //Class variables 
-    public static int turn = Screen.currentTurn; 
+    public static int turn = 1; 
     public static Screen screen = new Screen(gameSize);//
-    public static JLabel move = new JLabel();          //
+    public static JLabel move = new JLabel();         //
     /*******************************************/
     /**
      * This method creates a JLabel and return it.
@@ -89,7 +83,6 @@ public class guiCreator
         mainScreentitle.setBounds(new Rectangle(x,y, w,h));;
         
         return mainScreentitle;
-
     }//end makeText 
 
 
@@ -170,12 +163,13 @@ public class guiCreator
             button.setBounds(new Rectangle(new Point(x,y),new Dimension(icon.getWidth(), icon.getHeight())));
             // Set the new size
         }
-        else {
+        else 
+        {
             button.setSize(w,h);
             button.setBounds(new Rectangle(new Point(x,y),new Dimension(w, h)));
         }
         button.setBackground(Color.BLACK);
-
+        
         return button;
     }//end makeButton
 
@@ -277,13 +271,14 @@ public class guiCreator
         //local constants 
         //local variables 
         //TODO make screen chess class
+        move.setText(null);
         Screen screen = new Screen(gameSize);
         JFrame chessFrame = new JFrame();
         JPanel movePanel = new JPanel();
-        JButton drawbt = new JButton();
-        JButton surrenderButton = makeButton("surrender", 255, 100, 96, 30, gameSize);
+        JButton drawbt = makeButton("draw",256,130,100, 30,gameSize);
+        JButton surrenderButton = makeButton("surrender", 256, 100, 96, 30, gameSize);
         /*****************************************************/
-        
+        move.setForeground(Color.YELLOW);
         movePanel.setBackground(Color.BLACK);
         movePanel.add(move);
 
@@ -298,30 +293,18 @@ public class guiCreator
         {
             //Set variables to fit board
             chessFrame.setSize(new Dimension(360,294));
-            drawbt.setBounds(new Rectangle(new Point(250,150),new Dimension(100, 35)));
-            move.setBounds(new Rectangle(new Point(250,170),new Dimension(100, 35)));
-            movePanel.setBounds(new Rectangle(new Point(250,190),new Dimension(100, 35)));
+            move.setFont(new Font("Colon", Font.BOLD, 10));
+            movePanel.setBounds(new Rectangle(new Point(250,190),new Dimension(100, 100)));
         }
-        //ELSE IF gameSize equal 2
-        else if(gameSize == 2)
-        {
-            //Set variables to fit board
-            chessFrame.setSize(new Dimension(720,600));
-            surrenderButton.setLocation(510, 300);
-            drawbt.setBounds(new Rectangle(new Point(510,255),new Dimension(100, 35)));
-            move.setBounds(new Rectangle(new Point(510,170),new Dimension(100, 35)));
-            movePanel.setBounds(new Rectangle(new Point(510,190),new Dimension(100, 35)));
-        }
-        //ELSE
+        //ELSE gameSize == 2
         else
         {
             //Set variables to fit board
-            chessFrame.setSize(new Dimension(1080,900));
-            surrenderButton.setLocation(767, 300);
-            drawbt.setBounds(new Rectangle(new Point(767,255),new Dimension(100, 35)));
-            move.setBounds(new Rectangle(new Point(767,170),new Dimension(100, 35)));
-            movePanel.setBounds(new Rectangle(new Point(767,190),new Dimension(100, 35)));
-        }//END IF
+            chessFrame.setSize(new Dimension(720,550));
+            move.setFont(new Font("Colon", Font.BOLD, 24));
+            movePanel.setBounds(new Rectangle(new Point(510,420),new Dimension(200, 100)));
+        }
+        //ELSE
 
         chessFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         chessFrame.setVisible(true);
@@ -349,7 +332,7 @@ public class guiCreator
             public void actionPerformed(ActionEvent e) 
             {
                 //set Turn equal to 3
-                turn = 3;
+                turn= 3;
                 //close chess frame
                 chessFrame.setVisible(false);
                 //display winScreen
@@ -413,23 +396,22 @@ public class guiCreator
         //local constants
         //local variables 
         JFrame winFrame = makeMainFrame();
-        JLabel playerXWon = new JLabel();
+        JLabel playerXWon = makeText(" ", 0, 0,  500, 100);
         JButton playAgainButon = makeButton("playAgain", 140, 100, 200, 64, gameSize);
         JButton titleScreenButton = makeButton("titleScreen", 140, 200, 200, 64, gameSize);
         JButton gameSelectButton = makeButton("gameSelect", 140, 300, 200, 64, gameSize);
         /***********************************************/
-        
+        playerXWon.setText(" ");
         //IF Turn equal 1 
         if(turn == 1)
         {
             //Display what player two
             playerXWon.setText("Player " + (turn + 1)  + " Won");
         }
-        //ELSE IF currentTurn equal two
         else if(turn == 2)
         {
-            //Display what player 1
-            playerXWon.setText("Player " + (turn - 1) + " Won");
+            //Display what player one
+            playerXWon.setText("Player " + (turn - 1)  + " Won");
         }
         //ELSE Turn equal 3
         else
@@ -437,14 +419,7 @@ public class guiCreator
             //Display players have drawn
             playerXWon.setText("Draw");
             //set currentTurn equal to 1
-            turn = 1;
         }//END IF
-
-        playerXWon.setForeground(Color.YELLOW);
-        playerXWon.setFont(new Font("", Font.PLAIN, 30));
-        playerXWon.setHorizontalAlignment(JLabel.CENTER);
-        playerXWon.setVerticalAlignment(JLabel.CENTER);
-        playerXWon.setBounds(new Rectangle(0,-200, 485,450));
         winFrame.add(playerXWon);
         
         //when playagainbutton is pressed 
@@ -499,29 +474,15 @@ public class guiCreator
     {
         //local constants
         //local variables
+        JLabel options = makeText("Set size",0, 0,  500, 100);
         JFrame optionsFrame = makeMainFrame();
-        JRadioButton  threeX = new JRadioButton("threeX");
-        JRadioButton  twoX =  new JRadioButton("twoX");
-        JRadioButton oneX =  new JRadioButton("oneX");
-        //JRadioButton accept = makeButton("Accept", 140, 350, 230, 64,gameSize);
+        JButton twoX =  makeButton("2x",230, 100, 230, 64,gameSize);
+        JButton oneX =  makeButton("1x",230, 150, 230, 64,gameSize);
+        JButton accept = makeButton("accept", 200, 190, 230, 64,gameSize);
         /************************************************/
-
+        optionsFrame.add(options);
         optionsFrame.setBackground(Color.BLACK);
-        optionsFrame.setLayout(new GridLayout());
-
-        //When threeX is pressed
-        threeX.addActionListener(new ActionListener() 
-        {
-            @Override
-            public void actionPerformed(ActionEvent e) 
-            { 
-                //set gameSize to 3 
-                gameSize = 3;
-                optionsFrame.setVisible(false);
-                makeTitleScreen();
-            }
-        });
-        optionsFrame.add(threeX);
+        optionsFrame.setLayout(null);
 
         //When twoX is pressed 
         twoX.addActionListener(new ActionListener() 
@@ -531,8 +492,6 @@ public class guiCreator
             {
                 //set gameSize to 2
                 gameSize = 2;
-                optionsFrame.setVisible(false);
-                makeTitleScreen();
             }
         });
         optionsFrame.add(twoX);
@@ -545,13 +504,11 @@ public class guiCreator
             {
                 //set gameSize to 1
                 gameSize = 1;
-                optionsFrame.setVisible(false);
-                makeTitleScreen();
             }
         });
         optionsFrame.add(oneX);
 
-       /* //When oneX is clicked 
+       //When accept X is clicked 
         accept.addActionListener(new ActionListener() 
         {
             @Override
@@ -561,7 +518,7 @@ public class guiCreator
                 makeTitleScreen();
             }
         });
-        optionsFrame.add(accept);*/
+        optionsFrame.add(accept);
     }//end optionsScreen
 
     /*

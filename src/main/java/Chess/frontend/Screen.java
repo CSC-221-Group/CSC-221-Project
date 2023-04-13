@@ -459,13 +459,15 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         {
             //set currentTurn equal to black
             currentTurn = 2;
+            guiCreator.turn = 2;
         }
         //ELSE is blacks turn
         else
-        {
-            
-        //set currentTurn equal to white
-        currentTurn = 1;
+        {  
+            //set currentTurn equal to white
+            currentTurn = 1;
+            guiCreator.turn = 1;
+
         }//END IF
     }
     /**
