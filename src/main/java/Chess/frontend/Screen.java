@@ -68,7 +68,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         //Class variable
         int preX, preY;
         boolean mousePressed = false;
-        Piece currentPiece = null;  
+        public static Piece currentPiece = null;  
         /*****************************************/
         private void displayLocationError()
         {
@@ -124,7 +124,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
                 //exit method
                 return;
             }//END IF
-
+           
             //set currentPiece to equal piece at cell the that was pressed 
             currentPiece = cell.getPiece();
             mousePressed = true;
@@ -185,7 +185,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
                 //exit method
                 return;
             }//END IF
- 
+            
             //IF y equal to 7 and cell is not occupied or IF y equal to 0 and cell is not occupied 
             if(y == 7 && !cell.isOccupied() || y == 0 && !cell.isOccupied())
             {
@@ -197,22 +197,16 @@ public class Screen extends JPanel implements ActionListener, KeyListener
                 }//END IF
             }//END IF
 
-            //IF its whites turn
-            if(currentTurn == 1)
-            {
+            if(currentPiece.getOwnedBy() == 1)
+            {  
                 //updated guiCreator move JLabel
                 guiCreator.move.setText("White" + currentPiece.toString() +"(" +  x + "," + y + ")");
-                //set currentTurn equal to black
-                currentTurn = 2;
             }
-            //ELSE is blacks turn
             else
             {
                 //updated guiCreator move JLabel
                 guiCreator.move.setText("Black" + currentPiece.toString() +"(" +  x + "," + y + ")");
-                //set currentTurn equal to white
-                currentTurn = 1;
-            }//END IF
+            }
 
             //clears piece at starting position
             cells[preX][preY].setPiece(null);
@@ -222,7 +216,8 @@ public class Screen extends JPanel implements ActionListener, KeyListener
             currentPiece = null;
             //draw all pieces again
             repaint();
-
+            //Sets current turn
+            setCurrentTurn();
         }//end update location
 
     }//end mouseAdapter
@@ -456,7 +451,23 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     {
         return currentTurn;
     }//END getCurrentTurn
-
+  
+    public static void setCurrentTurn()
+    {
+        //IF its whites turn
+        if(currentTurn == 1)
+        {
+            //set currentTurn equal to black
+            currentTurn = 2;
+        }
+        //ELSE is blacks turn
+        else
+        {
+            
+        //set currentTurn equal to white
+        currentTurn = 1;
+        }//END IF
+    }
     /**
      * Returns the game size of the game.
      * @return an integer representing the game size.

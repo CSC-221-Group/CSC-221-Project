@@ -1,13 +1,20 @@
 package main.java.Chess.frontend;
 import java.awt.Color;
 import java.awt.Dimension;
+
+import javax.imageio.ImageIO;
+import javax.lang.model.element.Element;
 import javax.swing.*;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 /**********************************************************
  * Program Name   : guiCreator
  * Author         : Jordan/Alan
@@ -61,12 +68,12 @@ public class guiCreator extends JFrame
         //set color of label to yellow
         mainScreentitle.setForeground(Color.YELLOW);
         //set font of label 
-        mainScreentitle.setFont(new Font("Colon", Font.BOLD, FONT_SIZE));
+        mainScreentitle.setFont(new Font("Colon", Font.BOLD, FONT_SIZE*gameSize));
         //set position of label to the center
         mainScreentitle.setHorizontalAlignment(JLabel.CENTER);;
         mainScreentitle.setVerticalAlignment(JLabel.CENTER);
         //set bounds to passed int
-        mainScreentitle.setBounds(new Rectangle(x,y, w,h));;
+        mainScreentitle.setBounds(new Rectangle(x,y, w*gameSize,h*gameSize));;
         
         return mainScreentitle;
 
@@ -84,7 +91,14 @@ public class guiCreator extends JFrame
         JFrame frame = new JFrame();
         /*******************************************/
         //sets size of frame to the classes constants 
-        frame.setSize(WIDTH*gameSize,HEIGHT*gameSize);
+        if(gameSize == 2 || gameSize == 3)
+        {
+            frame.setSize(WIDTH*gameSize-100,HEIGHT*gameSize-100);
+        }
+        else
+        {
+            frame.setSize(WIDTH,HEIGHT*gameSize);
+        }
         frame.setResizable(false);
         //set background to black 
         frame.getContentPane().setBackground(Color.BLACK);
@@ -105,21 +119,49 @@ public class guiCreator extends JFrame
      * @param h
      * @return jButton - return button
      */
-    private static JButton makeButton(String text, int x, int y, int w, int h) 
+     private static JButton makeButton(String text, int x, int y, int w, int h, int imageSize) 
     {
         //local constants
         //local variables
         JButton button = new JButton();
         /******************************************/
-        //gets buttons png based on passed text 
+        w *= gameSize;
+        h *= gameSize;
+        x *= gameSize;
+        y *= gameSize;
+        //get buttons png based on passed text 
         button.setIcon(new ImageIcon("images/" + text + "Gui.png"));
-        button.setSize(w,h);
-        button.setBounds(new Rectangle(new Point(x,y),new Dimension(w, h)));
-        //sets button color to black
+        if(imageSize >= 2)
+        {
+            BufferedImage icon;
+            try
+            {
+                icon = ImageIO.read(new File("images/" + text + "Gui.png"));
+            } 
+            catch (IOException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return null;
+            }
+            BufferedImage newImage = new BufferedImage(icon.getWidth() * gameSize, icon.getHeight() * gameSize, BufferedImage.TYPE_INT_ARGB);
+            Graphics g = newImage.createGraphics();
+            g.drawImage(icon, 0, 0, icon.getWidth() * gameSize, icon.getHeight() * gameSize, null);
+            g.dispose();
+            icon = newImage;
+            ImageIcon newIcon = new ImageIcon(icon);
+            button.setIcon(newIcon);
+            button.setSize(icon.getWidth(), icon.getHeight());
+            button.setBounds(new Rectangle(new Point(x,y),new Dimension(icon.getWidth(), icon.getHeight())));
+        }
+        else 
+        {
+            button.setSize(w,h);
+            button.setBounds(new Rectangle(new Point(x,y),new Dimension(w, h)));
+        }
         button.setBackground(Color.BLACK);
 
         return button;
-
     }//end makeButton
 
     /**
@@ -132,8 +174,8 @@ public class guiCreator extends JFrame
         //local variables 
         JFrame titleScreen = makeMainFrame();
         JLabel mainScreentitle = makeText("Board Classics", 0, 50, 500, 100);
-        JButton playGameButton = makeButton("playGame", 140, 250, 200, 64);
-        JButton optionsButton = makeButton("options", 140, 350, 200, 64);
+        JButton playGameButton = makeButton("playGame", 140, 250, 200, 64,gameSize);
+        JButton optionsButton = makeButton("options", 140, 350, 200, 64,gameSize);
         /******************************************/
         
         titleScreen.add(mainScreentitle);
@@ -177,8 +219,8 @@ public class guiCreator extends JFrame
         //local variabels 
         JFrame gameSelectFrame = makeMainFrame();
         JLabel gameSelectTitle = makeText("Game Selection", 0, -100, 485, 450);
-        JButton playChessButton = makeButton("playChess", 140, 250, 200, 64);
-        JButton playCheckersButton = makeButton("playCheckers", 140, 350, 200, 64);
+        JButton playChessButton = makeButton("playChess", 140, 250, 200, 64,gameSize);
+        JButton playCheckersButton = makeButton("playCheckers", 140, 350, 200, 64,gameSize);
         /*****************************************************/
         
         gameSelectFrame.add(gameSelectTitle);
@@ -224,7 +266,7 @@ public class guiCreator extends JFrame
         JFrame chessFrame = new JFrame();
         JPanel movePanel = new JPanel();
         JButton drawbt = new JButton();
-        JButton surrenderButton = makeButton("surrender", 255, 100, 96, 30);
+        JButton surrenderButton = makeButton("surrender", 255, 100, 96, 30,gameSize);
         /*****************************************************/
         
         movePanel.setBackground(Color.BLACK);
@@ -357,9 +399,9 @@ public class guiCreator extends JFrame
         //local variables 
         JFrame winFrame = makeMainFrame();
         JLabel playerXWon = new JLabel();
-        JButton playAgainButon = makeButton("playAgain", 140, 100, 200, 64);
-        JButton titleScreenButton = makeButton("titleScreen", 140, 200, 200, 64);
-        JButton gameSelectButton = makeButton("gameSelect", 140, 300, 200, 64);
+        JButton playAgainButon = makeButton("playAgain", 140, 100, 200, 64,gameSize);
+        JButton titleScreenButton = makeButton("titleScreen", 140, 200, 200, 64,gameSize);
+        JButton gameSelectButton = makeButton("gameSelect", 140, 300, 200, 64,gameSize);
         /***********************************************/
         
         //IF Turn equal 1 
@@ -443,13 +485,14 @@ public class guiCreator extends JFrame
         //local constants
         //local variables
         JFrame optionsFrame = makeMainFrame();
-        JRadioButton  threeX = new   JRadioButton ("3x");
-        JRadioButton  twoX = new  JRadioButton ("2x");
-        JRadioButton oneX = new JRadioButton("1x");
+        JRadioButton  threeX = new JRadioButton("threeX");
+        JRadioButton  twoX =  new JRadioButton("twoX");
+        JRadioButton oneX =  new JRadioButton("oneX");
+        //JRadioButton accept = makeButton("Accept", 140, 350, 230, 64,gameSize);
         /************************************************/
 
         optionsFrame.setBackground(Color.BLACK);
-        optionsFrame.setLayout(new GridLayout(0,1));
+        optionsFrame.setLayout(new GridLayout());
 
         //When threeX is pressed
         threeX.addActionListener(new ActionListener() 
@@ -459,9 +502,7 @@ public class guiCreator extends JFrame
             { 
                 //set gameSize to 3 
                 gameSize = 3;
-                //close options frame 
                 optionsFrame.setVisible(false);
-                //open title screen
                 makeTitleScreen();
             }
         });
@@ -475,9 +516,7 @@ public class guiCreator extends JFrame
             {
                 //set gameSize to 2
                 gameSize = 2;
-                //close options frame
                 optionsFrame.setVisible(false);
-                //open title screen
                 makeTitleScreen();
             }
         });
@@ -491,14 +530,23 @@ public class guiCreator extends JFrame
             {
                 //set gameSize to 1
                 gameSize = 1;
-                //close options frame 
                 optionsFrame.setVisible(false);
-                //open title screen
                 makeTitleScreen();
             }
         });
         optionsFrame.add(oneX);
 
+       /* //When oneX is clicked 
+        accept.addActionListener(new ActionListener() 
+        {
+            @Override
+            public void actionPerformed(ActionEvent e) 
+            {
+                optionsFrame.setVisible(false);
+                makeTitleScreen();
+            }
+        });
+        optionsFrame.add(accept);*/
     }//end optionsScreen
 
     /*
