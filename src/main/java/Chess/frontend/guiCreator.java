@@ -48,7 +48,6 @@ public class guiCreator extends JFrame
     private static final int BUTTON_HEIGHT = 30;
     private static final int OPTIONS_BUTTON_WIDTH = 32;
     private static final int OPTIONS_BUTTON_HEIGHT = 32;
-    public PopupFactory popupFactory = new PopupFactory();
     public static int gameSize = 6;
     //Class variables 
     /*******************************************/
