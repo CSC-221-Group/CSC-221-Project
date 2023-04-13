@@ -24,15 +24,19 @@ public abstract class Piece
  {
     private BufferedImage icon;
     private Point pos;
+    private boolean color;
     private boolean captured = false;
+    private int ownedBy = 0;
     protected static ArrayList<Piece> totalPieces = new ArrayList<>();
 
     /*
      * Constructor
      */
-    public Piece(int x, int y) 
+    public Piece(boolean color, int x, int y, int ownedBy) 
     {
         pos = new Point(x, y);
+        this.color = color;
+        this.ownedBy = ownedBy;
         totalPieces.add(this);
     }
     
@@ -63,25 +67,60 @@ public abstract class Piece
         } else if(pos.y >= Screen.ROWS) {
             pos.y = Screen.ROWS - 1;
         }
+        if (captured == true) {
+            totalPieces.remove(this);
+            pos.x = -1;
+            pos.y = -1;
+        }
     }
     public void draw(Graphics g, ImageObserver obs) 
     {
         g.drawImage(icon, pos.x * Screen.TILE_SIZE, (7 * Screen.TILE_SIZE) - pos.y * Screen.TILE_SIZE, obs);
     }
+    
+    public static ArrayList<Piece> getPieces() {
+        return totalPieces;
+    }
+    /**
+    * return who owns the piece.
+    * @return int of the player that owns the piece.
+    */
+    public int getOwnedBy() 
+    {
+        return ownedBy;
+    }//End getOwnedBy
 
+    /**
+    * Sets if black or white own the piece.
+    * @param ownedBy sets who owns the piece passed.
+    */
+    public void setOwnedBy(int ownedBy) 
+    {
+        this.ownedBy = ownedBy;
+    }//end setOwnedBy
+    
     public Point getPos() 
     {
         return pos;
     }
-//TODO add a method to see if the move is valid
-//TODO add a method to see if the move results in a capture
 
     public void setPos(int x, int y) 
     {
-        pos.x = x;
-        pos.y = y;
+        if (this.isCaptured() == false) {
+            pos.x = x;
+            pos.y = y;
+        }
+        else {
+            System.out.println("cant move a captured piece");
+        }
     }
-
+    
+    public void setColor(boolean colorr) {
+        color = colorr;
+    }
+    public boolean getColor() {
+        return color;
+    }
     public boolean isClicked(MouseEvent e) 
     {
         double x = e.getX() / Screen.TILE_SIZE;
@@ -98,6 +137,10 @@ public abstract class Piece
     {
         return captured;
     }
-    
+    public void setIsCaptured(boolean capturedd) {
+        this.captured = capturedd;
+    }
     public abstract void move(int x, int y) throws InvalidMovementException;
+    
+    public abstract void capture(Piece piece, int x, int y) throws InvalidMovementException;
 }
