@@ -12,9 +12,13 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
+import javax.imageio.ImageIO;
 /**********************************************************
  * Program Name   : guiCreator
  * Author         : Jordan/Alan
@@ -35,13 +39,20 @@ import java.io.IOException;
  * winScreen - 
  * main -
  *********************************************************/
+
+
+ 
 public class guiCreator extends JFrame
 {
     //Class constants
-    private static final int WIDTH = 500;   //
-    private static final int HEIGHT = 500;  //
-    private static final int FONT_SIZE = 48;//
-
+    private static final int WIDTH = 500;
+    private static final int HEIGHT = 400;
+    private static final int FONT_SIZE = 48;
+    private static final int BUTTON_WIDTH = 96;
+    private static final int BUTTON_HEIGHT = 30;
+    private static final int OPTIONS_BUTTON_WIDTH = 32;
+    private static final int OPTIONS_BUTTON_HEIGHT = 32;
+    public static int gameSize = 6;
     //Class variables 
     public static int turn = Screen.currentTurn; 
     public static int gameSize = Screen.getGameSize(); //
@@ -68,16 +79,21 @@ public class guiCreator extends JFrame
         //set color of label to yellow
         mainScreentitle.setForeground(Color.YELLOW);
         //set font of label 
-        mainScreentitle.setFont(new Font("Colon", Font.BOLD, FONT_SIZE*gameSize));
+        mainScreentitle.setFont(new Font("Colon", Font.BOLD, FONT_SIZE * gameSize));
         //set position of label to the center
         mainScreentitle.setHorizontalAlignment(JLabel.CENTER);;
         mainScreentitle.setVerticalAlignment(JLabel.CENTER);
         //set bounds to passed int
-        mainScreentitle.setBounds(new Rectangle(x,y, w*gameSize,h*gameSize));;
+        w*=gameSize;
+        h*=gameSize;
+
+        mainScreentitle.setBounds(new Rectangle(x,y, w,h));;
         
         return mainScreentitle;
 
     }//end makeText 
+
+
 
     /**
      * This method creates a JFrame and return it.
@@ -91,14 +107,14 @@ public class guiCreator extends JFrame
         JFrame frame = new JFrame();
         /*******************************************/
         //sets size of frame to the classes constants 
-        if(gameSize == 2 || gameSize == 3)
+        Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+        if( screenSize.getWidth() < WIDTH*gameSize || screenSize.getHeight() < HEIGHT*gameSize)
         {
-            frame.setSize(WIDTH*gameSize-100,HEIGHT*gameSize-100);
+            gameSize = gameSize-1;
+            System.out.println("Screen size too small, reducing game size to " + gameSize);
+            return makeMainFrame();
         }
-        else
-        {
-            frame.setSize(WIDTH,HEIGHT*gameSize);
-        }
+        frame.setSize(WIDTH*gameSize,HEIGHT*gameSize);
         frame.setResizable(false);
         //set background to black 
         frame.getContentPane().setBackground(Color.BLACK);
@@ -133,29 +149,33 @@ public class guiCreator extends JFrame
         button.setIcon(new ImageIcon("images/" + text + "Gui.png"));
         if(imageSize >= 2)
         {
+            // Increase the size of the image
+            w *= imageSize;
+            h *= imageSize;
+            x *= imageSize;
+            y *= imageSize;
             BufferedImage icon;
-            try
-            {
+            // Read the image
+            try {
                 icon = ImageIO.read(new File("images/" + text + "Gui.png"));
-            } 
-            catch (IOException e)
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+            } catch (IOException e) {
+                System.out.println("Error: " + e);
                 return null;
             }
+            // Resize the image
             BufferedImage newImage = new BufferedImage(icon.getWidth() * gameSize, icon.getHeight() * gameSize, BufferedImage.TYPE_INT_ARGB);
             Graphics g = newImage.createGraphics();
             g.drawImage(icon, 0, 0, icon.getWidth() * gameSize, icon.getHeight() * gameSize, null);
             g.dispose();
             icon = newImage;
+            // Set the new image
             ImageIcon newIcon = new ImageIcon(icon);
             button.setIcon(newIcon);
             button.setSize(icon.getWidth(), icon.getHeight());
             button.setBounds(new Rectangle(new Point(x,y),new Dimension(icon.getWidth(), icon.getHeight())));
+            // Set the new size
         }
-        else 
-        {
+        else {
             button.setSize(w,h);
             button.setBounds(new Rectangle(new Point(x,y),new Dimension(w, h)));
         }
@@ -172,10 +192,9 @@ public class guiCreator extends JFrame
     {
         //local constants
         //local variables 
-        JFrame titleScreen = makeMainFrame();
-        JLabel mainScreentitle = makeText("Board Classics", 0, 50, 500, 100);
-        JButton playGameButton = makeButton("playGame", 140, 250, 200, 64,gameSize);
-        JButton optionsButton = makeButton("options", 140, 350, 200, 64,gameSize);
+        JLabel mainScreentitle = makeText("Board Classics", 0, 0, 500, 100, gameSize);
+        JButton playGameButton = makeButton("playGame", WIDTH/4, HEIGHT/2, BUTTON_WIDTH, BUTTON_HEIGHT, gameSize);
+        JButton optionsButton = makeButton("options", WIDTH/4, (HEIGHT/2) + BUTTON_WIDTH, BUTTON_WIDTH, BUTTON_HEIGHT, gameSize);
         /******************************************/
         
         titleScreen.add(mainScreentitle);
@@ -218,9 +237,9 @@ public class guiCreator extends JFrame
         //local constants
         //local variabels 
         JFrame gameSelectFrame = makeMainFrame();
-        JLabel gameSelectTitle = makeText("Game Selection", 0, -100, 485, 450);
-        JButton playChessButton = makeButton("playChess", 140, 250, 200, 64,gameSize);
-        JButton playCheckersButton = makeButton("playCheckers", 140, 350, 200, 64,gameSize);
+        JLabel gameSelectTitle = makeText("Game Selection", 0, 0,  500, 100, gameSize);
+        JButton playChessButton = makeButton("playChess",WIDTH/4, HEIGHT/2, BUTTON_WIDTH, BUTTON_HEIGHT, gameSize);
+        JButton playCheckersButton = makeButton("playCheckers",  WIDTH/4, (HEIGHT/2) + BUTTON_WIDTH, BUTTON_WIDTH, BUTTON_HEIGHT, gameSize);
         /*****************************************************/
         
         gameSelectFrame.add(gameSelectTitle);
@@ -266,7 +285,7 @@ public class guiCreator extends JFrame
         JFrame chessFrame = new JFrame();
         JPanel movePanel = new JPanel();
         JButton drawbt = new JButton();
-        JButton surrenderButton = makeButton("surrender", 255, 100, 96, 30,gameSize);
+        JButton surrenderButton = makeButton("surrender", 255, 100, 96, 30,gameSize, gameSize);
         /*****************************************************/
         
         movePanel.setBackground(Color.BLACK);
@@ -399,9 +418,9 @@ public class guiCreator extends JFrame
         //local variables 
         JFrame winFrame = makeMainFrame();
         JLabel playerXWon = new JLabel();
-        JButton playAgainButon = makeButton("playAgain", 140, 100, 200, 64,gameSize);
-        JButton titleScreenButton = makeButton("titleScreen", 140, 200, 200, 64,gameSize);
-        JButton gameSelectButton = makeButton("gameSelect", 140, 300, 200, 64,gameSize);
+        JButton playAgainButon = makeButton("playAgain", 140, 100, 200, 64, gameSize);
+        JButton titleScreenButton = makeButton("titleScreen", 140, 200, 200, 64, gameSize);
+        JButton gameSelectButton = makeButton("gameSelect", 140, 300, 200, 64, gameSize);
         /***********************************************/
         
         //IF Turn equal 1 
@@ -696,6 +715,9 @@ public class guiCreator extends JFrame
             public void run() 
             {
                 makeTitleScreen();
+
+                System.out.println("Space changes turns, it has to be player 1's turn to move white's pieces" +
+                " and player 2's turn to move black's pieces") ;
             }
         });
     }//end main
