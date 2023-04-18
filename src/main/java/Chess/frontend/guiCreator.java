@@ -2,8 +2,11 @@ package main.java.Chess.frontend;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.imageio.ImageIO;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Point;
@@ -61,7 +64,7 @@ public class guiCreator
      * @param h
      * @return jlabel - returns label
      */
-    private static JLabel makeText(String text, int x, int y, int w, int h) 
+    private static JLabel makeText(String text, int x, int y, int w, int h, int gameSize) 
     {
         //local constants
         //local variables
@@ -115,6 +118,7 @@ public class guiCreator
         frame.setVisible(true);
 
         return frame;
+
 
     }//end makeMainFrame 
 
@@ -182,10 +186,11 @@ public class guiCreator
         //local constants
         //local variables 
         JFrame titleScreen = makeMainFrame();
-        JLabel mainScreentitle = makeText("Board Classics", 0, 0, 500, 100);
+        JLabel mainScreentitle = makeText("Board Classics", 0, 0, 500, 100, gameSize);
         JButton playGameButton = makeButton("playGame", WIDTH/4, HEIGHT/2, BUTTON_WIDTH, BUTTON_HEIGHT, gameSize);
         JButton optionsButton = makeButton("options", WIDTH/4, (HEIGHT/2) + (BUTTON_HEIGHT+(BUTTON_HEIGHT/2)), BUTTON_WIDTH, BUTTON_HEIGHT, gameSize);
         /******************************************/
+        
         
         titleScreen.add(mainScreentitle);
         //When playgameButton is clicked
@@ -227,7 +232,7 @@ public class guiCreator
         //local constants
         //local variabels 
         JFrame gameSelectFrame = makeMainFrame();
-        JLabel gameSelectTitle = makeText("Game Selection", 0, 0,  500, 100);
+        JLabel gameSelectTitle = makeText("Game Selection", 0, 0,  500, 100, gameSize);
         JButton playChessButton = makeButton("playChess", WIDTH/4, HEIGHT/2, BUTTON_WIDTH, BUTTON_HEIGHT, gameSize);
         JButton playCheckersButton = makeButton("playCheckers",  WIDTH/4, (HEIGHT/2) + (BUTTON_HEIGHT+(BUTTON_HEIGHT/2)), BUTTON_WIDTH, BUTTON_HEIGHT, gameSize);
         /*****************************************************/
@@ -269,6 +274,8 @@ public class guiCreator
     public static void chessGame()
     {
         //local constants 
+        final int WIDTH = 360;
+        final int HEIGHT = 294;
         //local variables 
         //TODO make screen chess class
         move.setText(null);
@@ -292,7 +299,7 @@ public class guiCreator
         if(gameSize == 1)
         {
             //Set variables to fit board
-            chessFrame.setSize(new Dimension(360,294));
+            chessFrame.setSize(new Dimension(WIDTH,HEIGHT));
             move.setFont(new Font("Colon", Font.BOLD, 10));
             movePanel.setBounds(new Rectangle(new Point(250,190),new Dimension(100, 100)));
         }
@@ -300,7 +307,7 @@ public class guiCreator
         else
         {
             //Set variables to fit board
-            chessFrame.setSize(new Dimension(720,550));
+            chessFrame.setSize(new Dimension(WIDTH*gameSize,HEIGHT*gameSize));
             move.setFont(new Font("Colon", Font.BOLD, 24));
             movePanel.setBounds(new Rectangle(new Point(510,420),new Dimension(200, 100)));
         }
@@ -350,19 +357,21 @@ public class guiCreator
     public static void checkersGame()
     {
         //local constants
+        final int WIDTH = 360;
+        final int HEIGHT = 294;
         //local variables 
         JFrame checkersFrame = new JFrame();
         JButton surrenderButton = new JButton();
         Screen screen = new Screen(gameSize);
         /************************************/
 
-        if(gameSize == 2)
+        if(gameSize >= 2)
         {
-            checkersFrame.setSize(new Dimension(720,600));
+            checkersFrame.setSize(new Dimension(WIDTH*gameSize,HEIGHT*gameSize));
         }
         else if(gameSize == 1)
         {
-            checkersFrame.setSize(new Dimension(360,300));
+            checkersFrame.setSize(new Dimension(WIDTH,HEIGHT));
         }
 
         checkersFrame.add(screen);  
@@ -396,7 +405,7 @@ public class guiCreator
         //local constants
         //local variables 
         JFrame winFrame = makeMainFrame();
-        JLabel playerXWon = makeText(" ", 0, 0,  500, 100);
+        JLabel playerXWon = makeText(" ", 0, 0,  500, 100, gameSize);
         JButton playAgainButon = makeButton("playAgain", 140, 100, 200, 64, gameSize);
         JButton titleScreenButton = makeButton("titleScreen", 140, 200, 200, 64, gameSize);
         JButton gameSelectButton = makeButton("gameSelect", 140, 300, 200, 64, gameSize);
@@ -474,7 +483,7 @@ public class guiCreator
     {
         //local constants
         //local variables
-        JLabel options = makeText("Set size",0, 0,  500, 100);
+        JLabel options = makeText("Set size",0, 0,  500, 100, gameSize);
         JFrame optionsFrame = makeMainFrame();
         JButton twoX =  makeButton("2x", WIDTH/2, HEIGHT/4, OPTIONS_BUTTON_WIDTH, OPTIONS_BUTTON_HEIGHT,gameSize);
         JButton oneX =  makeButton("1x",WIDTH/2, (HEIGHT/4) + (OPTIONS_BUTTON_HEIGHT+(OPTIONS_BUTTON_HEIGHT/2)), OPTIONS_BUTTON_WIDTH, OPTIONS_BUTTON_HEIGHT,gameSize);
@@ -539,7 +548,7 @@ public class guiCreator
         promoteScreen.setVisible(true);
 
         Queenbt.setIcon(new ImageIcon("images/Chess/whiteQueen.png"));
-        Queenbt.setSize(100,100);
+        Queenbt.setSize(100,100); // TODO adjust this with gameSize
         Queenbt.setBackground(Color.BLACK);
         //When Queenbt is pressed 
         Queenbt.addActionListener(new ActionListener() 
