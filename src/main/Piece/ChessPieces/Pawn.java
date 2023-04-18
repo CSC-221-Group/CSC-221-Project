@@ -1,23 +1,35 @@
 package main.Piece.ChessPieces;
+
 import main.java.Chess.frontend.Screen;
 import main.java.Chess.frontend.Cell;
 import main.Piece.Piece;
-import main.Piece.InvalidMovementException;
-
-/** 
- * and how it should move.
- */
-public class Pawn extends Piece 
+import main.Piece.InvalidMovementException; 
+/**********************************************************
+ * Program Name   : Pawn
+ * Author         : 
+ * Date           : 3/19/23
+ * Course/Section : Software Engineering 221-301
+ * Program Description: This program sets what a Pawn piece
+ * is and the legal moves of a Pawn piece.
+ *  
+ * Methods:
+ * -------
+ * Pawn - sets color position and owner of Pawn piece.
+ * move - sets legal moves for Pawn piece.
+ **********************************************************/
+public class Pawn extends Piece
 {
-    public String color;//Holds color of pawn.
-    
-    /** 
-     * Setting up a pawns x location, y location, color, and owner.
-     * 
-     * @param color - color of pawn.
-     * @param x - horizontal location of pawn.
-     * @param y -Vertical location of pawn.
-     * @param owner - which color(White/Black) owns the piece.
+    //class constants
+    //class variables 
+    public String color;
+    /************************************/
+    /**
+     * Consructor of Pawn.
+     * Sets owner, color, and (x,y) position of Pawn piece.
+     * @param color - color of Pawn piece.
+     * @param x - x positon of Pawn piece.
+     * @param y - y position of Pawn piece 
+     * @param owner - sets owner of Pawn piece
      */
         public Pawn(String color, int x, int y, int owner, Screen board) 
     {
@@ -29,7 +41,7 @@ public class Pawn extends Piece
         loadImage(Chess,color + "Pawn");
         this.color = color;
     }
-
+    
     /** 
      * @param board
      * @param start
@@ -40,7 +52,6 @@ public class Pawn extends Piece
     public void move(Screen board, Cell start, Cell end) throws InvalidMovementException 
     {
         Piece [][] pawn = new Piece [start.getX() ][start.getY()];
-
 
 
         if(end.getX() == start.getX() && end.getY() == start.getY())
@@ -65,6 +76,54 @@ public class Pawn extends Piece
             }
         }
     }
+    /*protected boolean moveCheck(Cell start, Cell end) 
+    {
+        int x = end.getX();
+        int y = end.getY();
+        int xStart = start.getX();
+        int yStart = start.getY();
+        if (color)
+        {
+            if (y == yStart + 1 && x == xStart) 
+            {
+                return true;
+            } 
+            else if (y == yStart + 2 && x == xStart && canDoubleMovement) 
+            {
+                return true;
+            } 
+            else if (y == yStart + 1 && (x == xStart + 1)) 
+            {
+                if (end.getPiece() != null) 
+                {
+                    return true;
+                }
+            }
+        } 
+        else 
+        {
+            if (y == yStart - 1 && x == xStart)
+            {
+                return true;
+            } 
+            else if (y == yStart - 2 && x == xStart && canDoubleMovement) 
+            {
+                return true;
+            } else if (y == yStart - 1 && ( x == xStart - 1)) 
+            {
+                if (end.getPiece() != null) 
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }*/
+    @Override
+    public String toString()
+    {
+        return "Pawn";
+    }
+    
 }
-
 
