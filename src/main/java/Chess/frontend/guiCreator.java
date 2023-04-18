@@ -2,8 +2,11 @@ package main.java.Chess.frontend;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.imageio.ImageIO;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Point;
@@ -36,7 +39,7 @@ import java.io.IOException;
 
 
  
-public class guiCreator extends JFrame
+public class guiCreator
 {
     //Class constants
     private static final int WIDTH = 500;
@@ -116,6 +119,7 @@ public class guiCreator extends JFrame
 
         return frame;
 
+
     }//end makeMainFrame 
 
     /**
@@ -186,6 +190,7 @@ public class guiCreator extends JFrame
         JButton playGameButton = makeButton("playGame", WIDTH/4, HEIGHT/2, BUTTON_WIDTH, BUTTON_HEIGHT, gameSize);
         JButton optionsButton = makeButton("options", WIDTH/4, (HEIGHT/2) + (BUTTON_HEIGHT+(BUTTON_HEIGHT/2)), BUTTON_WIDTH, BUTTON_HEIGHT, gameSize);
         /******************************************/
+        
         
         titleScreen.add(mainScreentitle);
         //When playgameButton is clicked
@@ -543,7 +548,7 @@ public class guiCreator extends JFrame
         promoteScreen.setVisible(true);
 
         Queenbt.setIcon(new ImageIcon("images/Chess/whiteQueen.png"));
-        Queenbt.setSize(100,100);
+        Queenbt.setSize(100,100); // TODO adjust this with gameSize
         Queenbt.setBackground(Color.BLACK);
         //When Queenbt is pressed 
         Queenbt.addActionListener(new ActionListener() 
