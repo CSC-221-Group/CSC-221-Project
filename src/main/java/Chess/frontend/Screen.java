@@ -35,19 +35,19 @@ import main.Piece.ChessPieces.*;
 public class Screen extends JPanel implements ActionListener, KeyListener 
 {
     //class constants 
-    public static int gameSize = 1;  //size of the board
     private final int DELAY = 10;          //delay between each frame in ms
     public static final int TILE_SIZE = 32;//size of square on board
     public static final int ROWS = 8;      //size of the board horizontally 
     public static final int COLS = 8;      //size of the board vertically 
     //private static final int serialVersionUID = 1;
 
-    //class variables 
-    private Timer timer;                                       //triggers actionPerformed()
-    private int currentTurn = 1;                               //1 = player1, 2 = player2
-    private ArrayList<Piece> p1Pieces = new ArrayList<Piece>();//Pieces owned by White
-    private ArrayList<Piece> p2Pieces = new ArrayList<Piece>();//Pieces owned by Black
-    private Cell[][] cells = new Cell[ROWS][COLS];             //Makes a cell object for every sqaure on the board
+    //Class variables 
+    public static int gameSize = 1;                                    //size of the board
+    private Timer timer;                                               //triggers actionPerformed()
+    public static int currentTurn = 1;                                        //1 = player1, 2 = player2
+    private static  ArrayList<Piece> p1Pieces = new ArrayList<Piece>();//Pieces owned by White
+    private static ArrayList<Piece> p2Pieces = new ArrayList<Piece>(); //Pieces owned by Black
+    public static Cell[][] cells = new Cell[ROWS][COLS];               //Boards squares
     /**********************************************************
      * Program Name   : mouseAdapter 
      * Author         : Jordan 
@@ -64,11 +64,14 @@ public class Screen extends JPanel implements ActionListener, KeyListener
      **********************************************************/
     private class mouseAdapter extends MouseAdapter 
     {
+        //Class constants
+        //Class variable
         int preX, preY;
         boolean mousePressed = false;
-        Piece currentPiece = null;
-
-        private void displayLocationError() {
+        public static Piece currentPiece = null;  
+        /*****************************************/
+        private void displayLocationError()
+        {
             System.out.println("Mouse pressed outside of board");
             System.out.println("GameSize = " + gameSize + " Tile Size = " + TILE_SIZE);
             System.out.println("Mouse X: " + preX + " Mouse Y: " + preY);
@@ -79,113 +82,156 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         /**
         * This methode determines which cell was clicked and sets the currentPiece variable
         * to the piece occupying that cell if it is owned by the current turn's player.
+        * And sets preX and preY to x and y of mousepressed event.
         * @param e The mouse event that triggered this method.
         */
         @Override
         public void mousePressed(MouseEvent e)
         {
-            //if the where the mouse click is outside the game board.
+            //local constants 
+            //local variables
             int x = e.getX() / (TILE_SIZE * gameSize);
             int y = (ROWS-1) - (e.getY() / (TILE_SIZE * gameSize));
-            if(x < 0 || y < 0) {
+            Cell cell = cells[x][y];
+            /************************************************/
+
+            //IF x or y equals less than 0
+            if(x < 0 || y < 0) 
+            {
+                //Display error location
                 displayLocationError();
+                //exit method
                 return;
-            }
+            }//END IF
+
+            //IF x greater than boards limits or y greater than boards limits 
             if(x > COLS || y > ROWS )
             {
                 displayLocationError();
                 return;
-            }//end IF
+            }//END IF
 
-            //the cell that was clicked.
-            Cell cell = cells[e.getX() / (TILE_SIZE * gameSize)][(ROWS-1) - (e.getY() / (TILE_SIZE * gameSize))];
-
-            //if the cell is unoccupied.
+            //IF the cell is unoccupied.
             if(!cell.isOccupied())
             {
+                //exit method
                 return;
-            }//end IF
+            }//END IF
 
-            //if the piece thats clicked is not owned by player who clicked it
+            //IF the piece thats clicked is not owned by player who clicked it
             if(cell.getPiece().getOwnedBy() != currentTurn)
             {
-                //print out who the piece is owned by
-                System.out.println(cell.getPiece().getOwnedBy() + " != " + currentTurn);
+                //exit method
                 return;
-            }//end IF 
-
+            }//END IF
+           
+            //set currentPiece to equal piece at cell the that was pressed 
             currentPiece = cell.getPiece();
             mousePressed = true;
-            preX = e.getX() / (TILE_SIZE * gameSize);
-            preY = (ROWS-1) - (e.getY() / (TILE_SIZE * gameSize));
+            //set preX and preY equal to place mouse was pressed
+            preX = x;
+            preY = y;
         }//end mousePressed
-
 
         @Override
         public void mouseDragged(MouseEvent e) 
         {
-            // Not needed for now
+            //Not needed for now
         }
 
         /**
         * This method checks where the mouse was released.
-        * and prints out where the mouse was pressed.
         * @param e The mouse event.
         */
         @Override
         public void mouseReleased(MouseEvent e)
         {
-            //iF mouse not pressed
+            //IF mouse not pressed
             if (!mousePressed)
             {
+                //exit method
                 return;
             }//end IF
 
-            //print where the mouse was clikced 
-            System.out.println("Mouse released at " + e.getX() / (TILE_SIZE * gameSize) + ", " + ((ROWS-1) - (e.getY() / (TILE_SIZE * gameSize))));
             mousePressed = false;
+            //call updatedLocation
             updateLocation(e);
+            
         }//end mouseRelease
-
+       
         /**
         * Updates the location of the current piece based on 
-        *    the coordinates of the mouse release event.
+        * the coordinates of the mouse release event.
         * @param e The mouse release event.
         */
         public void updateLocation(MouseEvent e)
         {
+            //local constants
+            //local variables
             int x = e.getX() / (TILE_SIZE * gameSize);
             int y = (ROWS-1) - (e.getY() / (TILE_SIZE * gameSize));
-
-            //if x or y outside the board 
+            Cell cell = cells[x][y];
+            /********************************************/
+            //IF x or y outside the board 
             if (x > COLS || y > ROWS)
             {
+                //exit method
                 return;
-            }//end if 
-
-            Cell cell = cells[x][y];
-
-            //if square is occupied 
+            }//END IF
+;
+            //IF square is occupied 
             if (cell.isOccupied())
             {
+                //exit method
                 return;
-            }//end if 
+            }//END IF
+            
+            //IF y equal to 7 and cell is not occupied or IF y equal to 0 and cell is not occupied 
+            if(y == 7 && !cell.isOccupied() || y == 0 && !cell.isOccupied())
+            {
+                //IF current piece is a pawn
+                if(currentPiece.getClass() == Pawn.class)
+                {
+                    //call guiCreator promoteScreen
+                    guiCreator.promoteScreen(x, y);
+                }//END IF
+            }//END IF
 
+            if(currentPiece.getOwnedBy() == 1)
+            {  
+                //updated guiCreator move JLabel
+                guiCreator.move.setText("White" + currentPiece.toString() +"(" +  x + "," + y + ")");
+            }
+            else
+            {
+                //updated guiCreator move JLabel
+                guiCreator.move.setText("Black" + currentPiece.toString() +"(" +  x + "," + y + ")");
+            }
+
+            //clears piece at starting position
             cells[preX][preY].setPiece(null);
+            //set current piece to piece that was on preX and preY
             cells[x][y].setPiece(currentPiece);
+            //clear current piece
             currentPiece = null;
+            //draw all pieces again
             repaint();
+            //Sets current turn
+            setCurrentTurn();
         }//end update location
 
     }//end mouseAdapter
+
     /**
     * Constructor for Screen.
     * Displays the screen and pieces.
+    *@param gameSize - set the size of board.
     */
     public Screen(int gameSize)
     {
+        //calls initScreen
         initScreen(gameSize);
-    }
+    }//end Screen
 
     /**
     * Initializes the screen with appropriate listeners
@@ -193,6 +239,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     */
     private void initScreen(int gameSize)
     {
+        currentTurn = 1;
         setGameSize(gameSize);
         addKeyListener(this);
         setFocusable(true);
@@ -211,7 +258,9 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     {
         timer = new Timer(DELAY, this);
         timer.start();
+        //Set pieces to correct spots 
         resetBoard();
+        //assigned pieces to black and white
         assignPieces();
     }//end initGame
     
@@ -223,17 +272,16 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        //for every piece white owns 
+        //FOR every piece white owns 
         for (Piece piece : p1Pieces)
         {
             piece.update();
         }//END FOR
-        //for every piece black owns 
+        //FOR every piece black owns 
         for (Piece piece : p2Pieces)
         {
             piece.update();
         }//END FOR
-        
         repaint();
     }//end actionPerformed 
 
@@ -245,37 +293,10 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     public void keyTyped(KeyEvent e) 
     {
     }
-
-    /**
-     * keyPrssed is called when a key is pressed. 
-     * checks if the spacebar was pressed, 
-     * it switches the current turn to the other player. 
-     * Player 1 is represented by the int 1, 
-     * and player 2 by the int 2.
-     */
     @Override
     public void keyPressed(KeyEvent e) 
     {
-        //checks if the key that was pressed was space
-       if (e.getKeyCode() == KeyEvent.VK_SPACE) 
-       {
-            //print out space bar was pressed 
-           System.out.println("Spacebar pressed");
-           //if its player 1 turn
-           if (currentTurn == 1) 
-           {
-               //set current turn to player 2
-               currentTurn = 2;
-           }
-           //else if its player 2 turn
-           else if (currentTurn == 2) 
-           {
-               //set current turn to player 1
-               currentTurn = 1;
-           }//end if 
-       }//end if 
     }//end keypressed 
-
     @Override
     public void keyReleased(KeyEvent e) 
     {
@@ -296,7 +317,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     }//end painComponent
 
     /**
-    *set the chess board to the starting position.
+    *Sets the chess board to the starting position.
     */
     private void resetBoard() 
     {
@@ -313,7 +334,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         {
             //set a white pawn on the board in the x positon of i and y positon of 1.
             cells[i][1] = new Cell(i, 1, new Pawn("white", i, 1,1, this)); // PAWN
-        }//end For
+        }//END FOR
 
         cells[0][7] = new Cell(0, 7, new Rook("black", 0, 7, 2, this)); // ROOK
         cells[1][7] = new Cell(1, 7, new Knight("black", 1, 7, 2, this)); // KNIGHT
@@ -328,7 +349,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         {
             //set a black pawn on the board in the the x position of i and y positon of 6.
             cells[i][6] = new Cell(i, 6, new Pawn("black", i, 6, 2, this)); // PAWN
-        }//end FOF
+        }//END FOR
 
         for (int i = 0; i < ROWS; i++) 
         {
@@ -336,8 +357,9 @@ public class Screen extends JPanel implements ActionListener, KeyListener
             {
                 //creates a new cell for every square on the board
                 cells[i][j] = new Cell(i, j);
-            }
-        }
+            }//END FOR
+        }//END FOR
+
     }//end resetBoard
 
     /**
@@ -347,17 +369,17 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     * If a piece is found, it is added to the list of pieces owned by 
     * the corresponding player (player 1 or player 2).
     */
-    private void assignPieces() 
+    private static void assignPieces() 
     {
         p1Pieces.clear();
         p2Pieces.clear();
-        //For every row 
+        //FOR every row 
         for (int i = 0; i < ROWS; i++) 
         {
-            //for every collum 
+            //FORevery collum 
             for (int j = 0; j < COLS; j++) 
             {
-                //IF the Cell is does have a piece
+                //IF the Cell doesn't have a piece
                 if (cells[i][j].getPiece() != null)
                 {
                     //IF Piece in the cell is owned by white 
@@ -366,6 +388,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
                         //give the piece to whites 
                         p1Pieces.add(cells[i][j].getPiece());
                     } 
+                    //ELSE IF Piece in the cell is owned by black
                     else if (cells[i][j].getPiece().getOwnedBy() == 2) 
                     {
                         //give the piece to black 
@@ -374,7 +397,9 @@ public class Screen extends JPanel implements ActionListener, KeyListener
                 }//end IF 
             }//END FOR
         }//END FOR 
+
     }//end assign piecees 
+
     /**
     * Draws the background of the chess board.
     * @param g the graphics object used for drawing
@@ -382,57 +407,147 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     private void drawBackground(Graphics g) 
     {
         g.setColor(Color.WHITE);
-        // for every other index in the array, draw a white square
+        //FOR every other index in the array, draw a white square
         for (int i = 0; i < ROWS; i++) 
         {
             for (int j = 0; j < COLS; j++) 
             {
+                //if i plus j moduled by 2 equal 0
                 if ((i + j) % 2 == 0) 
                 {
+                    //colors square white
                     g.fillRect(j * (TILE_SIZE * gameSize), i * (TILE_SIZE * gameSize), TILE_SIZE * gameSize, TILE_SIZE * gameSize);
-                }
-            }
-        }
-    }
+                }//END IF
+            }//END FOR
+        }//END FOR
+
+    }//END drawBackground
+
     /**
     * Draws all the pieces on the board using the Graphics object
     * @param g the Graphics object used for drawing
     */
     private void draw(Graphics g) 
     {
+        //FOR every piece in Whited Pieces array
         for (Piece piece : p1Pieces) 
         {
             piece.draw(g, this);
-        }
+        }//END FOR
+
+        //FOR every piece in blacks Pieces array
         for (Piece piece : p2Pieces)
         {
             piece.draw(g, this);
-        }
-    }
+        }//END FOR
+
+    }//END draw
+
     /**
-    * Returns the current turn number of the game.
-    * @return an integer representing the current turn number.
+    * Returns the current turns value.
+    * @return an integer representing the current turn value.
     */
     public int getCurrentTurn() 
     {
         return currentTurn;
-    }
+    }//END getCurrentTurn
+  
+    public static void setCurrentTurn()
+    {
+        //IF its whites turn
+        if(currentTurn == 1)
+        {
+            //set currentTurn equal to black
+            currentTurn = 2;
+            guiCreator.turn = 2;
+        }
+        //ELSE is blacks turn
+        else
+        {  
+            //set currentTurn equal to white
+            currentTurn = 1;
+            guiCreator.turn = 1;
 
+        }//END IF
+    }
     /**
      * Returns the game size of the game.
      * @return an integer representing the game size.
      */
-    public int getGameSize()
+    public static int getGameSize()
     {
         return gameSize;
-    }
+    }//END getGameSize
+
     /**
      * Sets the game size of the game.
      * @param gameSize an integer representing the game size.
      */
     public void setGameSize(int gameSize)
     {
-        this.gameSize = gameSize;
+        Screen.gameSize = gameSize;
     }
+
+    public void promotePawn(String color,int ownedBy,int x, int y,String promoteType)
+    { 
+        //Clear piece in cells x and y location
+        cells[x][y].setPiece(null);
+       
+        //IF promoteType equal queen
+        if(promoteType.equals("Queen"))
+        {
+            //set piece at x and y to a Queen
+            cells[x][y] = new Cell(x,y, new Queen(color, x, y, ownedBy,this));
+        }//END IF
+
+        //IF promoteType equal Bishop
+        if(promoteType.equals("Bishop"))
+        {
+            //set piece at x and y to a Bishop
+            cells[x][y] = new Cell(x,y, new Bishop(color, x, y, ownedBy,this));
+        }//END IF
+
+        //IF promoteType equal Rook
+        if(promoteType.equals("Rook"))
+        {
+            //set piece at x and y to a Rook
+            cells[x][y] = new Cell(x,y, new Rook(color, x, y, ownedBy,this));
+        }//END IF
+
+        //IF promoteType equal Knight
+        if(promoteType.equals("Knight"))
+        {
+            //set piece at x and y to a Knight
+            cells[x][y] = new Cell(x,y, new Knight(color, x, y, ownedBy,this));
+        }//END IF
+
+        //IF y equal 7
+        if(y == 7)
+        {
+            //add promted piece to white pieces  array
+            p1Pieces.add(cells[x][y].getPiece());
+        }
+        //ELSE y equal 0
+        else
+        {
+            //add promted piece to black pieces  array
+            p2Pieces.add(cells[x][y].getPiece());
+        }//END IF
+
+        //IF piece at x and y owned by white 
+        if(cells[x][y].getPiece().getOwnedBy() == 1)
+        {
+            //display piece and pieces x and y location
+            guiCreator.move.setText("White" + cells[x][y].getPiece().toString() + "(" + x + "," + y + ")");
+        }
+        //ELSE piece at x and y owned by black
+        else
+        {
+            //display piece and pieces x and y location
+            guiCreator.move.setText("Black" + cells[x][y].getPiece().toString() + "(" + x + "," + y + ")");
+        }//END IF    
+
+        assignPieces();
+    }//end promotedPawn
 
 }//end Screen
