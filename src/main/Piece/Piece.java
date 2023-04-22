@@ -5,8 +5,12 @@ import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+
+import main.Piece.ChessPieces.Pawn;
 import main.java.Chess.frontend.Cell;
 import main.java.Chess.frontend.Screen;
+import main.java.Chess.frontend.guiCreator;
+
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 /**********************************************************
@@ -224,7 +228,36 @@ public abstract class Piece
     {
         return captured;
     }//end is captured
-
+    
+    public static boolean capture(Piece piece, int x , int y)
+    {
+        boolean capture = false;
+        if(piece != null && Screen.cells[x][y].getPiece() != null)
+        {
+            if(piece.getOwnedBy() == 1 && Screen.cells[x][y].getPiece().getOwnedBy() == 2)
+            {
+                capture = true;
+                Screen.cells[x][y].setPiece(null);
+                Screen.cells[x][y].setPiece(piece);
+            }
+            else if(piece.getOwnedBy() == 2 && Screen.cells[x][y].getPiece().getOwnedBy() == 1)
+            {
+                capture = true;
+                Screen.cells[x][y].setPiece(null);
+                Screen.cells[x][y].setPiece(piece);
+            }
+            if(y == 7 && piece.getOwnedBy() == 1 || y == 0 && piece.getOwnedBy() == 2)
+            {
+                if(piece.getClass() == Pawn.class)
+                {
+                     guiCreator.promoteScreen(x, y);
+                }
+            }
+        }
+        //setCurrentTurn();
+       Screen.assignPieces();
+       return capture;
+   }
     public abstract void move(Screen board, Cell start, Cell end) throws InvalidMovementException;
     
 }//End Piece

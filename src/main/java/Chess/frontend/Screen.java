@@ -131,6 +131,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
             //set preX and preY equal to place mouse was pressed
             preX = x;
             preY = y;
+            System.out.println(currentPiece.getClass() + " " + currentPiece.getOwnedBy() + currentPiece.getPos());
         }//end mousePressed
 
         @Override
@@ -178,16 +179,16 @@ public class Screen extends JPanel implements ActionListener, KeyListener
                 //exit method
                 return;
             }//END IF
-;
+
             //IF square is occupied 
-            if (cell.isOccupied())
+            if (cell.isOccupied() && !Piece.capture(currentPiece, x, y))
             {
                 //exit method
                 return;
             }//END IF
             
             //IF y equal to 7 and cell is not occupied or IF y equal to 0 and cell is not occupied 
-            if(y == 7 && !cell.isOccupied() || y == 0 && !cell.isOccupied())
+            if(y == 7 && !cell.isOccupied()|| y == 0 && !cell.isOccupied()  )
             {
                 //IF current piece is a pawn
                 if(currentPiece.getClass() == Pawn.class)
@@ -207,7 +208,13 @@ public class Screen extends JPanel implements ActionListener, KeyListener
                 //updated guiCreator move JLabel
                 guiCreator.move.setText("Black" + currentPiece.toString() +"(" +  x + "," + y + ")");
             }
-
+            
+            Rook.rookMoved();
+            King.kingMove();
+            if(currentPiece.getClass() == King.class)
+            {
+                King.castling(currentPiece, x, y);
+            }
             //clears piece at starting position
             cells[preX][preY].setPiece(null);
             //set current piece to piece that was on preX and preY
@@ -369,7 +376,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     * If a piece is found, it is added to the list of pieces owned by 
     * the corresponding player (player 1 or player 2).
     */
-    private static void assignPieces() 
+    public static void assignPieces() 
     {
         p1Pieces.clear();
         p2Pieces.clear();

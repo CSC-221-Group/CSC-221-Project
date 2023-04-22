@@ -22,6 +22,10 @@ public class Rook extends Piece
     //class constants
     //class variables 
     public String color;
+    public static  boolean rookWLeft  = true;
+    public static  boolean rookWRight = true;
+    public static  boolean rookBLeft = true;
+    public static  boolean rookBRight = true;
     /************************************/
     /**
      * Consructor of King.
@@ -37,6 +41,38 @@ public class Rook extends Piece
         String Chess = "Chess"; 
         loadImage(Chess,color + "Rook");
         this.color = color;
+    }
+    public static void rookMoved()
+    {
+        if(Screen.cells[0][0].getPiece() != null)
+        {
+            if(Screen.cells[0][0].getPiece().getClass() != Rook.class)
+            {
+                rookWLeft = false;
+            }
+        }
+        if(Screen.cells[7][0].getPiece() != null)
+        {
+            if(Screen.cells[7][0].getPiece().getClass() != Rook.class)
+            {
+                rookWRight = false;
+            }
+        }
+        if(Screen.cells[0][7].getPiece() != null)
+        {
+            if(Screen.cells[0][7].getPiece().getClass() != Rook.class)
+            {
+            rookBLeft = false;
+            }
+        }
+        
+        if(Screen.cells[7][7].getPiece() != null)
+        {
+            if(Screen.cells[7][7].getPiece().getClass() != Rook.class)
+            {
+                rookBRight = false;
+            }
+        }
     }
     @Override
     public void move(Screen board, Cell start, Cell end) {
