@@ -52,7 +52,7 @@ public class King extends Piece
             blackKing = false;
         }
     }
-    public static void castling(Piece piece, int x, int y)
+    public static void castling(Piece piece,int x, int y)
     {
     
         if(piece.getOwnedBy() == 1)

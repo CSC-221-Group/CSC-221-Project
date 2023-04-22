@@ -131,7 +131,6 @@ public class Screen extends JPanel implements ActionListener, KeyListener
             //set preX and preY equal to place mouse was pressed
             preX = x;
             preY = y;
-            System.out.println(currentPiece.getClass() + " " + currentPiece.getOwnedBy() + currentPiece.getPos());
         }//end mousePressed
 
         @Override
@@ -209,13 +208,14 @@ public class Screen extends JPanel implements ActionListener, KeyListener
                 guiCreator.move.setText("Black" + currentPiece.toString() +"(" +  x + "," + y + ")");
             }
            
-            if(currentPiece.getClass() == Pawn.class && !Piece.capture(currentPiece, x, y))
+            if(currentPiece.getClass() == Pawn.class)
             {
+                System.out.println("Hi");
                 Pawn.enPassant(currentPiece, x, y);
             }
+
             if(currentPiece.getClass() == Rook.class || currentPiece.getClass() == King.class) 
             {
-                System.out.println("White King " +King.whiteKing +"Black king "+  King.blackKing + " WRookL " +  Rook.rookWLeft +"WRookR "+  Rook.rookWRight + " BRookL " + Rook.rookBLeft + " BRookR " + Rook.rookBRight);
                 King.castling(currentPiece, x, y);
             } 
             //clears piece at starting position
@@ -258,6 +258,8 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         Rook.rookBRight = true;
         Rook.rookWLeft = true;
         Rook.rookWRight = true;
+        Pawn.enPassantW = 0;
+        Pawn.enPassantB = 0;
         setGameSize(gameSize);
         addKeyListener(this);
         setFocusable(true);

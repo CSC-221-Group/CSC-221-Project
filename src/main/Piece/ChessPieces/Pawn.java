@@ -22,6 +22,8 @@ public class Pawn extends Piece
     //class constants
     //class variables 
     public String color;
+    public static  int enPassantW = 0;
+    public static  int enPassantB = 0;
     /************************************/
     /**
      * Consructor of Pawn.
@@ -78,9 +80,26 @@ public class Pawn extends Piece
     }
     public static void enPassant(Piece piece, int x, int y)
     {
-        if(Screen.cells[x][y-1].getPiece().getClass() == Pawn.class)
+        if(piece.getOwnedBy() == 1)
         {
-            capture(Screen.cells[x][y-1].getPiece(), x,y);
+            if(Screen.cells[x][y-1].getPiece() != null && Screen.cells[x][y-1].getPiece().getClass() == Pawn.class
+            && Screen.cells[x][y-1].getPiece().getOwnedBy() != 1 && enPassantW == 0)
+            {
+                Screen.cells[x][y-1].setPiece(null);
+                Screen.assignPieces();
+                enPassantW = 1;
+            }
+        }
+        else
+        {
+            if(Screen.cells[x][y+1].getPiece() != null && Screen.cells[x][y+1].getPiece().getClass() == Pawn.class
+            && Screen.cells[x][y+1].getPiece().getOwnedBy() != 2 && enPassantB == 0)
+            {
+                Screen.cells[x][y+1].setPiece(null);
+                Screen.assignPieces();
+                enPassantB = 1;
+            }
+
         }
     }
     /*protected boolean moveCheck(Cell start, Cell end) 
