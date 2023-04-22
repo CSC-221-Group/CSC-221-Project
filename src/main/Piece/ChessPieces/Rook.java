@@ -44,34 +44,22 @@ public class Rook extends Piece
     }
     public static void rookMoved()
     {
-        if(Screen.cells[0][0].getPiece() != null)
+        if(Screen.cells[0][0].getPiece() == null || Screen.cells[0][0].getPiece().getClass() != Rook.class)
         {
-            if(Screen.cells[0][0].getPiece().getClass() != Rook.class)
-            {
-                rookWLeft = false;
-            }
+            rookWLeft = false;
         }
-        if(Screen.cells[7][0].getPiece() != null)
+        if(Screen.cells[7][0].getPiece() == null || Screen.cells[7][0].getPiece().getClass() != Rook.class)
         {
-            if(Screen.cells[7][0].getPiece().getClass() != Rook.class)
-            {
-                rookWRight = false;
-            }
+            rookWRight = false;
+            
         }
-        if(Screen.cells[0][7].getPiece() != null)
+        if(Screen.cells[0][7].getPiece() == null || Screen.cells[0][7].getPiece().getClass() != Rook.class)
         {
-            if(Screen.cells[0][7].getPiece().getClass() != Rook.class)
-            {
             rookBLeft = false;
-            }
         }
-        
-        if(Screen.cells[7][7].getPiece() != null)
+        if(Screen.cells[7][7].getPiece() == null || Screen.cells[7][7].getPiece().getClass() != Rook.class)
         {
-            if(Screen.cells[7][7].getPiece().getClass() != Rook.class)
-            {
-                rookBRight = false;
-            }
+            rookBRight = false;
         }
     }
     @Override

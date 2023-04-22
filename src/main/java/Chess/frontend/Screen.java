@@ -208,15 +208,20 @@ public class Screen extends JPanel implements ActionListener, KeyListener
                 //updated guiCreator move JLabel
                 guiCreator.move.setText("Black" + currentPiece.toString() +"(" +  x + "," + y + ")");
             }
-            
-            Rook.rookMoved();
-            King.kingMove();
-            if(currentPiece.getClass() == King.class)
+           
+            if(currentPiece.getClass() == Pawn.class && !Piece.capture(currentPiece, x, y))
             {
-                King.castling(currentPiece, x, y);
+                Pawn.enPassant(currentPiece, x, y);
             }
+            if(currentPiece.getClass() == Rook.class || currentPiece.getClass() == King.class) 
+            {
+                System.out.println("White King " +King.whiteKing +"Black king "+  King.blackKing + " WRookL " +  Rook.rookWLeft +"WRookR "+  Rook.rookWRight + " BRookL " + Rook.rookBLeft + " BRookR " + Rook.rookBRight);
+                King.castling(currentPiece, x, y);
+            } 
             //clears piece at starting position
-            cells[preX][preY].setPiece(null);
+            cells[preX][preY].setPiece(null);   
+            King.kingMove();
+            Rook.rookMoved(); 
             //set current piece to piece that was on preX and preY
             cells[x][y].setPiece(currentPiece);
             //clear current piece
@@ -247,6 +252,12 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     private void initScreen(int gameSize)
     {
         currentTurn = 1;
+        King.whiteKing = true;
+        King.blackKing = true;
+        Rook.rookBLeft = true;
+        Rook.rookBRight = true;
+        Rook.rookWLeft = true;
+        Rook.rookWRight = true;
         setGameSize(gameSize);
         addKeyListener(this);
         setFocusable(true);

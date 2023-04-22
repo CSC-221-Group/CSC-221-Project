@@ -76,7 +76,13 @@ public class Pawn extends Piece
             }
         }
     }
-    
+    public static void enPassant(Piece piece, int x, int y)
+    {
+        if(Screen.cells[x][y-1].getPiece().getClass() == Pawn.class)
+        {
+            capture(Screen.cells[x][y-1].getPiece(), x,y);
+        }
+    }
     /*protected boolean moveCheck(Cell start, Cell end) 
     {
         int x = end.getX();
