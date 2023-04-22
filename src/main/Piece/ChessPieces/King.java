@@ -21,6 +21,8 @@ public class King extends Piece
     //class constants
     //class variables 
     public String color;
+    public static boolean whiteKing = true; 
+    public static boolean blackKing = true;
     /************************************/
     /**
      * Consructor of King.
@@ -37,6 +39,85 @@ public class King extends Piece
         loadImage(Chess,color + "Bishop");
         this.color = color;
     }//end King 
+    public static void kingMove()
+    {
+        if(Screen.cells[0][4].getPiece() != null)
+        {
+            if(Screen.cells[0][4].getPiece().getClass() != King.class)
+            {
+                whiteKing = false;
+            }
+        }
+        if(Screen.cells[7][4].getPiece() != null)
+        {
+            if(Screen.cells[7][4].getPiece().getClass() != King.class)
+            {
+                blackKing = false;
+            }
+        }
+    }
+    public static void castling(Piece piece, int x, int y)
+    {
+        if(piece.getClass() == King.class)
+        {
+            if(piece.getOwnedBy() == 1)
+            {
+                if(whiteKing && Rook.rookWLeft)
+                {
+                    if(!Screen.cells[2][0].isOccupied() && !Screen.cells[1][0].isOccupied() &&  !Screen.cells[3][0].isOccupied())
+                    {
+                        if(x == 2 && y == 0)
+                        {
+                            Screen.cells[3][0].setPiece(Screen.cells[0][0].getPiece());
+                            Screen.cells[0][0].setPiece(null);
+                        }
+
+                    }
+                }
+                if(whiteKing && Rook.rookWRight)
+                {
+                    if(!Screen.cells[5][0].isOccupied() && !Screen.cells[6][0].isOccupied())
+                    {
+                        if(x == 6 && y == 0)
+                        {
+                            Screen.cells[5][0].setPiece(Screen.cells[7][0].getPiece());
+                            Screen.cells[7][0].setPiece(null);
+                        }
+
+                    }
+                }
+            }
+            else
+            {
+
+                if(blackKing && Rook.rookBRight)
+                {
+                    if(!Screen.cells[5][7].isOccupied() && !Screen.cells[6][7].isOccupied())
+                    {
+                        if(x == 6 && y == 7)
+                        {
+                            Screen.cells[5][7].setPiece(Screen.cells[7][7].getPiece());
+                            Screen.cells[7][7].setPiece(null);
+                        }
+
+                    }
+                }
+                if(blackKing && Rook.rookBLeft)
+                {
+                    if(!Screen.cells[1][7].isOccupied() && !Screen.cells[2][7].isOccupied() &&  !Screen.cells[3][7].isOccupied())
+                    {
+                        if(x == 2 && y == 7)
+                        {
+                            Screen.cells[3][7].setPiece(Screen.cells[0][7].getPiece());
+                            Screen.cells[0][7].setPiece(null);
+                        }
+
+                    }
+                }
+            }
+        }
+        Screen.assignPieces();
+    }   
     @Override
     public void move(Screen board, Cell start, Cell end) {
         // TODO Auto-generated method stub

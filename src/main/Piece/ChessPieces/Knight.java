@@ -37,7 +37,6 @@ public class Knight extends Piece
         loadImage(Chess,color + "Knight");
         this.color = color;
     }
- 
     @Override
     public void move(Screen board, Cell start, Cell end) {
         // TODO Auto-generated method stub

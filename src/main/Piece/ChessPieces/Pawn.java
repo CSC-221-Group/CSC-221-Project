@@ -58,11 +58,11 @@ public class Pawn extends Piece
         {
             throw new InvalidMovementException("You cannot move to the same spot");
         } 
-        if(end.isOccupied() )
-        {
-            // handle capturing, ensure that the piece is of the opposite color and it can capture like that
-            return;
-        }
+        //if(end.isOccupied(currentPiece, pawn.ge, ))
+        
+  // handle capturing, ensure that the piece is of the opposite color and it can capture like that
+        //    return;
+        
         if(pawn[end.getX()][end.getY()] != null)
         {
             
@@ -76,6 +76,7 @@ public class Pawn extends Piece
             }
         }
     }
+    
     /*protected boolean moveCheck(Cell start, Cell end) 
     {
         int x = end.getX();
