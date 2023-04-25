@@ -1,6 +1,8 @@
  
 package main.Piece.ChessPieces;
 
+import java.awt.Point;
+
 import main.Piece.Piece;
 import main.java.Chess.frontend.Cell;
 import main.java.Chess.frontend.Screen;
@@ -38,6 +40,18 @@ public class Rook extends Piece
         loadImage(Chess,color + "Rook");
         this.color = color;
     }
+    public boolean hasNotMoved() {
+        Point pos = getPos();
+        if(getOwnedBy() == 1 && pos.x == 0 && pos.y == 0) {
+            return true;
+        } else if(getOwnedBy() == 2 && pos.x == 7 && pos.y == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
     @Override
     public void move(Screen board, Cell start, Cell end) {
         // TODO Auto-generated method stub

@@ -226,5 +226,6 @@ public abstract class Piece
     }//end is captured
 
     public abstract void move(Screen board, Cell start, Cell end) throws InvalidMovementException;
+    // public abstract void capture(Piece piece, int x, int y) throws InvalidMovementException;
     
 }//End Piece

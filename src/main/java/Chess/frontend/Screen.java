@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.*;
 //import java.util.Random;
 import java.awt.event.MouseEvent;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.awt.event.MouseAdapter;
 import main.Piece.ChessPieces.*;
@@ -124,7 +125,6 @@ public class Screen extends JPanel implements ActionListener, KeyListener
                 //exit method
                 return;
             }//END IF
-           
             //set currentPiece to equal piece at cell the that was pressed 
             currentPiece = cell.getPiece();
             mousePressed = true;
@@ -164,9 +164,12 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         * the coordinates of the mouse release event.
         * @param e The mouse release event.
         */
+
+
         public void updateLocation(MouseEvent e)
         {
             //local constants
+            final char[] letters = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
             //local variables
             int x = e.getX() / (TILE_SIZE * gameSize);
             int y = (ROWS-1) - (e.getY() / (TILE_SIZE * gameSize));
@@ -182,7 +185,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
             //IF square is occupied 
             if (cell.isOccupied())
             {
-                //exit method
+                //TODO handle capturing
                 return;
             }//END IF
             
@@ -200,12 +203,12 @@ public class Screen extends JPanel implements ActionListener, KeyListener
             if(currentPiece.getOwnedBy() == 1)
             {  
                 //updated guiCreator move JLabel
-                guiCreator.move.setText("White" + currentPiece.toString() +"(" +  x + "," + y + ")");
+                guiCreator.move.setText("White" + currentPiece.toString() +":" +  letters[x-1] + y);
             }
             else
             {
                 //updated guiCreator move JLabel
-                guiCreator.move.setText("Black" + currentPiece.toString() +"(" +  x + "," + y + ")");
+                guiCreator.move.setText("Black" + currentPiece.toString() +":" +  letters[x-1] + y);
             }
 
             //clears piece at starting position

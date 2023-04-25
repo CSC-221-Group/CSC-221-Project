@@ -22,6 +22,7 @@ public class Pawn extends Piece
     //class constants
     //class variables 
     public String color;
+    private boolean firstMove = false;
     /************************************/
     /**
      * Consructor of Pawn.
@@ -49,7 +50,7 @@ public class Pawn extends Piece
      * @throws InvalidMovementException
      */
     @Override
-    public void move(Screen board, Cell start, Cell end) throws InvalidMovementException 
+    public void move(Screen board, Cell start, Cell end) throws InvalidMovementException // TODO maybe change this to highlighting because all movement happens in cell class 
     {
         Piece [][] pawn = new Piece [start.getX() ][start.getY()];
 
@@ -72,6 +73,7 @@ public class Pawn extends Piece
         {
             if(start.getY() == 1 && end.getY() == 3 && start.getX() == end.getX())
             {
+                firstMove = true;
                 return;
             }
         }
