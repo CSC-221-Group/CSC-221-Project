@@ -255,7 +255,7 @@ public abstract class Piece
             }
         }
         //setCurrentTurn();
-       Screen.assignPieces();
+       
        return capture;
    }
     public abstract void move(Screen board, Cell start, Cell end) throws InvalidMovementException;

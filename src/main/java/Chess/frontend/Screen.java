@@ -208,20 +208,35 @@ public class Screen extends JPanel implements ActionListener, KeyListener
                 guiCreator.move.setText("Black" + currentPiece.toString() +"(" +  x + "," + y + ")");
             }
            
+            if(currentPiece.getClass() == King.class)
+            {
+                King king = (King)currentPiece;
+                if(king.didKingMove() == false)
+                {
+                    if(cell.isOccupied() && cell.getPiece().getClass() == Rook.class)
+                    {
+                        Rook rook = (Rook)cell.getPiece();
+                        if(rook.hasNotMoved() == false)
+                        {
+                            // King.castling(currentPiece, x, y);
+                        }
+                    }
+                }
+            }
+
+
             if(currentPiece.getClass() == Pawn.class)
             {
-                System.out.println("Hi");
                 Pawn.enPassant(currentPiece, x, y);
             }
 
             if(currentPiece.getClass() == Rook.class || currentPiece.getClass() == King.class) 
             {
-                King.castling(currentPiece, x, y);
+                // currentPiece.castling(currentPiece, x, y);
             } 
             //clears piece at starting position
             cells[preX][preY].setPiece(null);   
-            King.kingMove();
-            Rook.rookMoved(); 
+            // King.kingMove();
             //set current piece to piece that was on preX and preY
             cells[x][y].setPiece(currentPiece);
             //clear current piece
@@ -245,6 +260,45 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         initScreen(gameSize);
     }//end Screen
 
+// useful for finding single pieces (King / Queen )
+    private Piece findPiece(Class c, int player) {
+        for (int i = 0; i < ROWS; i++) {
+            for (int j = 0; j < COLS; j++)
+            {
+                if (cells[i][j].isOccupied() && cells[i][j].getPiece().getClass() == c && cells[i][j].getPiece().getOwnedBy() == player)
+                {
+                    return cells[i][j].getPiece();
+                }
+            }
+        }
+        return null;
+    }
+
+    private void initVariables() {
+        King abstractKing = (King)findPiece(King.class, 1);
+        abstractKing.whiteKing = true;
+        System.out.println("The white King is at" + abstractKing.getPos().x + "," + abstractKing.getPos().y);
+        abstractKing = (King)findPiece(King.class, 2);
+        abstractKing.blackKing = true;
+        System.out.println("The black King is at" + abstractKing.getPos().x + "," + abstractKing.getPos().y);
+        Rook abstractRook = (Rook)cells[0][7].getPiece();
+        abstractRook.rookBLeft = true;
+        System.out.println("The black rook is at" + abstractRook.getPos().x + "," + abstractRook.getPos().y);
+        abstractRook = (Rook)cells[7][7].getPiece();
+        abstractRook.rookBRight = true;
+        System.out.println("The black rook is at" + abstractRook.getPos().x + "," + abstractRook.getPos().y);
+        abstractRook = (Rook)cells[0][0].getPiece();
+        abstractRook.rookWLeft = true;
+        System.out.println("The white rook is at" + abstractRook.getPos().x + "," + abstractRook.getPos().y);
+        abstractRook = (Rook)cells[7][0].getPiece();
+        abstractRook.rookWRight = true;
+        // find the black rook on the left side
+
+
+        
+    }
+
+
     /**
     * Initializes the screen with appropriate listeners
     * and dimensions, and initializes the game.
@@ -252,14 +306,8 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     private void initScreen(int gameSize)
     {
         currentTurn = 1;
-        King.whiteKing = true;
-        King.blackKing = true;
-        Rook.rookBLeft = true;
-        Rook.rookBRight = true;
-        Rook.rookWLeft = true;
-        Rook.rookWRight = true;
-        Pawn.enPassantW = 0;
-        Pawn.enPassantB = 0;
+        // Pawn.enPassantW = 0;
+        // Pawn.enPassantB = 0;
         setGameSize(gameSize);
         addKeyListener(this);
         setFocusable(true);
@@ -268,6 +316,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         addMouseListener(new mouseAdapter());
         setBackground(Color.BLACK);
         initGame();
+        initVariables();
     }//end initScreen
 
    /**
@@ -567,7 +616,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
             guiCreator.move.setText("Black" + cells[x][y].getPiece().toString() + "(" + x + "," + y + ")");
         }//END IF    
 
-        assignPieces();
+        repaint();
     }//end promotedPawn
 
 }//end Screen

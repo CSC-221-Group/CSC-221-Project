@@ -86,7 +86,7 @@ public class Pawn extends Piece
             && Screen.cells[x][y-1].getPiece().getOwnedBy() != 1 && enPassantW == 0)
             {
                 Screen.cells[x][y-1].setPiece(null);
-                Screen.assignPieces();
+                
                 enPassantW = 1;
             }
         }
@@ -96,7 +96,7 @@ public class Pawn extends Piece
             && Screen.cells[x][y+1].getPiece().getOwnedBy() != 2 && enPassantB == 0)
             {
                 Screen.cells[x][y+1].setPiece(null);
-                Screen.assignPieces();
+                
                 enPassantB = 1;
             }
 

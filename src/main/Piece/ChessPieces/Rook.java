@@ -1,6 +1,8 @@
  
 package main.Piece.ChessPieces;
 
+import java.awt.Point;
+
 import main.Piece.Piece;
 import main.java.Chess.frontend.Cell;
 import main.java.Chess.frontend.Screen;
@@ -22,10 +24,10 @@ public class Rook extends Piece
     //class constants
     //class variables 
     public String color;
-    public static  boolean rookWLeft  = true;
-    public static  boolean rookWRight = true;
-    public static  boolean rookBLeft = true;
-    public static  boolean rookBRight = true;
+    public  boolean rookWLeft  = true;
+    public  boolean rookWRight = true;
+    public  boolean rookBLeft = true;
+    public  boolean rookBRight = true;
     /************************************/
     /**
      * Consructor of King.
@@ -42,26 +44,18 @@ public class Rook extends Piece
         loadImage(Chess,color + "Rook");
         this.color = color;
     }
-    public static void rookMoved()
-    {
-        if(Screen.cells[0][0].getPiece() == null || Screen.cells[0][0].getPiece().getClass() != Rook.class)
-        {
-            rookWLeft = false;
-        }
-        if(Screen.cells[7][0].getPiece() == null || Screen.cells[7][0].getPiece().getClass() != Rook.class)
-        {
-            rookWRight = false;
-            
-        }
-        if(Screen.cells[0][7].getPiece() == null || Screen.cells[0][7].getPiece().getClass() != Rook.class)
-        {
-            rookBLeft = false;
-        }
-        if(Screen.cells[7][7].getPiece() == null || Screen.cells[7][7].getPiece().getClass() != Rook.class)
-        {
-            rookBRight = false;
+    public boolean hasNotMoved() {
+        Point pos = getPos();
+        if(getOwnedBy() == 1 && pos.x == 0 && pos.y == 0) {
+            return true;
+        } else if(getOwnedBy() == 2 && pos.x == 7 && pos.y == 0) {
+            return true;
+        } else {
+            return false;
         }
     }
+ 
+
     @Override
     public void move(Screen board, Cell start, Cell end) {
         // TODO Auto-generated method stub
@@ -73,5 +67,3 @@ public class Rook extends Piece
         return "Rook";
     }
 }    
-
-
