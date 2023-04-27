@@ -73,6 +73,7 @@ public class Cell
         { 
             //set piece location to class variables cell_x cell_y
             piece.setPos(cell_x,cell_y);
+            System.out.println("Piece set to " + cell_x + " " + cell_y);
         }//END IF
 
     }//end setPiece

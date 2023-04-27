@@ -2,6 +2,9 @@ package main.Piece.ChessPieces;
 
 import main.java.Chess.frontend.Cell;
 import main.java.Chess.frontend.Screen;
+
+import java.util.ArrayList;
+
 import main.Piece.Piece;
 /**********************************************************
  * Program Name   : King
@@ -76,58 +79,30 @@ public class King extends Piece
             }
         }
     }
-    private static boolean checkIfLaneClear(String side, int player) {
-        if(player == 1)
-        {
-            if(side.equals("left"))
-            {
-                for(int i = 1; i < 4; i++)
-                {
-                    if(Screen.cells[i][0].isOccupied())
-                    {
-                        return false;
-                    }
-                }
-                return true;
-            }
-            else
-            {
-                for(int i = 5; i < 7; i++)
-                {
-                    if(Screen.cells[i][0].isOccupied())
-                    {
-                        return false;
-                    }
-                }
+    public boolean checkIfLaneClear(Rook rook, Cell cells[][]) {
+        if(rook.rookWRight) {
+            if(cells[5][0].getPiece() == null && cells[6][0].getPiece() == null) {
                 return true;
             }
         }
-        else
-        {
-            if(side.equals("left"))
-            {
-                for(int i = 1; i < 4; i++)
-                {
-                    if(Screen.cells[i][7].isOccupied())
-                    {
-                        return false;
-                    }
-                }
-                return true;
-            }
-            else
-            {
-                for(int i = 5; i < 7; i++)
-                {
-                    if(Screen.cells[i][7].isOccupied())
-                    {
-                        return false;
-                    }
-                }
+        else if(rook.rookWLeft) {
+            if(cells[1][0].getPiece() == null && cells[2][0].getPiece() == null && cells[3][0].getPiece() == null) {
                 return true;
             }
         }
-    }
+        else if(rook.rookBRight) {
+            if(cells[5][7].getPiece() == null && cells[6][7].getPiece() == null) {
+                return true;
+            }
+        }
+        else if(rook.rookBLeft) {
+            if(cells[1][7].getPiece() == null && cells[2][7].getPiece() == null && cells[3][7].getPiece() == null) {
+                return true;
+            }
+        }
+        return false;
+     }
+
 
     private static Piece getRook(String side, int player) { // player 1 = white, player 2 = black
         if(player == 1)
@@ -154,70 +129,27 @@ public class King extends Piece
         }
     }
 
-    public void castling(Piece piece, int x, int y)
-    {
-        // removed gthe check to see if it is a king, logically speaking it should only be called if it is a king
+    public void castling(Rook rook,  Cell cells[][]) {
+        // depending on the rook and owner we know which side to castle
+        // we also know that the king is in the middle of the board
+        if(rook.rookWLeft) {
+            cells[2][0].setPiece(this);
+            cells[3][0].setPiece(rook);
+        }
+        else if(rook.rookWRight) {
+            cells[6][0].setPiece(this);
+            cells[5][0].setPiece(rook);
+        }
+        else if(rook.rookBLeft) {
+            cells[2][7].setPiece(this);
+            cells[3][7].setPiece(rook);
+        }
+        else if(rook.rookBRight) {
+            cells[6][7].setPiece(this);
+            cells[5][7].setPiece(rook);
+        }
 
-
-            if(piece.getOwnedBy() == 1)
-            {
-                Rook rook = (Rook) getRook("left", 1);
-                if(whiteKing == true && rook.hasNotMoved()) // if the king and rook have not moved
-                {
-                    if(checkIfLaneClear("left", 1))
-                    {
-                        if(x == 2 && y == 0)
-                        {
-                            Screen.cells[3][0].setPiece(Screen.cells[0][0].getPiece());
-                            Screen.cells[0][0].setPiece(null);
-                        }
-
-                    }
-                }
-                rook = (Rook) getRook("right", 1);
-                if(whiteKing && rook.hasNotMoved())
-                {
-                    if(checkIfLaneClear("right", 1))
-                    {
-                        if(x == 6 && y == 0)
-                        {
-                            Screen.cells[5][0].setPiece(Screen.cells[7][0].getPiece());
-                            Screen.cells[7][0].setPiece(null);
-                        }
-
-                    }
-                }
-            }
-            else
-            {
-                Rook rook = (Rook) getRook("left", 2);
-                if(blackKing && rook.hasNotMoved())
-                {
-                    if(!Screen.cells[5][7].isOccupied() && !Screen.cells[6][7].isOccupied())
-                    {
-                        if(x == 6 && y == 7)
-                        {
-                            Screen.cells[5][7].setPiece(Screen.cells[7][7].getPiece());
-                            Screen.cells[7][7].setPiece(null);
-                        }
-
-                    }
-                }
-                rook = (Rook) getRook("right", 2);
-                if(blackKing && rook.hasNotMoved())
-                {
-                    if(!Screen.cells[1][7].isOccupied() && !Screen.cells[2][7].isOccupied() &&  !Screen.cells[3][7].isOccupied())
-                    {
-                        if(x == 2 && y == 7)
-                        {
-                            Screen.cells[3][7].setPiece(Screen.cells[0][7].getPiece());
-                            Screen.cells[0][7].setPiece(null);
-                        }
-
-                    }
-                }
-            }
-    }   
+    }
     @Override
     public void move(Screen board, Cell start, Cell end) {
         // TODO Auto-generated method stub

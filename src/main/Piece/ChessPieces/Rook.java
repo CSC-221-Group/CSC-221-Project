@@ -24,10 +24,10 @@ public class Rook extends Piece
     //class constants
     //class variables 
     public String color;
-    public  boolean rookWLeft  = true;
-    public  boolean rookWRight = true;
-    public  boolean rookBLeft = true;
-    public  boolean rookBRight = true;
+    public  boolean rookWLeft  = false;
+    public  boolean rookWRight = false;
+    public  boolean rookBLeft = false;
+    public  boolean rookBRight = false;
     /************************************/
     /**
      * Consructor of King.

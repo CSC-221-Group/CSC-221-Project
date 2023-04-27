@@ -45,7 +45,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     public static int gameSize = 1;                                    //size of the board
     private Timer timer;                                               //triggers actionPerformed()
     public static int currentTurn = 1;                                        //1 = player1, 2 = player2
-    private static  ArrayList<Piece> p1Pieces = new ArrayList<Piece>();//Pieces owned by White
+    private static ArrayList<Piece> p1Pieces = new ArrayList<Piece>();//Pieces owned by White
     private static ArrayList<Piece> p2Pieces = new ArrayList<Piece>(); //Pieces owned by Black
     public static Cell[][] cells = new Cell[ROWS][COLS];               //Boards squares
     /**********************************************************
@@ -180,9 +180,31 @@ public class Screen extends JPanel implements ActionListener, KeyListener
             }//END IF
 
             //IF square is occupied 
+            
             if (cell.isOccupied() && !Piece.capture(currentPiece, x, y))
             {
                 //exit method
+                System.out.println("Square is occupied");
+                if(currentPiece.getClass() == King.class)
+            {
+                King king = (King)currentPiece;
+                if(king.didKingMove() == false)
+                {
+                    if(cell.isOccupied() && cell.getPiece().getClass() == Rook.class)
+                    {
+                        Rook rook = (Rook)cell.getPiece();
+                        if(rook.hasNotMoved() == false)
+                        {
+                            if(king.checkIfLaneClear(rook, cells)) {
+                                king.castling(rook, cells);
+                                currentPiece = null;
+                                repaint();
+                                setCurrentTurn();
+                            }
+                        }
+                    }
+                }
+            }
                 return;
             }//END IF
             
@@ -206,22 +228,6 @@ public class Screen extends JPanel implements ActionListener, KeyListener
             {
                 //updated guiCreator move JLabel
                 guiCreator.move.setText("Black" + currentPiece.toString() +"(" +  x + "," + y + ")");
-            }
-           
-            if(currentPiece.getClass() == King.class)
-            {
-                King king = (King)currentPiece;
-                if(king.didKingMove() == false)
-                {
-                    if(cell.isOccupied() && cell.getPiece().getClass() == Rook.class)
-                    {
-                        Rook rook = (Rook)cell.getPiece();
-                        if(rook.hasNotMoved() == false)
-                        {
-                            // King.castling(currentPiece, x, y);
-                        }
-                    }
-                }
             }
 
 
@@ -261,24 +267,20 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     }//end Screen
 
 // useful for finding single pieces (King / Queen )
-    private Piece findPiece(Class c, int player) {
-        for (int i = 0; i < ROWS; i++) {
-            for (int j = 0; j < COLS; j++)
-            {
-                if (cells[i][j].isOccupied() && cells[i][j].getPiece().getClass() == c && cells[i][j].getPiece().getOwnedBy() == player)
-                {
-                    return cells[i][j].getPiece();
-                }
+    private Piece findPiece(Class c, ArrayList<Piece> Pieces) {
+        for (Piece p : Pieces) {
+            if (p.getClass() == c) {
+                return p;
             }
         }
         return null;
     }
 
     private void initVariables() {
-        King abstractKing = (King)findPiece(King.class, 1);
+        King abstractKing = (King)findPiece(King.class, p1Pieces);
         abstractKing.whiteKing = true;
         System.out.println("The white King is at" + abstractKing.getPos().x + "," + abstractKing.getPos().y);
-        abstractKing = (King)findPiece(King.class, 2);
+        abstractKing = (King)findPiece(King.class, p2Pieces);
         abstractKing.blackKing = true;
         System.out.println("The black King is at" + abstractKing.getPos().x + "," + abstractKing.getPos().y);
         Rook abstractRook = (Rook)cells[0][7].getPiece();
@@ -292,11 +294,9 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         System.out.println("The white rook is at" + abstractRook.getPos().x + "," + abstractRook.getPos().y);
         abstractRook = (Rook)cells[7][0].getPiece();
         abstractRook.rookWRight = true;
-        // find the black rook on the left side
-
-
-        
-    }
+        System.out.println("Abstract Rooks's rookWRight is " + abstractRook.rookWRight + " RookWLeft " + abstractRook.rookWLeft + " RookBRight " + abstractRook.rookBRight + " RookBLeft " + abstractRook.rookBLeft);
+        System.out.println("The white rook is at" + abstractRook.getPos().x + "," + abstractRook.getPos().y);
+    }   
 
 
     /**
@@ -365,6 +365,15 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     @Override
     public void keyPressed(KeyEvent e) 
     {
+        int key = e.getKeyCode();
+        if (key == KeyEvent.VK_ESCAPE) 
+        {
+            System.exit(0);
+        }
+        if (key == KeyEvent.VK_R) 
+        {
+            
+        }
     }//end keypressed 
     @Override
     public void keyReleased(KeyEvent e) 
