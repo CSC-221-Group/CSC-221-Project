@@ -42,14 +42,14 @@ import java.io.IOException;
 public class guiCreator
 {
     //Class constants
-    private static final int WIDTH = 500;
+    private static final int WIDTH = 600;
     private static final int HEIGHT = 400;
     private static final int FONT_SIZE = 48;
     private static final int BUTTON_WIDTH = 200;
     private static final int BUTTON_HEIGHT = 64;
     private static final int OPTIONS_BUTTON_WIDTH = 32;
     private static final int OPTIONS_BUTTON_HEIGHT = 32;
-    public static int gameSize = 6;
+    public static int gameSize = 1;
     //Class variables 
     public static int turn = 1; 
     public static Screen screen = new Screen(gameSize);//
@@ -274,8 +274,8 @@ public class guiCreator
     public static void chessGame()
     {
         //local constants 
-        final int WIDTH = 360;
-        final int HEIGHT = 294;
+        final int WIDTH = 400;
+        final int HEIGHT = 300;
         //local variables 
         //TODO make screen chess class
         move.setText(null);
@@ -300,16 +300,16 @@ public class guiCreator
         {
             //Set variables to fit board
             chessFrame.setSize(new Dimension(WIDTH,HEIGHT));
-            move.setFont(new Font("Colon", Font.BOLD, 10));
-            movePanel.setBounds(new Rectangle(new Point(250,190),new Dimension(100, 100)));
+            move.setFont(new Font("Colon", Font.BOLD, 7));
+            movePanel.setBounds(new Rectangle(new Point(256,164),new Dimension(96, 20)));
         }
         //ELSE gameSize == 2
         else
         {
             //Set variables to fit board
             chessFrame.setSize(new Dimension(WIDTH*gameSize,HEIGHT*gameSize));
-            move.setFont(new Font("Colon", Font.BOLD, 24));
-            movePanel.setBounds(new Rectangle(new Point(510,420),new Dimension(200, 100)));
+            move.setFont(new Font("Colon", Font.BOLD, 14));
+            movePanel.setBounds(new Rectangle(new Point(256*gameSize,164*gameSize),new Dimension(192, 40)));
         }
         //ELSE
 

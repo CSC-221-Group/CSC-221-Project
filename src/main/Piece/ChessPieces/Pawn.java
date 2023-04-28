@@ -60,13 +60,11 @@ public class Pawn extends Piece {
                 //white moves up the y axis
                 if(end.getX() == start.getX() + 1 && end.getY() == start.getY() + 1) {
                     // we can move the piece
-                    end.setPiece(start.getPiece());
-                    start.setPiece(null);
+                    capture(end.getPiece(), start, end);
                     canDoubleMovement = false;
                 } else if(end.getX() == start.getX() - 1 && end.getY() == start.getY() + 1) {
                     // we can move the piece
-                    end.setPiece(start.getPiece());
-                    start.setPiece(null);
+                    capture(end.getPiece(), start, end);
                     canDoubleMovement = false;
                 } else {
                     throw new InvalidMovementException("Invalid move");
@@ -75,13 +73,11 @@ public class Pawn extends Piece {
                 //black moves down the y axis
                 if(end.getX() == start.getX() + 1 && end.getY() == start.getY() - 1) {
                     // we can move the piece
-                    end.setPiece(start.getPiece());
-                    start.setPiece(null);
+                    capture(end.getPiece(), start, end);
                     canDoubleMovement = false;
                 } else if(end.getX() == start.getX() - 1 && end.getY() == start.getY() - 1) {
                     // we can move the piece
-                    end.setPiece(start.getPiece());
-                    start.setPiece(null);
+                    capture(end.getPiece(), start, end);
                     canDoubleMovement = false;
                 } else {
                     throw new InvalidMovementException("Invalid move");
