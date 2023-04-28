@@ -228,36 +228,31 @@ public abstract class Piece
     {
         return captured;
     }//end is captured
+
+    public void setCaptured(boolean captured) 
+    {
+        this.captured = captured;
+    }//end setCaptured
     
-    public static boolean capture(Piece piece, int x , int y)
+    public boolean capture(Piece endPiece, Cell start, Cell end)
     {
         boolean capture = false;
-        if(piece != null && Screen.cells[x][y].getPiece() != null)
-        {
-            if(piece.getOwnedBy() == 1 && Screen.cells[x][y].getPiece().getOwnedBy() == 2)
-            {
+        if(endPiece != null) {
+            if(endPiece.getOwnedBy() != getOwnedBy()) {
                 capture = true;
-                Screen.cells[x][y].setPiece(null);
-                Screen.cells[x][y].setPiece(piece);
+                endPiece.setCaptured(true);
+                end.setPiece(null);
+                start.setPiece(null);
+                end.setPiece(this);
+                setPos(end.getX(), end.getY());
             }
-            else if(piece.getOwnedBy() == 2 && Screen.cells[x][y].getPiece().getOwnedBy() == 1)
-            {
-                capture = true;
-                Screen.cells[x][y].setPiece(null);
-                Screen.cells[x][y].setPiece(piece);
-            }
-            if(y == 7 && piece.getOwnedBy() == 1 || y == 0 && piece.getOwnedBy() == 2)
-            {
-                if(piece.getClass() == Pawn.class)
-                {
-                     guiCreator.promoteScreen(x, y);
-                }
-            }
+
         }
-        //setCurrentTurn();
        
        return capture;
    }
     public abstract void move(Screen board, Cell start, Cell end) throws InvalidMovementException;
+
+
     
 }//End Piece
