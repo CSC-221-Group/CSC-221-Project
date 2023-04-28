@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.*;
 //import java.util.Random;
 import java.awt.event.MouseEvent;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.awt.event.MouseAdapter;
 import main.Piece.ChessPieces.*;
@@ -166,15 +167,17 @@ public class Screen extends JPanel implements ActionListener, KeyListener {
         }// end mouseRelease
 
         /**
-         * Updates the location of the current piece based on
-         * the coordinates of the mouse release event.
-         * 
-         * @param e The mouse release event.
-         * @throws InvalidMovementException
-         */
-        public void updateLocation(MouseEvent e) throws InvalidMovementException {
-            // local constants
-            // local variables
+        * Updates the location of the current piece based on 
+        * the coordinates of the mouse release event.
+        * @param e The mouse release event.
+        */
+
+
+        public void updateLocation(MouseEvent e)
+        {
+            //local constants
+            final char[] letters = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
+            //local variables
             int x = e.getX() / (TILE_SIZE * gameSize);
             int y = (ROWS - 1) - (e.getY() / (TILE_SIZE * gameSize));
             Cell cell = cells[x][y];
@@ -243,10 +246,10 @@ public class Screen extends JPanel implements ActionListener, KeyListener {
                 // piece moved successfully
                 if (currentPiece.getOwnedBy() == 1) {
                     // updated guiCreator move JLabel
-                    displayToTextBox("White" + currentPiece.toString() + "(" + x + "," + y + ")");
+                    displayToTextBox("White" + currentPiece.toString() + letters[x-1] + y");
                 } else {
                     // updated guiCreator move JLabel
-                    displayToTextBox("Black" + currentPiece.toString() + "(" + x + "," + y + ")");
+                    displayToTextBox("Black" + currentPiece.toString() + letters[x-1] + y");
                 }
     
                 if (currentPiece.getClass() == Pawn.class) {

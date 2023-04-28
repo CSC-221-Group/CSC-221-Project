@@ -25,7 +25,6 @@ public class Pawn extends Piece {
     public boolean canDoubleMovement = true;
     public static int enPassantW = 0;
     public static int enPassantB = 0;
-
     /************************************/
     /**
      * Consructor of Pawn.

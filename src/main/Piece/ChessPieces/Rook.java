@@ -54,7 +54,6 @@ public class Rook extends Piece
             return false;
         }
     }
- 
 
     @Override
     public void move(Screen board, Cell start, Cell end) {

@@ -103,7 +103,6 @@ public class King extends Piece
         return false;
      }
 
-
     private static Piece getRook(String side, int player) { // player 1 = white, player 2 = black
         if(player == 1)
         {
@@ -128,7 +127,6 @@ public class King extends Piece
             }
         }
     }
-
     public void castling(Rook rook,  Cell cells[][]) {
         // depending on the rook and owner we know which side to castle
         // we also know that the king is in the middle of the board
