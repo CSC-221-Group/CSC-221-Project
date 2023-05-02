@@ -3,6 +3,7 @@ package main.Piece.ChessPieces;
 import main.java.Chess.frontend.Cell;
 import main.java.Chess.frontend.Screen;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import main.Piece.Piece;
@@ -157,5 +158,10 @@ public class King extends Piece
     public String toString()
     {
         return "King";
+    }
+
+    @Override
+    public Array getAllPossibleMoves() {
+        return null;
     }
 }

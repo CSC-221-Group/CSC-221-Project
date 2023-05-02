@@ -77,6 +77,11 @@ public class Screen extends JPanel implements ActionListener, KeyListener {
         int preX, preY;
         boolean mousePressed = false;
         public static Piece currentPiece = null;
+        private Screen board;
+
+        public mouseAdapter(Screen board) {
+            this.board = board;
+        }
 
         /*****************************************/
         private void displayLocationError() {
@@ -166,7 +171,6 @@ public class Screen extends JPanel implements ActionListener, KeyListener {
             }
 
         }// end mouseRelease
-
         /**
          * Updates the location of the current piece based on
          * the coordinates of the mouse release event.
@@ -227,7 +231,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener {
                         guiCreator.promoteScreen(x, y);
                     } // END IF
                 } // END IF
-                currentPiece.move(null, cells[preX][preY], cells[x][y]);
+                currentPiece.move(board, cells[preX][preY], cells[x][y]);
                 String information = "";
                 if (cells[preX][preY].isOccupied() == false) {
                     // piece moved successfully
@@ -287,6 +291,19 @@ public class Screen extends JPanel implements ActionListener, KeyListener {
             return null;
         }
 
+        public Cell getCell(int x, int y) {
+            return cells[x][y];
+        }
+
+        public Screen getScreen() {
+            return this;
+        }
+
+
+
+
+
+
         private void initVariables() {
             King abstractKing = (King) findPiece(King.class, p1Pieces);
             abstractKing.whiteKing = true;
@@ -314,8 +331,8 @@ public class Screen extends JPanel implements ActionListener, KeyListener {
             addKeyListener(this);
             setFocusable(true);
             setPreferredSize(new Dimension(COLS * (TILE_SIZE * gameSize), ROWS * (TILE_SIZE * gameSize)));
-            addMouseMotionListener(new mouseAdapter());
-            addMouseListener(new mouseAdapter());
+            addMouseMotionListener(new mouseAdapter(this));
+            addMouseListener(new mouseAdapter(this));
             setBackground(Color.BLACK);
             initGame();
             initVariables();
