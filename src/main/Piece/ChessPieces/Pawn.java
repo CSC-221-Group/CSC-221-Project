@@ -52,7 +52,8 @@ public class Pawn extends Piece {
      * @throws InvalidMovementException
      */
     @Override
-    public void move(Screen board, Cell start, Cell end) throws InvalidMovementException {
+    public void move(Cell cell[][],Screen board, Cell start, Cell end) throws InvalidMovementException {
+       
         // lets just isntantly detect capturing
         if (end.getPiece() != null) {
             // this is capturing
@@ -157,5 +158,4 @@ public class Pawn extends Piece {
     public String toString() {
         return "Pawn";
     }
-
 }

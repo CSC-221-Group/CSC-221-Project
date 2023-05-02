@@ -2,6 +2,7 @@ package main.Piece.ChessPieces;
 
 import main.java.Chess.frontend.Cell;
 import main.java.Chess.frontend.Screen;
+import main.Piece.InvalidMovementException;
 import main.Piece.Piece;
 /**********************************************************
  * Program Name   : Queen
@@ -38,14 +39,104 @@ public class Queen extends Piece
         this.color = color;
     }
     @Override
-    public void move(Screen board, Cell start, Cell end) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'move'");
-    }
-    @Override
     public String toString()
     {
         return "Queen";
+    }
+    @Override
+    public void move(Cell[][] cells, Screen board, Cell start, Cell end) throws InvalidMovementException
+    {
+        int endX = Math.abs(start.getX() - end.getX());
+        int endY = Math.abs(start.getY() - end.getY());
+        if(end.getPiece() != null)
+        {
+           
+            
+            if(end.getY() != start.getY() && end.getX() != start.getX())
+            {
+                if(endX == endY && diagonalCheck(cells, start, end))
+                {
+                    capture(end.getPiece(), start, end);
+                }  
+            }
+            else if(end.getY() == start.getY() || end.getX() == start.getX())
+            {
+                for(int i = 0;i <= 7; i++)
+                {  
+                    if(end.getX() == start.getX() && end.getY() == start.getY() + i && laneCheckYAxis(cells, start, end))
+                    {
+                        capture(end.getPiece(), start, end);
+                    }
+                    else if(end.getX() == start.getX() + i && end.getY() == start.getY() && laneCheckXAxis(cells, start, end))
+                    {
+                        capture(end.getPiece(), start, end);
+                    }
+                    else if(end.getX() == start.getX() && end.getY() == start.getY() - i && laneCheckYAxis(cells, start, end))
+                    {
+                        capture(end.getPiece(), start, end);
+                    }
+                    else if(end.getX() == start.getX() - i && end.getY() == start.getY() && laneCheckXAxis(cells, start, end))
+                    {
+                        capture(end.getPiece(), start, end);
+                    }
+                    else if(!capture(end.getPiece(), start, end))
+                    {
+                        throw new InvalidMovementException("Invalid move");
+                    }
+                }
+            }
+
+        }
+        else
+        {
+            if(end.getY() != start.getY() && end.getX() != start.getX())
+            {
+                if(endX == endY && diagonalCheck(cells, start, end))
+                {
+                    end.setPiece(start.getPiece());
+                    start.setPiece(null);
+                }  
+                else
+                {
+                    throw new InvalidMovementException("Invalid move");
+                }
+            }
+            else if(end.getY() == start.getY() || end.getX() == start.getX())
+            {
+                for(int i = 0;i <= 7; i++)
+                { 
+                
+                    if(end.getX() == start.getX() - i && end.getY() == start.getY() && laneCheckXAxis(cells, start, end))
+                    {
+                        end.setPiece(start.getPiece());
+                        start.setPiece(null);
+                    }
+                    else if(end.getX() == start.getX() + i && end.getY() == start.getY() && laneCheckXAxis(cells, start, end))
+                    {
+                        end.setPiece(start.getPiece());
+                        start.setPiece(null);
+                    }
+                
+                    if(end.getX() == start.getX() && end.getY() == start.getY() - i && laneCheckYAxis(cells, start, end))
+                    {
+                        end.setPiece(start.getPiece());
+                        start.setPiece(null);
+                    }
+                    else if(end.getX() == start.getX() && end.getY() == start.getY() + i && laneCheckYAxis(cells, start, end))
+                    {
+                        end.setPiece(start.getPiece());
+                        start.setPiece(null);
+                    }
+                    if(i == 7)
+                    {
+                        if(start.getPiece() != null)
+                        {
+                            throw new InvalidMovementException("Invalid move");
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

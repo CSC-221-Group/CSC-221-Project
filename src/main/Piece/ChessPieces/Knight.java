@@ -2,6 +2,7 @@ package main.Piece.ChessPieces;
 
 import main.java.Chess.frontend.Cell;
 import main.java.Chess.frontend.Screen;
+import main.Piece.InvalidMovementException;
 import main.Piece.Piece;
 /**********************************************************
  * Program Name   : Knight
@@ -38,14 +39,14 @@ public class Knight extends Piece
         this.color = color;
     }
     @Override
-    public void move(Screen board, Cell start, Cell end) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'move'");
-    }
-    @Override
     public String toString()
     {
         return "Knight";
+    }
+    @Override
+    public void move(Cell[][] cells, Screen board, Cell start, Cell end) throws InvalidMovementException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'move'");
     }
 }
 

@@ -4,6 +4,7 @@ package main.Piece.ChessPieces;
 
 import main.java.Chess.frontend.Cell;
 import main.java.Chess.frontend.Screen;
+import main.Piece.InvalidMovementException;
 import main.Piece.Piece;
 /**********************************************************
  * Program Name   : Bishop
@@ -39,15 +40,39 @@ public class Bishop extends Piece
         loadImage(Chess,color + "Bishop");
         this.color = color;
     }//end Bishop
-    @Override
-    public void move(Screen board, Cell start, Cell end) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'move'");
-    }
     
     @Override
     public String toString()
     {
         return "Bishop";
     }
+
+    @Override
+    public void move(Cell[][] cells, Screen board, Cell start, Cell end) throws InvalidMovementException 
+    {
+        int endX = Math.abs(start.getX() - end.getX());
+        int endY = Math.abs(start.getY() - end.getY());
+        if(end.getPiece() != null)
+        {
+           
+            if(endX == endY && diagonalCheck(cells, start, end))
+            {
+                capture(end.getPiece(), start, end);
+            }   
+            
+        }
+        else
+        {
+            if(endX == endY && diagonalCheck(cells, start, end))
+            {
+                end.setPiece(start.getPiece());
+                start.setPiece(null);
+            }  
+            else
+            {
+                throw new InvalidMovementException("Invalid move");
+            }
+        }
+    }
 }
+

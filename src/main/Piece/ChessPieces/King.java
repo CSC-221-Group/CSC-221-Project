@@ -2,9 +2,7 @@ package main.Piece.ChessPieces;
 
 import main.java.Chess.frontend.Cell;
 import main.java.Chess.frontend.Screen;
-
-import java.util.ArrayList;
-
+import main.Piece.InvalidMovementException;
 import main.Piece.Piece;
 /**********************************************************
  * Program Name   : King
@@ -149,13 +147,111 @@ public class King extends Piece
 
     }
     @Override
-    public void move(Screen board, Cell start, Cell end) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'move'");
-    }
-    @Override
     public String toString()
     {
         return "King";
+    }
+    @Override
+    public void move(Cell[][] cells, Screen board, Cell start, Cell end) throws InvalidMovementException
+    {
+        if(end.getPiece() != null)
+        {
+            if(end.getY() > start.getY() && start.getY() < 8)
+            {
+                if((end.getX() == start.getX() + 1) && end.getY() == start.getY() + 1)
+                {
+                    capture(end.getPiece(), start, end);
+                }
+                else if((end.getX() == start.getX() - 1) && end.getY() == start.getY() + 1)
+                {
+                    capture(end.getPiece(), start, end);
+                }
+                else if(end.getX() == start.getX() && end.getY() == start.getY() + 1)
+                {
+                    capture(end.getPiece(), start, end);
+                }
+            }
+            else if(end.getY() == start.getY())
+            {
+                if(end.getX() == start.getX() - 1 && end.getY() == start.getY())
+                {
+                    capture(end.getPiece(), start, end);
+                }
+                else if(end.getX() == start.getX() + 1 && end.getY() == start.getY())
+                {
+                    capture(end.getPiece(), start, end);
+                }
+                
+            }
+            else if(end.getY()< start.getY())
+            {
+                if((end.getX() == start.getX() + 1) && end.getY() == start.getY() - 1)
+                {
+                    capture(end.getPiece(), start, end);
+                }
+                else if(end.getX() == start.getX() - 1 && end.getY() == start.getY() - 1)
+                {
+                    capture(end.getPiece(), start, end);
+                }
+                else if(end.getX() == start.getX() && end.getY() == start.getY() - 1)
+                {
+                    capture(end.getPiece(), start, end);
+                }
+            }
+        }
+        else 
+        {
+            if(end.getY() > start.getY() && start.getY() < 8)
+            {
+                if((end.getX() == start.getX() + 1) && end.getY() == start.getY() + 1)
+                {
+                    end.setPiece(start.getPiece());
+                    start.setPiece(null);
+                }
+                else if((end.getX() == start.getX() - 1) && end.getY() == start.getY() + 1)
+                {
+                    end.setPiece(start.getPiece());
+                    start.setPiece(null);
+                }
+                else if(end.getX() == start.getX() && end.getY() == start.getY() + 1)
+                {
+                    end.setPiece(start.getPiece());
+                    start.setPiece(null);
+                }
+            }
+            else if(end.getY() == start.getY())
+            {
+                if(end.getX() == start.getX() - 1 && end.getY() == start.getY())
+                {
+                    end.setPiece(start.getPiece());
+                    start.setPiece(null);
+                }
+                else if(end.getX() == start.getX() + 1 && end.getY() == start.getY())
+                {
+                    end.setPiece(start.getPiece());
+                    start.setPiece(null);
+                }
+                
+            }
+            else if(end.getY()< start.getY())
+            {
+                if((end.getX() == start.getX() + 1) && end.getY() == start.getY() - 1)
+                {
+                    end.setPiece(start.getPiece());
+                    start.setPiece(null);
+                }
+                else if(end.getX() == start.getX() - 1 && end.getY() == start.getY() - 1)
+                {
+                    end.setPiece(start.getPiece());
+                    start.setPiece(null);
+                }
+                else if(end.getX() == start.getX() && end.getY() == start.getY() - 1)
+                {
+                    end.setPiece(start.getPiece());
+                    start.setPiece(null);
+                }
+            }
+        }
+        
     }
 }

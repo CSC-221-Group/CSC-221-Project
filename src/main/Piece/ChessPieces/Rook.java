@@ -2,7 +2,7 @@
 package main.Piece.ChessPieces;
 
 import java.awt.Point;
-
+import main.Piece.InvalidMovementException;
 import main.Piece.Piece;
 import main.java.Chess.frontend.Cell;
 import main.java.Chess.frontend.Screen;
@@ -54,15 +54,76 @@ public class Rook extends Piece
             return false;
         }
     }
-
+   
     @Override
-    public void move(Screen board, Cell start, Cell end) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'move'");
+    public void move(Cell cells[][],Screen board, Cell start, Cell end) throws InvalidMovementException 
+    {
+        if(end.getPiece() != null)
+        {
+                for(int i = 0;i <= 7; i++)
+                {  
+                    if(end.getX() == start.getX() && end.getY() == start.getY() + i && laneCheckYAxis(cells, start, end))
+                    {
+                        capture(end.getPiece(), start, end);
+                    }
+                    else if(end.getX() == start.getX() + i && end.getY() == start.getY() && laneCheckXAxis(cells, start, end))
+                    {
+                        capture(end.getPiece(), start, end);
+                    }
+                    else if(end.getX() == start.getX() && end.getY() == start.getY() - i && laneCheckYAxis(cells, start, end))
+                    {
+                        capture(end.getPiece(), start, end);
+                    }
+                    else if(end.getX() == start.getX() - i && end.getY() == start.getY() && laneCheckXAxis(cells, start, end))
+                    {
+                        capture(end.getPiece(), start, end);
+                    }
+                    else if(!capture(end.getPiece(), start, end))
+                    {
+                        throw new InvalidMovementException("Invalid move");
+                    }
+                }
+                
+        }
+        else
+        {
+            for(int i = 0;i <= 7; i++)
+            { 
+            
+                if(end.getX() == start.getX() - i && end.getY() == start.getY() && laneCheckXAxis(cells, start, end))
+                {
+                    end.setPiece(start.getPiece());
+                    start.setPiece(null);
+                }
+                else if(end.getX() == start.getX() + i && end.getY() == start.getY() && laneCheckXAxis(cells, start, end))
+                {
+                    end.setPiece(start.getPiece());
+                    start.setPiece(null);
+                }
+            
+                if(end.getX() == start.getX() && end.getY() == start.getY() - i && laneCheckYAxis(cells, start, end))
+                {
+                    end.setPiece(start.getPiece());
+                    start.setPiece(null);
+                }
+                else if(end.getX() == start.getX() && end.getY() == start.getY() + i && laneCheckYAxis(cells, start, end))
+                {
+                    end.setPiece(start.getPiece());
+                    start.setPiece(null);
+                }
+                if(i == 7)
+                {
+                    if(start.getPiece() != null)
+                    {
+                        throw new InvalidMovementException("Invalid move");
+                    }
+                }
+            }
+        }
     }
     @Override
     public String toString()
     {
         return "Rook";
     }
-}    
+}

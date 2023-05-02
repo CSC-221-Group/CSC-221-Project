@@ -5,12 +5,8 @@ import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-
-import main.Piece.ChessPieces.Pawn;
 import main.java.Chess.frontend.Cell;
 import main.java.Chess.frontend.Screen;
-import main.java.Chess.frontend.guiCreator;
-
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 /**********************************************************
@@ -251,6 +247,105 @@ public abstract class Piece
        
        return capture;
    }
-    public abstract void move(Screen board, Cell start, Cell end) throws InvalidMovementException;
-    
+   public  boolean laneCheckYAxis(Cell cells[][], Cell start, Cell end)
+    {
+        boolean laneCheck = true;
+        for(int i = 0;i <= 7; i++)
+        {
+            System.out.println("Test1 I=" + i);
+            if(end.getY() > start.getY())
+            {  System.out.println("Test2 I=" + i);
+                if(end.getY() - i > -1 && end.getY() - i != start.getY() && end.getY() - i > start.getY())
+                {            System.out.println("Test3 I=" + i);
+                    if(cells[end.getX()][end.getY() - i].getPiece() != null )
+                    {
+                        System.out.println("Test4 I=" + i);
+                        laneCheck =  false;
+                    }
+                }
+            }
+            else if(end.getY() < start.getY())
+            {
+               if(end.getY() + i < 8 && end.getY() + i != start.getY()&& end.getY() + i < start.getY())
+                {
+                    System.out.println("Test1 5=" + i);
+                    if(cells[end.getX()][end.getY() + i].getPiece() != null)
+                    {
+                        System.out.println("Test6 I=" + i);
+                        laneCheck = false;
+                    }
+                }
+            }    
+        }
+        System.out.println(laneCheck);
+       return laneCheck;
+    }
+    public boolean laneCheckXAxis(Cell cells [][], Cell start, Cell end)
+    {
+        boolean laneCheck = true;
+
+        for(int i = 0;i <= 7; i++)
+        {
+            if(end.getX() > start.getX())
+            {
+                if(end.getX() - i > -1 && end.getX() - i != start.getX() && end.getX() - i < start.getX())
+                { 
+                    if(cells[end.getX() - i][end.getY()].getPiece() != null)
+                    {
+                        laneCheck =  false;
+                    }
+                }
+            }
+            else if(end.getX() < start.getX())
+            {
+                if(end.getX() + i < 8 && end.getX() + i != start.getX() && end.getX() + i < start.getX())
+                {
+                    if(cells[end.getX() + i][end.getY()].getPiece() != null)
+                    {
+                        laneCheck = false;
+                    }
+                }
+            }   
+        }
+        return laneCheck;
+    }
+    public boolean diagonalCheck(Cell cells [][], Cell start, Cell end)
+    {
+        boolean diagonalCheck = true;
+        int endX = Math.abs(start.getX() - end.getX());
+        for(int i = 1; i < endX; i++)
+        {
+            if(end.getX() < start.getX() && end.getY() > start.getY())
+            {
+                if(cells[start.getX() - i][start.getY() + i].getPiece() != null)
+                {
+                    diagonalCheck = false;
+                }
+            } 
+            else if(end.getX() > start.getX() && end.getY() > start.getY())
+            {
+                if(cells[start.getX() + i][start.getY() + i].getPiece() != null)
+                {
+                    diagonalCheck = false;
+                }
+            }
+            else if(end.getX() > start.getX() && end.getY() < start.getY())
+            {
+                if(cells[start.getX() + i][start.getY() - i].getPiece() != null)
+                {
+                    diagonalCheck = false;
+                }
+            }
+            else if(end.getX() < start.getX() && end.getY() < start.getY())
+            {
+                if(cells[start.getX() - i][start.getY() - i].getPiece() != null)
+                {
+                    diagonalCheck = false;
+                }
+            }
+
+        }
+        return diagonalCheck;
+    }
+    public abstract void move(Cell cells[][],Screen board, Cell start, Cell end) throws InvalidMovementException;
 }//End Piece
