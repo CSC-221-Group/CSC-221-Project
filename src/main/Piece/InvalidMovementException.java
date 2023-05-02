@@ -13,7 +13,8 @@ public class InvalidMovementException extends Exception {
      *
      * @param msg the message.
      */
-    public InvalidMovementException(String msg) {
+    public InvalidMovementException(String msg) 
+{
         super(msg);
     }
     public InvalidMovementException()

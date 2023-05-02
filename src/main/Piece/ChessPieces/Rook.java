@@ -45,7 +45,8 @@ public class Rook extends Piece
         loadImage(Chess,color + "Rook");
         this.color = color;
     }
-    public boolean hasNotMoved() {
+    public boolean hasNotMoved()
+     {
         Point pos = getPos();
         if(getOwnedBy() == 1 && pos.x == 0 && pos.y == 0) {
             return true;
@@ -128,102 +129,19 @@ public class Rook extends Piece
         return "Rook";
     }
 
-    // @Override
-    // public Array getAllPossibleMoves() {
-    //     return null;
-    // }
+    @Override
+    public Cell[][] getAllPossibleMoves(Screen board)
+    {
+        //Local Constants
+        //Local Variables
+        Cell[][] possibleMoves = new Cell[4][];
+        /*****************************************************/
+        possibleMoves[1] = getPotentialMoves(1,0,board);
+        possibleMoves[2] = getPotentialMoves(-1,0,board);
+        possibleMoves[3] = getPotentialMoves(0,1,board);
+        possibleMoves[4] = getPotentialMoves(0,-1,board);
+        return possibleMoves;
+    }
+
+    
 }
-// public void move(Screen board, Cell start, Cell end) throws InvalidMovementException {
-//     if(end.getPiece() != null) {
-//         // This is capturing
-//         if(start.getX() == end.getX()) {
-//             // assume this is a vertial move
-//             if(getOwnedBy() == 1) {
-//                 // white moves up the y axis
-//                 if(start.getY() < end.getY()) {
-//                     // moving up
-//                     System.out.println("Checking path: " + start.getY() + " to " + end.getY());
-//                     if(checkPotentialPath(board, start, end, 0, 1)) {
-                        
-//                         // move is valid
-//                         capture(end.getPiece(), start, end);
-//                     }
-//                 } else {
-//                     // moving down
-//                     if(checkPotentialPath(board, start, end, 0, -1)) {
-//                         // move is valid
-//                         capture(end.getPiece(), start, end);
-//                     }
-//                 }
-//             } else {
-//                 // black moves down the y axis
-//                 if(start.getY() < end.getY()) {
-//                     // moving up
-//                     if(checkPotentialPath(board, start, end, 0, 1)) {
-//                         // move is valid
-//                         capture(end.getPiece(), start, end);
-//                     }
-//                 } else {
-//                     // moving down
-//                     if(checkPotentialPath(board, start, end, 0, -1)) {
-//                         // move is valid
-//                         capture(end.getPiece(), start, end);
-//                     }
-//                 }
-//             }
-//         } else if(start.getY() == end.getY()) {
-//             int x = start.getX() < end.getX() ? 1 : -1;
-//             if(checkPotentialPath(board, start, end, x, 0)) {
-//                 // move is valid
-//                 capture(end.getPiece(), start, end);
-//             }
-//         }
-//     } else {
-//         // Normal movement, not capture
-//         if(start.getX() == end.getX()) {
-//             // assume this is a vertial move
-//             if(getOwnedBy() == 1) {
-//                 // white moves up the y axis
-//                 if(start.getY() < end.getY()) {
-//                     // moving up
-//                     if(checkPotentialPath(board, start, end, 0, 1)) {
-//                         // move is valid
-//                         end.setPiece(start.getPiece());
-//                         start.setPiece(null);
-//                     }
-//                 } else {
-//                     // moving down
-//                     if(checkPotentialPath(board, start, end, 0, -1)) {
-//                         // move is valid
-//                         end.setPiece(start.getPiece());
-//                         start.setPiece(null);
-//                     }
-//                 }
-//             } else {
-//                 // black moves down the y axis
-//                 if(start.getY() < end.getY()) {
-//                     // moving up
-//                     if(checkPotentialPath(board, start, end, 0, 1)) {
-//                         // move is valid
-//                         end.setPiece(start.getPiece());
-//                         start.setPiece(null);
-//                     }
-//                 } else {
-//                     // moving down
-//                     if(checkPotentialPath(board, start, end, 0, -1)) {
-//                         // move is valid
-//                         end.setPiece(start.getPiece());
-//                         start.setPiece(null);
-//                     }
-//                 }
-//             }
-//         } else if(start.getY() == end.getY()) {
-//             int x = start.getX() < end.getX() ? 1 : -1;
-//             if(checkPotentialPath(board, start, end, x, 0)) {
-//                 // move is valid
-//                 end.setPiece(start.getPiece());
-//                 start.setPiece(null);
-//             }
-//         }
-//     }
-// }

@@ -38,7 +38,8 @@ public class CheckerPiece extends Piece
         this.color = color;
     }//end checkerPiece 
     @Override
-    public void move(Screen board, Cell start, Cell end) {
+    public void move(Screen board, Cell start, Cell end) 
+{
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'move'");
     }

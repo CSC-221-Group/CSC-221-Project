@@ -150,7 +150,8 @@ public class guiCreator
             // Read the image
             try {
                 icon = ImageIO.read(new File("images/" + text + "Gui.png"));
-            } catch (IOException e) {
+            } catch (IOException e) 
+{
                 System.out.println("Error: " + e);
                 return null;
             }

@@ -235,8 +235,10 @@ public abstract class Piece
     public boolean capture(Piece endPiece, Cell start, Cell end)
     {
         boolean capture = false;
-        if(endPiece != null) {
-            if(endPiece.getOwnedBy() != getOwnedBy()) {
+        if(endPiece != null) 
+{
+            if(endPiece.getOwnedBy() != getOwnedBy()) 
+{
                 capture = true;
                 endPiece.setCaptured(true);
                 end.setPiece(null);
@@ -250,77 +252,147 @@ public abstract class Piece
        return capture;
    }
 
-    // public boolean checkPotentialPath(Screen board, Cell start, Cell end, int x, int y) {
-    //     System.out.println("Checking potential path");
-    //     boolean pathClear = true;
-    //     int xDir = 0;
-    //     int yDir = 0;
-    //     if(x > 0) {
-    //         xDir = 1;
-    //     } else if(x < 0) {
-    //         xDir = -1;
-    //     }
-    //     if(y > 0) {
-    //         yDir = 1;
-    //     } else if(y < 0) {
-    //         yDir = -1;
-    //     }
-    //     int xStart = start.getX() + xDir;
-    //     int yStart = start.getY() + yDir;
-    //     int xEnd = end.getX() - start.getX(); // the distance between the start and end
-    //     int yEnd = end.getY() - start.getY(); // the distance between the start and end
-    //     System.out.println("xStart: " + xStart + " yStart: " + yStart + " xEnd: " + xEnd + " yEnd: " + yEnd);
-    //     System.out.println("yStart + i * yDir: " + (yStart + (1 * yDir)));
-    //     if(xEnd == 0) {
-    //         if(yDir == 1 ) {
-    //             for(int i = 0; i < Math.abs(yEnd); i++) {
-    //                 if(board.getCell(xStart, yStart + (i * yDir)).getPiece() != null&& board.getCell(end.getX(), end.getY()) != board.getCell(xStart, yStart + (i * yDir))) {
-    //                     System.out.println("Piece in the way");
-    //                     pathClear = false;
-    //                 }
-    //             }
-    //         } else {
-    //             for(int i = 0; i < Math.abs(yEnd); i++) {
-    //                 if(board.getCell(xStart, yStart + (i * yDir)).getPiece() != null && board.getCell(end.getX(), end.getY()) != board.getCell(xStart, yStart + (i * yDir))) {
-    //                     System.out.println("Piece in the way");
-    //                     pathClear = false;
-    //                 }
-    //             }
-    //         }
-    //     } else if(yEnd == 0) {
-    //         for(int i = 0; i < Math.abs(xEnd); i++) {
-    //             if(board.getCell(xStart + (i * xDir), yStart).getPiece() != null && board.getCell(end.getX(), end.getY()) != board.getCell(xStart, yStart + (i * yDir))) {
-    //                 pathClear = false;
-    //             }
-    //         }
-    //     } else if(Math.abs(xEnd) == Math.abs(yEnd)) {
-    //         for(int i = 0; i < Math.abs(xEnd); i++) {
-    //             if(board.getCell(xStart + (i * xDir), yStart + (i * yDir)).getPiece() != null && board.getCell(end.getX(), end.getY()) != board.getCell(xStart, yStart + (i * yDir))) {
-    //                 pathClear = false;
-    //             }
-    //         }
-    //     } else {
-    //         pathClear = false;
-    //     }
+//     // public boolean checkPotentialPath(Screen board, Cell start, Cell end, int x, int y) 
+// {
+//     //     System.out.println("Checking potential path");
+//     //     boolean pathClear = true;
+//     //     int xDir = 0;
+//     //     int yDir = 0;
+//     //     if(x > 0) 
+// {
+//     //         xDir = 1;
+//     //     } else if(x < 0) 
+// {
+//     //         xDir = -1;
+//     //     }
+//     //     if(y > 0) 
+// {
+//     //         yDir = 1;
+//     //     } else if(y < 0) 
+// {
+//     //         yDir = -1;
+//     //     }
+//     //     int xStart = start.getX() + xDir;
+//     //     int yStart = start.getY() + yDir;
+//     //     int xEnd = end.getX() - start.getX(); // the distance between the start and end
+//     //     int yEnd = end.getY() - start.getY(); // the distance between the start and end
+//     //     System.out.println("xStart: " + xStart + " yStart: " + yStart + " xEnd: " + xEnd + " yEnd: " + yEnd);
+//     //     System.out.println("yStart + i * yDir: " + (yStart + (1 * yDir)));
+//     //     if(xEnd == 0) 
+// {
+//     //         if(yDir == 1 ) 
+// {
+//     //             for(int i = 0; i < Math.abs(yEnd); i++) 
+// {
+//     //                 if(board.getCell(xStart, yStart + (i * yDir)).getPiece() != null&& board.getCell(end.getX(), end.getY()) != board.getCell(xStart, yStart + (i * yDir))) 
+// {
+//     //                     System.out.println("Piece in the way");
+//     //                     pathClear = false;
+//     //                 }
+//     //             }
+//     //         } else {
+//     //             for(int i = 0; i < Math.abs(yEnd); i++) 
+// {
+//     //                 if(board.getCell(xStart, yStart + (i * yDir)).getPiece() != null && board.getCell(end.getX(), end.getY()) != board.getCell(xStart, yStart + (i * yDir))) 
+// {
+//     //                     System.out.println("Piece in the way");
+//     //                     pathClear = false;
+//     //                 }
+//     //             }
+//     //         }
+//     //     } else if(yEnd == 0) 
+// {
+//     //         for(int i = 0; i < Math.abs(xEnd); i++) 
+// {
+//     //             if(board.getCell(xStart + (i * xDir), yStart).getPiece() != null && board.getCell(end.getX(), end.getY()) != board.getCell(xStart, yStart + (i * yDir))) 
+// {
+//     //                 pathClear = false;
+//     //             }
+//     //         }
+//     //     } else if(Math.abs(xEnd) == Math.abs(yEnd)) 
+// {
+//     //         for(int i = 0; i < Math.abs(xEnd); i++) 
+// {
+//     //             if(board.getCell(xStart + (i * xDir), yStart + (i * yDir)).getPiece() != null && board.getCell(end.getX(), end.getY()) != board.getCell(xStart, yStart + (i * yDir))) 
+// {
+//     //                 pathClear = false;
+//     //             }
+//     //         }
+//     //     } else {
+//     //         pathClear = false;
+//     //     }
         
-    //     return pathClear;
-    // }
+//     //     return pathClear;
+//     // }
 
-    // public abstract Array getAllPossibleMoves();
+
+/*
+    Start Potential Move Methods
+*/
+
+    public abstract Cell[][] getAllPossibleMoves(Screen board);
+
+    /*
+        This Method gets all potential moves for a piece given an x/y
+    */
+    public Cell[] getPotentialMoves(int x, int y, Screen board) {
+    // x / y is the direction it is moving in, increment it until it hits a piece or the edge of the board
+    //Local constants
+    //Local variables
+    Point pos = this.getPos();
+    Cell possibleMoves[] = new Cell[8];
+    /*****************************************************/
+    for(int i = 0; i < 8; i++)
+    {
+        if(board.getCell(pos.x + x, pos.y + y).getPiece() == null)
+        {
+            possibleMoves[i] = board.getCell(pos.x + x, pos.y + y);
+        }
+        else if(board.getCell(pos.x + x, pos.y + y).getPiece().getOwnedBy() != this.getOwnedBy())
+        {
+            possibleMoves[i] = board.getCell(pos.x + x, pos.y + y);
+            break;
+        }
+        else
+        {
+            break;
+        }
+        x+=x;
+        y+=y;
+    }
+    return possibleMoves;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
    public  boolean laneCheckYAxis(Cell cells[][], Cell start, Cell end)
     {
         boolean laneCheck = true;
         for(int i = 0;i <= 7; i++)
         {
-            System.out.println("Test1 I=" + i);
             if(end.getY() > start.getY())
             {  System.out.println("Test2 I=" + i);
                 if(end.getY() - i > -1 && end.getY() - i != start.getY() && end.getY() - i > start.getY())
-                {            System.out.println("Test3 I=" + i);
+                {
                     if(cells[end.getX()][end.getY() - i].getPiece() != null )
                     {
-                        System.out.println("Test4 I=" + i);
                         laneCheck =  false;
                     }
                 }
@@ -329,10 +401,8 @@ public abstract class Piece
             {
                if(end.getY() + i < 8 && end.getY() + i != start.getY()&& end.getY() + i < start.getY())
                 {
-                    System.out.println("Test1 5=" + i);
                     if(cells[end.getX()][end.getY() + i].getPiece() != null)
                     {
-                        System.out.println("Test6 I=" + i);
                         laneCheck = false;
                     }
                 }

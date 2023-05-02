@@ -139,6 +139,29 @@ public class Queen extends Piece
             }
         }
     }
+
+
+    @Override
+    public Cell[][] getAllPossibleMoves(Screen board)
+    {
+        // Local constants
+        // Local variables
+        Cell possibleMoves[][] = new Cell[8][];
+        /**************************************/
+        possibleMoves[0] = getPotentialMoves(1,1, board);
+        possibleMoves[1] = getPotentialMoves(1,-1, board);
+        possibleMoves[2] = getPotentialMoves(-1,1, board);
+        possibleMoves[3] = getPotentialMoves(-1,-1, board);
+        possibleMoves[4] = getPotentialMoves(0,1, board);
+        possibleMoves[5] = getPotentialMoves(1,0, board);
+        possibleMoves[6] = getPotentialMoves(0,-1, board);
+        possibleMoves[7] = getPotentialMoves(-1,0, board);
+        return possibleMoves;
+    }
+
+
+
+
 }
 
 

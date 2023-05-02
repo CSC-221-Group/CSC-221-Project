@@ -80,7 +80,8 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         public static Piece currentPiece = null;
         private Screen board;
 
-        public mouseAdapter(Screen board) {
+        public mouseAdapter(Screen board) 
+{
             this.board = board;
         }
 
@@ -293,11 +294,13 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         return null;
     }
 
-        public Cell getCell(int x, int y) {
+        public Cell getCell(int x, int y) 
+{
             return cells[x][y];
         }
 
-        public Screen getScreen() {
+        public Screen getScreen() 
+{
             return this;
         }
 
@@ -325,7 +328,8 @@ public class Screen extends JPanel implements ActionListener, KeyListener
          * Initializes the screen with appropriate listeners
          * and dimensions, and initializes the game.
          */
-        private void initScreen(int gameSize) {
+        private void initScreen(int gameSize) 
+{
             currentTurn = 1;
             // Pawn.enPassantW = 0;
             // Pawn.enPassantB = 0;

@@ -1,6 +1,10 @@
 package main.Piece.ChessPieces;
 import main.java.Chess.frontend.Cell;
 import main.java.Chess.frontend.Screen;
+
+import java.awt.Point;
+import java.lang.reflect.Array;
+
 import main.Piece.InvalidMovementException;
 import main.Piece.Piece;
 /**********************************************************
@@ -72,5 +76,22 @@ public class Bishop extends Piece
     {
         return "Bishop";
     }
+
+    @Override
+    public Cell[][] getAllPossibleMoves(Screen board)
+    {
+        //Local constants
+        //Local variables
+        Cell possibleMoves[][] = new Cell[4][];
+        /*****************************************************/
+        possibleMoves[0] = getPotentialMoves(1, 1, board);
+        possibleMoves[1] = getPotentialMoves(-1, 1, board);
+        possibleMoves[2] = getPotentialMoves(1, -1, board);
+        possibleMoves[3] = getPotentialMoves(-1, -1, board);
+        return possibleMoves;
+    }
+
+
+
 }
 
