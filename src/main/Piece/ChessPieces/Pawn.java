@@ -161,9 +161,9 @@ public class Pawn extends Piece {
     public String toString() {
         return "Pawn";
     }
-    @Override
-    public Array getAllPossibleMoves() {
-        return null;
-    }
+    // @Override
+    // public Array getAllPossibleMoves() {
+    //     return null;
+    // }
 
 }

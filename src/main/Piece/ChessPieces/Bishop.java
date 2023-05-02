@@ -1,14 +1,11 @@
-
-
 package main.Piece.ChessPieces;
-
 import main.java.Chess.frontend.Cell;
 import main.java.Chess.frontend.Screen;
 import main.Piece.InvalidMovementException;
 import main.Piece.Piece;
 /**********************************************************
  * Program Name   : Bishop
- * Author         : 
+ * Author         : Jordan/Alan
  * Date           : 3/19/23
  * Course/Section : Software Engineering 221-301
  * Program Description: This program sets what a bishop piece
@@ -18,20 +15,23 @@ import main.Piece.Piece;
  * -------
  * Bishop - sets color position and owner of bishop piece.
  * move - sets legal moves for bishop piece.
+ * toString - returns "Bishop".
  **********************************************************/
 public class Bishop extends Piece
 {
     //class constants
     //class variables 
-    public String color;
+    public String color; //Color of piece
     /************************************/
+
     /**
      * Consructor of Bishop.
      * Sets owner, color, and (x,y) position of bishop piece.
      * @param color - color of bishop piece.
      * @param x - x positon of bishop piece.
-     * @param y - y position of bishop piece 
-     * @param owner - sets owner of bishop piece,
+     * @param y - y position of bishop piece .
+     * @param owner - sets owner of bishop piece.
+     * @param board - sets the size of png of piece.
      */
     public Bishop(String color, int x, int y, int owner, Screen board)
     {
@@ -39,40 +39,38 @@ public class Bishop extends Piece
         String Chess = "Chess"; 
         loadImage(Chess,color + "Bishop");
         this.color = color;
-    }//end Bishop
+    }//END Bishop
     
+    /**
+     * This method determines what move the bishops can do.
+     * @throws InvalidMovementException - if move not legal it throws the exception 
+     */
+    @Override
+    public void move(Cell[][] cells, Screen board, Cell start, Cell end) throws InvalidMovementException 
+    {
+        //Local constants
+        //Local variables 
+        int endX = Math.abs(start.getX() - end.getX());//Absolute value of the starting X minus the ending X
+        int endY = Math.abs(start.getY() - end.getY());//Absolute value of the starting Y minus the ending Y
+        /*****************************************************/
+       
+        //IF endX == endY && no pieces in the way
+        if(endX == endY && diagonalCheck(cells, start, end))
+        {
+            captureORMove(start, end);
+        }  
+        //ELSE move not legal 
+        else
+        {
+            //Throw InvalidMovementException
+            throw new InvalidMovementException();
+        }//END IF
+    }//END move
+
     @Override
     public String toString()
     {
         return "Bishop";
-    }
-
-    @Override
-    public void move(Cell[][] cells, Screen board, Cell start, Cell end) throws InvalidMovementException 
-    {
-        int endX = Math.abs(start.getX() - end.getX());
-        int endY = Math.abs(start.getY() - end.getY());
-        if(end.getPiece() != null)
-        {
-           
-            if(endX == endY && diagonalCheck(cells, start, end))
-            {
-                capture(end.getPiece(), start, end);
-            }   
-            
-        }
-        else
-        {
-            if(endX == endY && diagonalCheck(cells, start, end))
-            {
-                end.setPiece(start.getPiece());
-                start.setPiece(null);
-            }  
-            else
-            {
-                throw new InvalidMovementException("Invalid move");
-            }
-        }
     }
 }
 

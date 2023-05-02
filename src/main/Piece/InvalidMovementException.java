@@ -16,4 +16,8 @@ public class InvalidMovementException extends Exception {
     public InvalidMovementException(String msg) {
         super(msg);
     }
+    public InvalidMovementException()
+    {
+        System.out.println("Invalid Move");
+    }
 }

@@ -43,6 +43,7 @@ public class Queen extends Piece
     {
         return "Queen";
     }
+    
     @Override
     public void move(Cell[][] cells, Screen board, Cell start, Cell end) throws InvalidMovementException
     {
