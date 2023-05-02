@@ -3,6 +3,9 @@ package main.Piece.ChessPieces;
 import main.java.Chess.frontend.Screen;
 import main.java.Chess.frontend.Cell;
 import main.Piece.Piece;
+
+import java.lang.reflect.Array;
+
 import main.Piece.InvalidMovementException;
 
 /**********************************************************
@@ -158,4 +161,9 @@ public class Pawn extends Piece {
     public String toString() {
         return "Pawn";
     }
+    @Override
+    public Array getAllPossibleMoves() {
+        return null;
+    }
+
 }

@@ -4,6 +4,8 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
+
 import javax.imageio.ImageIO;
 import main.java.Chess.frontend.Cell;
 import main.java.Chess.frontend.Screen;
@@ -247,6 +249,65 @@ public abstract class Piece
        
        return capture;
    }
+
+    public boolean checkPotentialPath(Screen board, Cell start, Cell end, int x, int y) {
+        System.out.println("Checking potential path");
+        boolean pathClear = true;
+        int xDir = 0;
+        int yDir = 0;
+        if(x > 0) {
+            xDir = 1;
+        } else if(x < 0) {
+            xDir = -1;
+        }
+        if(y > 0) {
+            yDir = 1;
+        } else if(y < 0) {
+            yDir = -1;
+        }
+        int xStart = start.getX() + xDir;
+        int yStart = start.getY() + yDir;
+        int xEnd = end.getX() - start.getX(); // the distance between the start and end
+        int yEnd = end.getY() - start.getY(); // the distance between the start and end
+        System.out.println("xStart: " + xStart + " yStart: " + yStart + " xEnd: " + xEnd + " yEnd: " + yEnd);
+        System.out.println("yStart + i * yDir: " + (yStart + (1 * yDir)));
+        if(xEnd == 0) {
+            if(yDir == 1 ) {
+                for(int i = 0; i < Math.abs(yEnd); i++) {
+                    if(board.getCell(xStart, yStart + (i * yDir)).getPiece() != null&& board.getCell(end.getX(), end.getY()) != board.getCell(xStart, yStart + (i * yDir))) {
+                        System.out.println("Piece in the way");
+                        pathClear = false;
+                    }
+                }
+            } else {
+                for(int i = 0; i < Math.abs(yEnd); i++) {
+                    if(board.getCell(xStart, yStart + (i * yDir)).getPiece() != null && board.getCell(end.getX(), end.getY()) != board.getCell(xStart, yStart + (i * yDir))) {
+                        System.out.println("Piece in the way");
+                        pathClear = false;
+                    }
+                }
+            }
+        } else if(yEnd == 0) {
+            for(int i = 0; i < Math.abs(xEnd); i++) {
+                if(board.getCell(xStart + (i * xDir), yStart).getPiece() != null && board.getCell(end.getX(), end.getY()) != board.getCell(xStart, yStart + (i * yDir))) {
+                    pathClear = false;
+                }
+            }
+        } else if(Math.abs(xEnd) == Math.abs(yEnd)) {
+            for(int i = 0; i < Math.abs(xEnd); i++) {
+                if(board.getCell(xStart + (i * xDir), yStart + (i * yDir)).getPiece() != null && board.getCell(end.getX(), end.getY()) != board.getCell(xStart, yStart + (i * yDir))) {
+                    pathClear = false;
+                }
+            }
+        } else {
+            pathClear = false;
+        }
+        
+        return pathClear;
+    }
+
+    public abstract Array getAllPossibleMoves();
+
    public  boolean laneCheckYAxis(Cell cells[][], Cell start, Cell end)
     {
         boolean laneCheck = true;

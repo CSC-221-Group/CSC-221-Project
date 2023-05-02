@@ -2,7 +2,10 @@ package main.Piece.ChessPieces;
 
 import main.java.Chess.frontend.Cell;
 import main.java.Chess.frontend.Screen;
-import main.Piece.InvalidMovementException;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 import main.Piece.Piece;
 /**********************************************************
  * Program Name   : King
@@ -253,5 +256,10 @@ public class King extends Piece
             }
         }
         
+    }
+
+    @Override
+    public Array getAllPossibleMoves() {
+        return null;
     }
 }
