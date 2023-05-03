@@ -345,8 +345,21 @@ public class King extends Piece
     {
         return "King";
     }
-    // @Override
-    // public Array getAllPossibleMoves() {
-    //     return null;
-    // }
+    @Override
+    public Cell[][] getAllPossibleMoves(Screen board) 
+    {
+        //Local constants
+        //Local variables
+        Cell[][] possibleMoves = new Cell[8][];
+        /*****************************************************/
+        possibleMoves[0][0] = board.getCell(getPos().x - 1, getPos().y + 1);
+        possibleMoves[1][0] = board.getCell(getPos().x, getPos().y + 1);
+        possibleMoves[2][0] = board.getCell(getPos().x + 1, getPos().y + 1);
+        possibleMoves[3][0] = board.getCell(getPos().x + 1, getPos().y);
+        possibleMoves[4][0] = board.getCell(getPos().x + 1, getPos().y - 1);
+        possibleMoves[5][0] = board.getCell(getPos().x, getPos().y - 1);
+        possibleMoves[6][0] = board.getCell(getPos().x - 1, getPos().y - 1);
+        possibleMoves[7][0] = board.getCell(getPos().x - 1, getPos().y);
+        return possibleMoves;
+    }
 }
