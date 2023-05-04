@@ -350,16 +350,42 @@ public class King extends Piece
     {
         //Local constants
         //Local variables
-        Cell[][] possibleMoves = new Cell[8][];
+        Cell[][] possibleMoves = new Cell[8][1];
         /*****************************************************/
-        possibleMoves[0][0] = board.getCell(getPos().x - 1, getPos().y + 1);
-        possibleMoves[1][0] = board.getCell(getPos().x, getPos().y + 1);
-        possibleMoves[2][0] = board.getCell(getPos().x + 1, getPos().y + 1);
-        possibleMoves[3][0] = board.getCell(getPos().x + 1, getPos().y);
-        possibleMoves[4][0] = board.getCell(getPos().x + 1, getPos().y - 1);
-        possibleMoves[5][0] = board.getCell(getPos().x, getPos().y - 1);
-        possibleMoves[6][0] = board.getCell(getPos().x - 1, getPos().y - 1);
-        possibleMoves[7][0] = board.getCell(getPos().x - 1, getPos().y);
+        // Add checks to make sure the cell the knight can move to is not null
+        // Add checks to make sure the cell the knight can move to is not occupied by a piece of the same color
+        if(board.getCell(getPos().x, getPos().y + 1 ) != null)
+        {
+            possibleMoves[0][0] = board.getCell(getPos().x, getPos().y + 1 );
+        }
+        if(board.getCell(getPos().x + 1, getPos().y + 1 ) != null)
+        {
+            possibleMoves[1][0] = board.getCell(getPos().x + 1, getPos().y + 1 );
+        }
+        if(board.getCell(getPos().x + 1, getPos().y ) != null)
+        {
+            possibleMoves[2][0] = board.getCell(getPos().x + 1, getPos().y );
+        }
+        if(board.getCell(getPos().x + 1, getPos().y - 1 ) != null)
+        {
+            possibleMoves[3][0] = board.getCell(getPos().x + 1, getPos().y - 1 );
+        }  
+        if(board.getCell(getPos().x, getPos().y - 1 ) != null)
+        {
+            possibleMoves[4][0] = board.getCell(getPos().x, getPos().y - 1 );
+        }
+        if(board.getCell(getPos().x - 1, getPos().y - 1 ) != null)
+        {
+            possibleMoves[5][0] = board.getCell(getPos().x - 1, getPos().y - 1 );
+        }
+        if(board.getCell(getPos().x - 1, getPos().y ) != null)
+        {
+            possibleMoves[6][0] = board.getCell(getPos().x - 1, getPos().y );
+        }
+        if(board.getCell(getPos().x - 1, getPos().y + 1 ) != null)
+        {
+            possibleMoves[7][0] = board.getCell(getPos().x - 1, getPos().y + 1 );
+        }
         return possibleMoves;
     }
 }

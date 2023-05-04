@@ -2,13 +2,12 @@ package main.java.Chess.frontend;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.imageio.ImageIO;
-import javax.imageio.ImageIO;
+
 import javax.swing.*;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Graphics;
-import java.awt.GridLayout;
+
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -263,7 +262,6 @@ public class guiCreator
         final int WIDTH = 400;
         final int HEIGHT = 300;
         //local variables 
-        //TODO make screen chess class
         move.setText(null);
         Screen screen = new Screen(gameSize);
         JFrame chessFrame = new JFrame();
@@ -311,7 +309,6 @@ public class guiCreator
                 chessFrame.setVisible(false);
                 //display winScreen
                 winScreen(); 
-                //TODO add paramater for which turn it is
             }
             
         });
@@ -333,7 +330,6 @@ public class guiCreator
             }
         });
         chessFrame.add(drawbt);
-
     }//end ChessGame
 
     /**
@@ -562,7 +558,7 @@ public class guiCreator
                 //ELSE pawn at y:7
                 else
                 {
-                   screen.promotePawn("white",1,x,y, "Knight");
+                    screen.promotePawn("white",1,x,y, "Knight");
                     promoteScreen.setVisible(false);
 
                 }//END IF
@@ -603,7 +599,6 @@ public class guiCreator
         promoteScreen.pack();
 
     }//end promoteScreen
-   
     /**
      * 
      * @param args

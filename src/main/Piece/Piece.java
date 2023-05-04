@@ -345,6 +345,10 @@ public abstract class Piece
         /*****************************************************/
         for(int i = 0; i < 8; i++)
         {
+            if(pos.x + x < 0 || pos.x + x > 7 || pos.y + y < 0 || pos.y + y > 7)
+            {
+                break;
+            }
             if(board.getCell(pos.x + x, pos.y + y).getPiece() == null)
             {
                 possibleMoves[i] = board.getCell(pos.x + x, pos.y + y);

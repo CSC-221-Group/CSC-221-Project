@@ -53,6 +53,10 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     private static ArrayList<Piece> p2Pieces = new ArrayList<Piece>(); // Pieces owned by Black
     private static ArrayList<Piece> capturedPieces = new ArrayList<Piece>(); // Pieces that have been captured
 
+    public static moveHandler moveHandler; // Handles all possible moves
+
+
+
     public static Cell[][] cells = new Cell[ROWS][COLS]; // Boards squares
 
     /**********************************************************
@@ -81,12 +85,13 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         private Screen board;
 
         public mouseAdapter(Screen board) 
-{
+        {
             this.board = board;
         }
 
         /*****************************************/
-        private void displayLocationError(){
+        private void displayLocationError()
+        {
             System.out.println("Mouse pressed outside of board");
             System.out.println("GameSize = " + gameSize + " Tile Size = " + TILE_SIZE);
             System.out.println("Mouse X: " + preX + " Mouse Y: " + preY);
@@ -147,7 +152,8 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         }// end mousePressed
 
         @Override
-        public void mouseDragged(MouseEvent e)  {
+        public void mouseDragged(MouseEvent e)
+        {
             // Not needed for now
         }
 
@@ -157,9 +163,11 @@ public class Screen extends JPanel implements ActionListener, KeyListener
          * @param e The mouse event.
          */
         @Override
-        public void mouseReleased(MouseEvent e)  {
+        public void mouseReleased(MouseEvent e) 
+            {
             // IF mouse not pressed
-            if (!mousePressed)  {
+            if (!mousePressed) 
+            {
                 // exit method
                 return;
             } // end IF
@@ -295,8 +303,15 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     }
 
         public Cell getCell(int x, int y) 
-{
-            return cells[x][y];
+        {
+            if(x > 7 || y > 7 || x < 0 || y < 0)
+            {
+                return null;
+            }
+            else
+            {
+                return cells[x][y];
+            }
         }
 
         public Screen getScreen() 
@@ -342,6 +357,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
             setBackground(Color.BLACK);
             initGame();
             initVariables();
+            moveHandler = new moveHandler(getScreen(), p1Pieces, p2Pieces);
         }// end initScreen
 
     /**
@@ -390,7 +406,17 @@ public class Screen extends JPanel implements ActionListener, KeyListener
             System.exit(0);
         }
         if (key == KeyEvent.VK_R)  {
-
+            System.out.println("Checking for check Current Turn: " + currentTurn + "");
+            moveHandler.checkForCheck(currentTurn);
+            int enemyTurn = currentTurn == 1 ? 2 : 1;
+            System.out.println("Checking for check Current Turn: " + enemyTurn + "");
+            moveHandler.checkForCheck(enemyTurn);
+        }
+        if(key == KeyEvent.VK_C)
+        {
+            System.out.println("Moving black pawn to a position where ti can capture the white King");
+            cells[4][3].setPiece(null);
+            cells[4][3].setPiece(p2Pieces.get(0));
         }
     }// end keypressed
 

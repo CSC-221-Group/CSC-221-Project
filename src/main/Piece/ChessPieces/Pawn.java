@@ -212,9 +212,27 @@ public class Pawn extends Piece
     @Override
     public Cell[][] getAllPossibleMoves(Screen board)
     {
-        Cell[][] possibleMoves = new Cell[2][];
-        possibleMoves[1][0] = board.getCell(getPos().x + 1, getPos().y + 1);
-        possibleMoves[2][0] = board.getCell(getPos().x - 1, getPos().y + 1);
+        Cell[][] possibleMoves = new Cell[2][1];
+        if(getOwnedBy() == 1 ) 
+            {
+                if(board.getCell(getPos().x + 1, getPos().y + 1) != null)
+            {
+                possibleMoves[0][0] = board.getCell(getPos().x + 1, getPos().y + 1);
+            }
+            if(board.getCell(getPos().x -1 , getPos().y + 1) != null)
+            {
+                possibleMoves[1][0] = board.getCell(getPos().x - 1, getPos().y + 1);
+            }
+        } else {
+            if(board.getCell(getPos().x + 1, getPos().y - 1) != null)
+            {
+                possibleMoves[0][0] = board.getCell(getPos().x + 1, getPos().y - 1);
+            }
+            if(board.getCell(getPos().x -1 , getPos().y - 1) != null)
+            {
+                possibleMoves[1][0] = board.getCell(getPos().x - 1, getPos().y - 1);
+            }
+        }
         return possibleMoves;
     } 
 }
