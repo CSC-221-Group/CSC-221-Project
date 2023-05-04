@@ -9,6 +9,13 @@
             "name": "guiCreator",
             "request": "launch",
             "mainClass": "main.java.Chess.frontend.guiCreator",
+            "projectName": "CSC-221-Project_b16ffa0b"
+        },
+        {
+            "type": "java",
+            "name": "guiCreator",
+            "request": "launch",
+            "mainClass": "main.java.Chess.frontend.guiCreator",
             "projectName": "CSC-221-Project_37fd9d49"
         },
         {
