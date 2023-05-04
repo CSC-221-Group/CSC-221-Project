@@ -335,52 +335,34 @@ public abstract class Piece
     /*
         This Method gets all potential moves for a piece given an x/y
     */
-    public Cell[] getPotentialMoves(int x, int y, Screen board) {
-    // x / y is the direction it is moving in, increment it until it hits a piece or the edge of the board
-    //Local constants
-    //Local variables
-    Point pos = this.getPos();
-    Cell possibleMoves[] = new Cell[8];
-    /*****************************************************/
-    for(int i = 0; i < 8; i++)
+    public Cell[] getPotentialMoves(int x, int y, Screen board) 
     {
-        if(board.getCell(pos.x + x, pos.y + y).getPiece() == null)
+        // x / y is the direction it is moving in, increment it until it hits a piece or the edge of the board
+        //Local constants
+        //Local variables
+        Point pos = this.getPos();
+        Cell possibleMoves[] = new Cell[8];
+        /*****************************************************/
+        for(int i = 0; i < 8; i++)
         {
-            possibleMoves[i] = board.getCell(pos.x + x, pos.y + y);
+            if(board.getCell(pos.x + x, pos.y + y).getPiece() == null)
+            {
+                possibleMoves[i] = board.getCell(pos.x + x, pos.y + y);
+            }
+            else if(board.getCell(pos.x + x, pos.y + y).getPiece().getOwnedBy() != this.getOwnedBy())
+            {
+                possibleMoves[i] = board.getCell(pos.x + x, pos.y + y);
+                break;
+            }
+            else
+            {
+                break;
+            }
+            x+=x;
+            y+=y;
         }
-        else if(board.getCell(pos.x + x, pos.y + y).getPiece().getOwnedBy() != this.getOwnedBy())
-        {
-            possibleMoves[i] = board.getCell(pos.x + x, pos.y + y);
-            break;
-        }
-        else
-        {
-            break;
-        }
-        x+=x;
-        y+=y;
+        return possibleMoves;
     }
-    return possibleMoves;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
    public  boolean laneCheckYAxis(Cell cells[][], Cell start, Cell end)
     {
@@ -388,7 +370,7 @@ public abstract class Piece
         for(int i = 0;i <= 7; i++)
         {
             if(end.getY() > start.getY())
-            {  System.out.println("Test2 I=" + i);
+            {  
                 if(end.getY() - i > -1 && end.getY() - i != start.getY() && end.getY() - i > start.getY())
                 {
                     if(cells[end.getX()][end.getY() - i].getPiece() != null )
@@ -419,7 +401,7 @@ public abstract class Piece
         {
             if(end.getX() > start.getX())
             {
-                if(end.getX() - i > -1 && end.getX() - i != start.getX() && end.getX() - i < start.getX())
+                if(end.getX() - i > -1 && end.getX() - i != start.getX() && end.getX() - i > start.getX())
                 { 
                     if(cells[end.getX() - i][end.getY()].getPiece() != null)
                     {
@@ -486,7 +468,6 @@ public abstract class Piece
         }
         else
         {
-            capture(end.getPiece(), start, end);
             end.setPiece(start.getPiece());
             start.setPiece(null);
         }

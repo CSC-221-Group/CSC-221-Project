@@ -23,124 +23,96 @@ public class Queen extends Piece
     //class variables 
     public String color;
     /************************************/
-    /**
-     * Consructor of Queen.
-     * Sets owner, color, and (x,y) position of Queen piece.
-     * @param color - color of Queen piece.
-     * @param x - x positon of Queen piece.
-     * @param y - y position of Queen piece 
-     * @param owner - sets owner of Queen piece,
-     */
+
+    /**********************************************************
+	* Method Name    : Queen
+	* Author         : Alan/Jordan
+	* Date           : 
+	* Course/Section : Software Engineering 221-301
+	* Program Description: Constructor for Queen.
+	**********************************************************/
     public Queen (String color, int x, int y, int owner, Screen board)
     {
         super(x, y, owner, board);
         String Chess = "Chess"; 
         loadImage(Chess,color + "Queen");
         this.color = color;
-    }
-    @Override
-    public String toString()
-    {
-        return "Queen";
-    }
+    }//END Queen
     
+    /**********************************************************
+	* Method Name    : move
+	* Author         : Alan/Jordan
+	* Date           : 
+	* Course/Section : Software Engineering 221-301
+	* Program Description: This method determines what move the Queen can do.
+	**********************************************************/
     @Override
     public void move(Cell[][] cells, Screen board, Cell start, Cell end) throws InvalidMovementException
     {
+        //Local constants
+        //Local variables
         int endX = Math.abs(start.getX() - end.getX());
-        int endY = Math.abs(start.getY() - end.getY());
-        if(end.getPiece() != null)
+        int endY = Math.abs(start.getY() - end.getY()); 
+        /*****************************************************/
+
+        //IF Piece is moving diagonaly
+        if(end.getY() != start.getY() && end.getX() != start.getX())
         {
-           
-            
-            if(end.getY() != start.getY() && end.getX() != start.getX())
+            //IF endX == endY && no pieces in the way
+            if(endX == endY && diagonalCheck(cells, start, end))
             {
-                if(endX == endY && diagonalCheck(cells, start, end))
-                {
-                    capture(end.getPiece(), start, end);
-                }  
-            }
-            else if(end.getY() == start.getY() || end.getX() == start.getX())
+                captureORMove(start, end);
+            }  
+            //ELSE move not legal 
+            else
             {
-                for(int i = 0;i <= 7; i++)
-                {  
-                    if(end.getX() == start.getX() && end.getY() == start.getY() + i && laneCheckYAxis(cells, start, end))
-                    {
-                        capture(end.getPiece(), start, end);
-                    }
-                    else if(end.getX() == start.getX() + i && end.getY() == start.getY() && laneCheckXAxis(cells, start, end))
-                    {
-                        capture(end.getPiece(), start, end);
-                    }
-                    else if(end.getX() == start.getX() && end.getY() == start.getY() - i && laneCheckYAxis(cells, start, end))
-                    {
-                        capture(end.getPiece(), start, end);
-                    }
-                    else if(end.getX() == start.getX() - i && end.getY() == start.getY() && laneCheckXAxis(cells, start, end))
-                    {
-                        capture(end.getPiece(), start, end);
-                    }
-                    else if(!capture(end.getPiece(), start, end))
-                    {
-                        throw new InvalidMovementException("Invalid move");
-                    }
-                }
-            }
-
+                //Throw InvalidMovementException
+                throw new InvalidMovementException();
+            }//END IF
         }
-        else
+        //ELSE IF Piece is moving vertically or horizontally
+        else if(end.getY() == start.getY() || end.getX() == start.getX())
         {
-            if(end.getY() != start.getY() && end.getX() != start.getX())
-            {
-                if(endX == endY && diagonalCheck(cells, start, end))
-                {
-                    end.setPiece(start.getPiece());
-                    start.setPiece(null);
-                }  
-                else
-                {
-                    throw new InvalidMovementException("Invalid move");
-                }
-            }
-            else if(end.getY() == start.getY() || end.getX() == start.getX())
-            {
-                for(int i = 0;i <= 7; i++)
-                { 
-                
-                    if(end.getX() == start.getX() - i && end.getY() == start.getY() && laneCheckXAxis(cells, start, end))
-                    {
-                        end.setPiece(start.getPiece());
-                        start.setPiece(null);
-                    }
-                    else if(end.getX() == start.getX() + i && end.getY() == start.getY() && laneCheckXAxis(cells, start, end))
-                    {
-                        end.setPiece(start.getPiece());
-                        start.setPiece(null);
-                    }
-                
-                    if(end.getX() == start.getX() && end.getY() == start.getY() - i && laneCheckYAxis(cells, start, end))
-                    {
-                        end.setPiece(start.getPiece());
-                        start.setPiece(null);
-                    }
-                    else if(end.getX() == start.getX() && end.getY() == start.getY() + i && laneCheckYAxis(cells, start, end))
-                    {
-                        end.setPiece(start.getPiece());
-                        start.setPiece(null);
-                    }
-                    if(i == 7)
-                    {
-                        if(start.getPiece() != null)
-                        {
-                            throw new InvalidMovementException("Invalid move");
-                        }
-                    }
-                }
-            }
-        }
-    }
 
+            for(int i = 0;i <= 7; i++)
+            {  
+                //IF piece is in same x axis and piece is going "up" and no piece is the way
+                if(end.getX() == start.getX() && end.getY() == start.getY() + i && laneCheckYAxis(cells, start, end))
+                {
+                    captureORMove(start, end);
+                }
+                //ELSE IF pieces is going to the "right" and in the same y axis and no pieces  in the way
+                else if(end.getX() == start.getX() + i && end.getY() == start.getY() && laneCheckXAxis(cells, start, end))
+                {
+                    captureORMove(start, end);
+                }
+                //ELSE IF pieces is in the same x axis and pieces is going "down" and no pieces in the way
+                else if(end.getX() == start.getX() && end.getY() == start.getY() - i && laneCheckYAxis(cells, start, end))
+                {
+                    captureORMove(start, end);
+                }
+                //ELSE IF piece is going to the "left" and stays in the same y axis and no piece in the way
+                else if(end.getX() == start.getX() - i && end.getY() == start.getY() && laneCheckXAxis(cells, start, end))
+                {
+                    captureORMove(start, end);
+                }
+                //ELSE IF loop is finished and there is a piece in the starting location
+                else if(i == 7 && start.getPiece() != null)
+                {
+                    //Throw InvalidMoveException
+                    throw new InvalidMovementException();
+                }//END IF 
+            }//END FOR
+        }//END IF
+    }//END move
 
+    /**********************************************************
+	* Method Name    : getAllPossibleMoves 
+	* Author         : Jordan
+	* Date           : 
+	* Course/Section : Software Engineering 221-301
+	* Program Description: Return the Piece type
+	**********************************************************/
     @Override
     public Cell[][] getAllPossibleMoves(Screen board)
     {
@@ -158,9 +130,19 @@ public class Queen extends Piece
         possibleMoves[7] = getPotentialMoves(-1,0, board);
         return possibleMoves;
     }
-
-
-
+    
+    /**********************************************************
+	* Method Name    : toString
+	* Author         : Alan/Jordan
+	* Date           : 
+	* Course/Section : Software Engineering 221-301
+	* Program Description: Return the Piece type
+	**********************************************************/
+    @Override
+    public String toString()
+    {
+        return "Queen";
+    }//END Queen
 
 }
 

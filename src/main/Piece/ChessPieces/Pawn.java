@@ -21,9 +21,10 @@ import main.Piece.InvalidMovementException;
  * Pawn - sets color position and owner of Pawn piece.
  * move - sets legal moves for Pawn piece.
  **********************************************************/
-public class Pawn extends Piece {
-    // class constants
-    // class variables
+public class Pawn extends Piece 
+{
+    //Class constants
+    //Class variables
     public String color;
     public boolean canDoubleMovement = true;
     public static int enPassantW = 0;
@@ -39,7 +40,7 @@ public class Pawn extends Piece {
      * @param owner - sets owner of Pawn piece
      */
     public Pawn(String color, int x, int y, int owner, Screen board) 
-{
+    {
         // Calls Piece contructor
         super(x, y, owner, board);
 
@@ -56,117 +57,143 @@ public class Pawn extends Piece {
      * @throws InvalidMovementException
      */
     @Override
-    public void move(Cell cell[][],Screen board, Cell start, Cell end) throws InvalidMovementException {
-       
+    public void move(Cell cell[][],Screen board, Cell start, Cell end) throws InvalidMovementException 
+    {
+        //Local constants
+        //Local variables 
+        /*****************************************************/
         // lets just isntantly detect capturing
         if (end.getPiece() != null) 
-{
+        {
             // this is capturing
             if(getOwnedBy() == 1 ) 
-{
+            {
                 //white moves up the y axis
                 if(end.getX() == start.getX() + 1 && end.getY() == start.getY() + 1) 
-{
+                {
                     // we can move the piece
                     capture(end.getPiece(), start, end);
                     canDoubleMovement = false;
-                } else if(end.getX() == start.getX() - 1 && end.getY() == start.getY() + 1) 
-{
+                } 
+                else if(end.getX() == start.getX() - 1 && end.getY() == start.getY() + 1) 
+                {
                     // we can move the piece
                     capture(end.getPiece(), start, end);
                     canDoubleMovement = false;
-                } else {
+                } 
+                else 
+                {
                     throw new InvalidMovementException("Invalid move");
                 }
-            } else {
+            } 
+            else 
+            {
                 //black moves down the y axis
                 if(end.getX() == start.getX() + 1 && end.getY() == start.getY() - 1) 
-{
+                {
                     // we can move the piece
                     capture(end.getPiece(), start, end);
                     canDoubleMovement = false;
-                } else if(end.getX() == start.getX() - 1 && end.getY() == start.getY() - 1) 
-{
+                } 
+                else if(end.getX() == start.getX() - 1 && end.getY() == start.getY() - 1) 
+                {
                     // we can move the piece
                     capture(end.getPiece(), start, end);
                     canDoubleMovement = false;
-                } else {
+                } 
+                else 
+                {
                     throw new InvalidMovementException("Invalid move");
                 }
             }
-        } else {
+        } 
+        else 
+        {
             // this declares that there is nothing at the end point, now we can do normal movemement
             if(start.getY() == 1 && canDoubleMovement) 
-{
+            {
                 if(end.getX() == start.getX() && end.getY() == start.getY() + 2) 
-{
+                {
                     // we can move the piece
                     end.setPiece(start.getPiece());
                     start.setPiece(null);
                     canDoubleMovement = false;
-                } else if(end.getX() == start.getX() && end.getY() == start.getY() + 1) 
-{
+                } 
+                else if(end.getX() == start.getX() && end.getY() == start.getY() + 1) 
+                {
                     // we can move the piece
                     end.setPiece(start.getPiece());
                     start.setPiece(null);
                     canDoubleMovement = false;
-                } else {
+                }
+                else 
+                {
                     throw new InvalidMovementException("Invalid move");
                 }
-            } else if(start.getY() == 6 && canDoubleMovement) 
-{
+            } 
+            else if(start.getY() == 6 && canDoubleMovement) 
+            {
                 if(end.getX() == start.getX() && end.getY() == start.getY() - 2) 
-{
+                {
                     // we can move the piece
                     end.setPiece(start.getPiece());
                     start.setPiece(null);
                     canDoubleMovement = false;
-                } else if(end.getX() == start.getX() && end.getY() == start.getY() - 1) 
-{
+                } 
+                else if(end.getX() == start.getX() && end.getY() == start.getY() - 1) 
+                {
                     // we can move the piece
                     end.setPiece(start.getPiece());
                     start.setPiece(null);
                     canDoubleMovement = false;
-                } else {
+                } 
+                else 
+                {
                     throw new InvalidMovementException("Invalid move");
                 }
-            } else {
+            } 
+            else 
+            {
                 if(end.getX() == start.getX() && end.getY() == start.getY() + 1) 
-{
+                {
                     // we can move the piece
                     end.setPiece(start.getPiece());
                     start.setPiece(null);
                     canDoubleMovement = false;
-                } else if(end.getX() == start.getX() && end.getY() == start.getY() - 1) 
-{
+                } 
+                else if(end.getX() == start.getX() && end.getY() == start.getY() - 1) 
+                {
                     // we can move the piece
                     end.setPiece(start.getPiece());
                     start.setPiece(null);
                     canDoubleMovement = false;
-                } else {
+                } 
+                else 
+                {
                     throw new InvalidMovementException("Invalid move");
                 }
             }
         }
           // we must check if it results in a capture or not
-
     }
 
     public static void enPassant(Piece piece, int x, int y) 
-{
+    {
         if (piece.getOwnedBy() == 1) 
-{
+        {
             if (Screen.cells[x][y - 1].getPiece() != null && Screen.cells[x][y - 1].getPiece().getClass() == Pawn.class
                     && Screen.cells[x][y - 1].getPiece().getOwnedBy() != 1 && enPassantW == 0) 
-{
+            {
                 Screen.cells[x][y - 1].setPiece(null);
 
                 enPassantW = 1;
             }
-        } else {
+        } 
+        else 
+        {
             if (Screen.cells[x][y + 1].getPiece() != null && Screen.cells[x][y + 1].getPiece().getClass() == Pawn.class
                     && Screen.cells[x][y + 1].getPiece().getOwnedBy() != 2 && enPassantB == 0) 
-{
+            {
                 Screen.cells[x][y + 1].setPiece(null);
 
                 enPassantB = 1;
@@ -178,9 +205,10 @@ public class Pawn extends Piece {
 
     @Override
     public String toString() 
-{
+    {
         return "Pawn";
     }
+
     @Override
     public Cell[][] getAllPossibleMoves(Screen board)
     {
@@ -189,5 +217,4 @@ public class Pawn extends Piece {
         possibleMoves[2][0] = board.getCell(getPos().x - 1, getPos().y + 1);
         return possibleMoves;
     } 
-
 }

@@ -235,7 +235,6 @@ public class guiCreator
         JFrame gameSelectFrame = makeMainFrame();
         JLabel gameSelectTitle = makeText("Game Selection", 0, 0,  500, 100, gameSize);
         JButton playChessButton = makeButton("playChess", WIDTH/4, HEIGHT/2, BUTTON_WIDTH, BUTTON_HEIGHT, gameSize);
-        JButton playCheckersButton = makeButton("playCheckers",  WIDTH/4, (HEIGHT/2) + (BUTTON_HEIGHT+(BUTTON_HEIGHT/2)), BUTTON_WIDTH, BUTTON_HEIGHT, gameSize);
         /*****************************************************/
         
         gameSelectFrame.add(gameSelectTitle);
@@ -251,20 +250,6 @@ public class guiCreator
             } 
         });
         gameSelectFrame.add(playChessButton);
-
-        //when playcheckersbutton is pressed 
-        playCheckersButton.addActionListener(new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent e) 
-            {
-                //close gameselectFrame 
-                gameSelectFrame.setVisible(false);
-                //call CheckerGame
-                checkersGame();
-            }  
-        });
-        gameSelectFrame.add(playCheckersButton);
 
     }//end gameSelectScreen
 
@@ -350,53 +335,6 @@ public class guiCreator
         chessFrame.add(drawbt);
 
     }//end ChessGame
-
-    /**
-     * Displays checkers game.
-     *
-     */
-    public static void checkersGame()
-    {
-        //local constants
-        final int WIDTH = 360;
-        final int HEIGHT = 294;
-        //local variables 
-        JFrame checkersFrame = new JFrame();
-        JButton surrenderButton = new JButton();
-        Screen screen = new Screen(gameSize);
-        /************************************/
-
-        if(gameSize >= 2)
-        {
-            checkersFrame.setSize(new Dimension(WIDTH*gameSize,HEIGHT*gameSize));
-        }
-        else if(gameSize == 1)
-        {
-            checkersFrame.setSize(new Dimension(WIDTH,HEIGHT));
-        }
-
-        checkersFrame.add(screen);  
-        checkersFrame.addKeyListener(screen);
-        checkersFrame.pack();
-        checkersFrame.setLayout(null);
-        checkersFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        checkersFrame.setVisible(true);
-        
-        surrenderButton.setText("Surrender");
-        surrenderButton.setBounds(new Rectangle(new Point(255,100),surrenderButton.getPreferredSize()));
-        surrenderButton.addActionListener(new ActionListener() 
-        {
-            @Override
-            public void actionPerformed(ActionEvent e) 
-            {
-               checkersFrame.setVisible(false);
-               winScreen();
-            }
-            
-        }); 
-        checkersFrame.add(surrenderButton);
-
-    }//end checkerGame
 
     /**
      * Displays win screen of 'board classics'

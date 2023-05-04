@@ -1,10 +1,7 @@
 package main.Piece.ChessPieces;
+
 import main.java.Chess.frontend.Cell;
 import main.java.Chess.frontend.Screen;
-
-import java.awt.Point;
-import java.lang.reflect.Array;
-
 import main.Piece.InvalidMovementException;
 import main.Piece.Piece;
 /**********************************************************
@@ -28,15 +25,13 @@ public class Bishop extends Piece
     public String color; //Color of piece
     /************************************/
 
-    /**
-     * Consructor of Bishop.
-     * Sets owner, color, and (x,y) position of bishop piece.
-     * @param color - color of bishop piece.
-     * @param x - x positon of bishop piece.
-     * @param y - y position of bishop piece .
-     * @param owner - sets owner of bishop piece.
-     * @param board - sets the size of png of piece.
-     */
+    /**********************************************************
+	* Method Name    : Bishop
+	* Author         : Alan/Jordan
+	* Date           : 
+	* Course/Section : Software Engineering 221-301
+	* Program Description: Consructor of Bishop.
+	**********************************************************/
     public Bishop(String color, int x, int y, int owner, Screen board)
     {
         super(x, y, owner, board);
@@ -44,11 +39,14 @@ public class Bishop extends Piece
         loadImage(Chess,color + "Bishop");
         this.color = color;
     }//END Bishop
-    
-    /**
-     * This method determines what move the bishops can do.
-     * @throws InvalidMovementException - if move not legal it throws the exception 
-     */
+
+    /**********************************************************
+	* Method Name    : move
+	* Author         : Alan/Jordan
+	* Date           : 
+	* Course/Section : Software Engineering 221-301
+	* Program Description: This method determines what move the bishops can do.
+	**********************************************************/
     @Override
     public void move(Cell[][] cells, Screen board, Cell start, Cell end) throws InvalidMovementException 
     {
@@ -71,12 +69,13 @@ public class Bishop extends Piece
         }//END IF
     }//END move
 
-    @Override
-    public String toString()
-    {
-        return "Bishop";
-    }
-
+    /**********************************************************
+	* Method Name    : getAllPossibleMoves
+	* Author         : Jordan
+	* Date           : 
+	* Course/Section : Software Engineering 221-301
+	* Program Description: 
+	**********************************************************/
     @Override
     public Cell[][] getAllPossibleMoves(Screen board)
     {
@@ -84,14 +83,27 @@ public class Bishop extends Piece
         //Local variables
         Cell possibleMoves[][] = new Cell[4][];
         /*****************************************************/
+        
         possibleMoves[0] = getPotentialMoves(1, 1, board);
         possibleMoves[1] = getPotentialMoves(-1, 1, board);
         possibleMoves[2] = getPotentialMoves(1, -1, board);
         possibleMoves[3] = getPotentialMoves(-1, -1, board);
+        
         return possibleMoves;
-    }
 
+    }//END getAllPossibleMoves
 
-
-}
+    /**********************************************************
+	* Method Name    : toString
+	* Author         : Alan/Jordan
+	* Date           : 
+	* Course/Section : Software Engineering 221-301
+	* Program Description: Return the Piece type
+	**********************************************************/
+    @Override
+        public String toString()
+    {
+        return "Bishop";
+    }//END toString
+}//END Bishop
 
