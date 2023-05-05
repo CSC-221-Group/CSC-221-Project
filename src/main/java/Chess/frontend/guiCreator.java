@@ -1,13 +1,12 @@
 package main.java.Chess.frontend;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.imageio.ImageIO;
-
 import javax.swing.*;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
-
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -31,13 +30,9 @@ import java.io.IOException;
  * makeTitle -
  * makeGameSelect -
  * chessGame - 
- * checkerGame -
  * winScreen - 
  * main -
  *********************************************************/
-
-
- 
 public class guiCreator
 {
     //Class constants
@@ -54,15 +49,14 @@ public class guiCreator
     public static Screen screen = new Screen(gameSize);//
     public static JLabel move = new JLabel();         //
     /*******************************************/
-    /**
-     * This method creates a JLabel and return it.
-     * @param text - text that will be put on JLable 
-     * @param x 
-     * @param y
-     * @param w
-     * @param h
-     * @return jlabel - returns label
-     */
+    
+    /**********************************************************
+    * Method Name    : makeText 
+    * Author         : Jordan/Alan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: This method creates a JLabel and return it.
+    **********************************************************/
     private static JLabel makeText(String text, int x, int y, int w, int h, int gameSize) 
     {
         //local constants
@@ -87,13 +81,13 @@ public class guiCreator
         return mainScreentitle;
     }//end makeText 
 
-
-
-    /**
-     * This method creates a JFrame and return it.
-     * 
-     * @return Jframe - returns a frame
-     */
+    /**********************************************************
+    * Method Name    : makeMainFrame
+    * Author         : Jordan/Alan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: This method creates a JFrame and return it.
+    **********************************************************/
     private static JFrame makeMainFrame() 
     {
         //local constants
@@ -102,12 +96,15 @@ public class guiCreator
         /*******************************************/
         //sets size of frame to the classes constants 
         Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        if( screenSize.getWidth() < WIDTH*gameSize || screenSize.getHeight() < HEIGHT*gameSize)
+
+        //IF Screen width is less than width times games size or screen lenght less than height times gamesize
+        if(screenSize.getWidth() < WIDTH*gameSize || screenSize.getHeight() < HEIGHT*gameSize)
         {
             gameSize = gameSize-1;
             System.out.println("Screen size too small, reducing game size to " + gameSize);
             return makeMainFrame();
-        }
+        }//END IF 
+
         frame.setSize(WIDTH*gameSize,HEIGHT*gameSize);
         frame.setResizable(false);
         //set background to black 
@@ -117,20 +114,16 @@ public class guiCreator
         frame.setVisible(true);
 
         return frame;
-
-
     }//end makeMainFrame 
 
-    /**
-     * This method creates a JButton and return it.
-     * @param text - text that will be put on Button
-     * @param x 
-     * @param y
-     * @param w
-     * @param h
-     * @return jButton - return button
-     */
-     private static JButton makeButton(String text, int x, int y, int w, int h, int imageSize) 
+    /**********************************************************
+    * Method Name    : makeButton
+    * Author         : Jordan/Alan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: This method creates a JButton and return it.
+    **********************************************************/
+    private static JButton makeButton(String text, int x, int y, int w, int h, int imageSize) 
     {
         //local constants
         //local variables
@@ -138,6 +131,8 @@ public class guiCreator
         /******************************************/
         //get buttons png based on passed text 
         button.setIcon(new ImageIcon("images/" + text + "Gui.png"));
+        
+        //IF imageSize greater than or equal to 2 
         if(imageSize >= 2)
         {
             // Increase the size of the image
@@ -147,10 +142,12 @@ public class guiCreator
             y *= imageSize;
             BufferedImage icon;
             // Read the image
-            try {
+            try 
+            {
                 icon = ImageIO.read(new File("images/" + text + "Gui.png"));
-            } catch (IOException e) 
-{
+            } 
+            catch (IOException e) 
+            {
                 System.out.println("Error: " + e);
                 return null;
             }
@@ -167,20 +164,24 @@ public class guiCreator
             button.setBounds(new Rectangle(new Point(x,y),new Dimension(icon.getWidth(), icon.getHeight())));
             // Set the new size
         }
+        //ELSE gamesize is 1 
         else 
         {
             button.setSize(w,h);
             button.setBounds(new Rectangle(new Point(x,y),new Dimension(w, h)));
-        }
+        }//END IF 
         button.setBackground(Color.BLACK);
         
         return button;
     }//end makeButton
 
-    /**
-    * This method creates the title screen for Board Classics
-    * 
-    */
+    /**********************************************************
+    * Method Name    : makeTtielScreen
+    * Author         : Jordan/Alan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: This method creates the title screen for Board Classics
+    **********************************************************/
     public static void makeTitleScreen() 
     {
         //local constants
@@ -190,7 +191,6 @@ public class guiCreator
         JButton playGameButton = makeButton("playGame", WIDTH/4, HEIGHT/2, BUTTON_WIDTH, BUTTON_HEIGHT, gameSize);
         JButton optionsButton = makeButton("options", WIDTH/4, (HEIGHT/2) + (BUTTON_HEIGHT+(BUTTON_HEIGHT/2)), BUTTON_WIDTH, BUTTON_HEIGHT, gameSize);
         /******************************************/
-        
         
         titleScreen.add(mainScreentitle);
         //When playgameButton is clicked
@@ -222,11 +222,14 @@ public class guiCreator
         titleScreen.add(optionsButton);
 
     }//end makeTitleScreen
-
-    /**
-     * Display a screen where user select a game in Board Classics.
-     * 
-     */
+    
+    /**********************************************************
+    * Method Name    : makeGameScreen
+    * Author         : Jordan/Alan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: Display a screen where user select a game in Board Classics.
+    **********************************************************/
     public static void makeGameSelect()
     {
         //local constants
@@ -252,10 +255,13 @@ public class guiCreator
 
     }//end gameSelectScreen
 
-    /**
-     * Displays chess game.
-     * 
-    */
+    /**********************************************************
+    * Method Name    : chessGame
+    * Author         : Jordan/Alan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: Displays chess game.
+    **********************************************************/
     public static void chessGame()
     {
         //local constants 
@@ -295,7 +301,6 @@ public class guiCreator
             move.setFont(new Font("Colon", Font.BOLD, 14));
             movePanel.setBounds(new Rectangle(new Point(256*gameSize,164*gameSize),new Dimension(192, 40)));
         }
-        //ELSE
 
         chessFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         chessFrame.setVisible(true);
@@ -332,9 +337,13 @@ public class guiCreator
         chessFrame.add(drawbt);
     }//end ChessGame
 
-    /**
-     * Displays win screen of 'board classics'
-     */
+    /**********************************************************
+    * Method Name    : winScreen
+    * Author         : Jordan/Alan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description:Displays win screen of 'board classics'
+    **********************************************************/
     public static void winScreen()
     {
         //local constants
@@ -410,10 +419,13 @@ public class guiCreator
 
     }//close winScreen
 
-    /*
-     * Displays options screen
-     * 
-     */
+    /**********************************************************
+    * Method Name    : optionsScreen
+    * Author         : Jordan/Alan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: Displays options screen
+    **********************************************************/
     public static void optionsScreen()
     {
         //local constants
@@ -465,9 +477,13 @@ public class guiCreator
         optionsFrame.add(accept);
     }//end optionsScreen
 
-    /*
-     * Displays promote screen
-     */
+    /**********************************************************
+    * Method Name    : optionsScreen
+    * Author         : Jordan/Alan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: Displays promote screen
+    **********************************************************/
     public static void promoteScreen(int x , int y)
     {
         //local constants 
@@ -599,11 +615,14 @@ public class guiCreator
         promoteScreen.pack();
 
     }//end promoteScreen
-    /**
-     * 
-     * @param args
-     * @throws Exception
-     */ 
+    
+    /**********************************************************
+    * Method Name    : main
+    * Author         : Jordan/Alan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: Displays makeTitleScreen
+    **********************************************************/
     public static void main(String[] args) throws Exception 
     {
         SwingUtilities.invokeLater(new Runnable() 

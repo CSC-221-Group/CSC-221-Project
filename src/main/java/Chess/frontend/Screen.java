@@ -196,22 +196,16 @@ public class Screen extends JPanel implements ActionListener, KeyListener
                 e1.printStackTrace();
             }
 
-        }// end mouseRelease
+        }//end mouseRelease
 
         /**********************************************************
         * Method Name    : mousePressed
         * Author         : Jordan/Alan
         * Date           : 
         * Course/Section : Software Engineering 221-301
-        * Program Description: This methode determines which cell was clicked .
+        * Program Description: Updates the location of the current piece based on
+        * the coordinates of the mouse release event..
         **********************************************************/
-        /**
-         * Updates the location of the current piece based on
-         * the coordinates of the mouse release event.
-         * 
-         * @param e The mouse release event.
-         * @throws InvalidMovementException
-         */
         public void updateLocation(MouseEvent e) throws InvalidMovementException  
         {    
             //local constants
@@ -299,99 +293,143 @@ public class Screen extends JPanel implements ActionListener, KeyListener
 
             String information = "";
             
-            //IF cells at 
+            //IF piece moved 
             if (cells[preX][preY].isOccupied() == false)  
             {
-                //piece moved successfully
+                //IF piece captured 
                 if (endPiece != null && endPiece != cells[x][y].getPiece())  
                 {
+                    //Add captured piece to array
                     capturedPieces.add(endPiece);
+                    //IF piece owned by white 
                     if (endPiece.getOwnedBy() == 1)  
                     {
                         p1Pieces.remove(endPiece);
                         information += "White Captured \n" + endPiece.toString() + " at " + letters[x] + y;
                     } 
+                    //ELSE piece is owned by black
                     else  
                     {
                         p2Pieces.remove(endPiece);
                         information += "Black Captured \n" + endPiece.toString() + "at " + letters[x] + y;
-                    }
+                    }//END IF 
                 }
+                //ELSE IF piece owned by white 
                 else if (currentPiece.getOwnedBy() == 1)  
                 {
                     // updated guiCreator move JLabel
                     information += "White" + currentPiece.toString() + ":" + letters[x] + y;
                 } 
+                //ELSE piece is owned by black
                 else  
                 {
                     // updated guiCreator move JLabel
                     information += "Black" + currentPiece.toString() + ":" + letters[x] + y;
                 }
+
                 displayToTextBox(information);
 
+                //IF moved piece is a pawn
                 if (currentPiece.getClass() == Pawn.class)  
                 {
                     Pawn.enPassant(currentPiece, x, y);
-                }
+                }//end if 
+
                 currentPiece = null;
                 // draw all pieces again
                 repaint();
                 // Sets current turn
                 setCurrentTurn();
-            }
-
+            }//END IF 
         }//end update location
     }//end mouseAdapter
 
+    /**********************************************************
+    * Method Name    : diplayToTextBox
+    * Author         : Jordan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: Updates text box
+    **********************************************************/
     public static void displayToTextBox(String text)  
     {
         guiCreator.move.setText(text);
-    }
+    }//END diplayTOTextBox
 
-    /**
-     * Constructor for Screen.
-     * Displays the screen and pieces.
-     * 
-     * @param gameSize - set the size of board.
-     */
-    public Screen(int gameSize)  {
+    /**********************************************************
+    * Method Name    : Screen
+    * Author         : Jordan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: Constructor for Screen
+    **********************************************************/
+    public Screen(int gameSize)  
+    {
         // calls initScreen
         initScreen(gameSize);
     }// end Screen
 
-    // useful for finding single pieces (King / Queen )
-    private Piece findPiece(Class c, ArrayList<Piece> Pieces)  {
-        for (Piece p : Pieces)  {
-            if (p.getClass() == c)  {
-                return p;
-            }
-        }
-        return null;
-    }
-
-        public Cell getCell(int x, int y) 
+    /**********************************************************
+    * Method Name    : findPiece
+    * Author         : Jordan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: Find specified piece 
+    **********************************************************/
+    private Piece findPiece(Class c, ArrayList<Piece> Pieces)  
+    {
+        //For each piece in pieces array
+        for (Piece p : Pieces)  
         {
-            if(x > 7 || y > 7 || x < 0 || y < 0)
+            //IF piece class equals specified piece 
+            if (p.getClass() == c)  
             {
-                return null;
-            }
-            else
-            {
-                return cells[x][y];
-            }
+                return p;
+            }//END IF 
+        }//END IF 
+        return null;
+    }//END find piece 
+
+    /**********************************************************
+    * Method Name    : getCell
+    * Author         : Jordan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: Find specified cell
+    **********************************************************/
+    public Cell getCell(int x, int y) 
+    {
+        if(x > 7 || y > 7 || x < 0 || y < 0)
+        {
+            return null;
         }
+        else
+        {
+            return cells[x][y];
+        }//END IF
+    }//END getCell
 
-        public Screen getScreen() 
-{
-            return this;
-        }
+    /**********************************************************
+    * Method Name    : getScreen
+    * Author         : Jordan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: returns screen
+    **********************************************************/
+    public Screen getScreen() 
+    {
+        return this;
+    }//END getScreen
 
-
-
-
-
-
-    private void initVariables()  {
+    /**********************************************************
+    * Method Name    : initVariables
+    * Author         : Jordan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: Initializes variables for Chess game
+    **********************************************************/
+    private void initVariables()  
+    {
         King abstractKing = (King) findPiece(King.class, p1Pieces);
         abstractKing.whiteKing = true;
         abstractKing = (King) findPiece(King.class, p2Pieces);
@@ -404,34 +442,41 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         abstractRook.rookWLeft = true;
         abstractRook = (Rook) cells[7][0].getPiece();
         abstractRook.rookWRight = true;
-    }
+    }//END initVariable
 
-        /**
-         * Initializes the screen with appropriate listeners
-         * and dimensions, and initializes the game.
-         */
-        private void initScreen(int gameSize) 
-{
-            currentTurn = 1;
-            // Pawn.enPassantW = 0;
-            // Pawn.enPassantB = 0;
-            setGameSize(gameSize);
-            addKeyListener(this);
-            setFocusable(true);
-            setPreferredSize(new Dimension(COLS * (TILE_SIZE * gameSize), ROWS * (TILE_SIZE * gameSize)));
-            addMouseMotionListener(new mouseAdapter(this));
-            addMouseListener(new mouseAdapter(this));
-            setBackground(Color.BLACK);
-            initGame();
-            initVariables();
-            moveHandler = new moveHandler(getScreen(), p1Pieces, p2Pieces);
-        }// end initScreen
+    /**********************************************************
+    * Method Name    : initScreen
+    * Author         : Jordan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: Initializes the screen with appropriate listeners
+    * and dimensions, and initializes the game.
+    **********************************************************/
+    private void initScreen(int gameSize) 
+    {
+        currentTurn = 1;
+        setGameSize(gameSize);
+        addKeyListener(this);
+        setFocusable(true);
+        setPreferredSize(new Dimension(COLS * (TILE_SIZE * gameSize), ROWS * (TILE_SIZE * gameSize)));
+        addMouseMotionListener(new mouseAdapter(this));
+        addMouseListener(new mouseAdapter(this));
+        setBackground(Color.BLACK);
+        initGame();
+        initVariables();
+        moveHandler = new moveHandler(getScreen(), p1Pieces, p2Pieces);
+    }// end initScreen
 
-    /**
-     * Initializes the game by starting the timer,
-     * resetting the board, and assigning pieces.
-     */
-    private void initGame()  {
+    /**********************************************************
+    * Method Name    : initGame
+    * Author         : Jordan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description:Initializes the game by starting the timer,
+    * resetting the board, and assigning pieces.
+    **********************************************************/
+    private void initGame()  
+    {
         timer = new Timer(DELAY, this);
         timer.start();
         // Set pieces to correct spots
@@ -440,21 +485,28 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         assignPieces();
     }// end initGame
 
-    /**
-     * This method is called by the Swing Timer every time the timer clicks.
-     * It updates the state of each piece on the board and
-     * repaints the game screen.
-     */
+    /**********************************************************
+    * Method Name    : actionPerformed
+    * Author         : Jordan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: Everytime an action is performed this method 
+    * updates the pieces in the 2 pieces arrays
+    **********************************************************/
     @Override
-    public void actionPerformed(ActionEvent e)  {
-        // FOR every piece white owns
-        for (Piece piece : p1Pieces)  {
+    public void actionPerformed(ActionEvent e) 
+    {
+        //FOR every piece white owns
+        for (Piece piece : p1Pieces)  
+        {
             piece.update();
-        } // END FOR
-          // FOR every piece black owns
-        for (Piece piece : p2Pieces)  {
+        }//END FOR
+
+        //FOR every piece black owns
+        for (Piece piece : p2Pieces)  
+        {
             piece.update();
-        } // END FOR
+        }//END FOR
         repaint();
     }// end actionPerformed
 
@@ -492,23 +544,31 @@ public class Screen extends JPanel implements ActionListener, KeyListener
 
     }
 
-    /**
-     * Paints the game board and pieces on it.
-     * 
-     * @param g the graphics object used for painting
-     */
+    /**********************************************************
+    * Method Name    : paintComponent
+    * Author         : Jordan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description:  Paints the game board and pieces on it.
+    **********************************************************/
     @Override
-    public void paintComponent(Graphics g)  {
+    public void paintComponent(Graphics g)  
+    {
         super.paintComponent(g);
         drawBackground(g);
         draw(g);
         Toolkit.getDefaultToolkit().sync();
     }// end painComponent
 
-    /**
-     * Sets the chess board to the starting position.
-     */
-    private void resetBoard()  {
+    /**********************************************************
+    * Method Name    : resetBoard
+    * Author         : Jordan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: Sets the chess board to the starting position.
+    **********************************************************/
+    private void resetBoard()  
+    {
         cells[0][0] = new Cell(0, 0, new Rook("white", 0, 0, 1, this)); // ROOK
         cells[1][0] = new Cell(1, 0, new Knight("white", 1, 0, 1, this)); // KNIGHT
         cells[2][0] = new Cell(2, 0, new Bishop("white", 2, 0, 1, this)); // BISHOP
@@ -518,7 +578,8 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         cells[6][0] = new Cell(6, 0, new Knight("white", 6, 0, 1, this)); // KNIGHT
         cells[7][0] = new Cell(7, 0, new Rook("white", 7, 0, 1, this)); // ROOK
 
-        for (int i = 0; i < 8; i++)  {
+        for (int i = 0; i < 8; i++)  
+        {
             // set a white pawn on the board in the x positon of i and y positon of 1.
             cells[i][1] = new Cell(i, 1, new Pawn("white", i, 1, 1, this)); // PAWN
         } // END FOR
@@ -532,189 +593,244 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         cells[6][7] = new Cell(6, 7, new Knight("black", 6, 7, 2, this)); // KNIGHT
         cells[7][7] = new Cell(7, 7, new Rook("black", 7, 7, 2, this)); // ROOK
 
-        for (int i = 0; i < 8; i++)  {
+        for (int i = 0; i < 8; i++)  
+        {
             // set a black pawn on the board in the the x position of i and y positon of 6.
             cells[i][6] = new Cell(i, 6, new Pawn("black", i, 6, 2, this)); // PAWN
         } // END FOR
 
-        for (int i = 0; i < ROWS; i++)  {
-            for (int j = 2; j < 6; j++)  {
+        for (int i = 0; i < ROWS; i++)  
+        {
+            for (int j = 2; j < 6; j++)  
+            {
                 // creates a new cell for every square on the board
                 cells[i][j] = new Cell(i, j);
             } // END FOR
         } // END FOR
-
     }// end resetBoard
-
-    /**
-     * This method assigns the pieces to the players,
-     * by iterating through each cell on the board
-     * and checking if it contains a piece.
-     * If a piece is found, it is added to the list of pieces owned by
-     * the corresponding player (player 1 or player 2).
-     */
-    public static void assignPieces()  {
+    
+    /**********************************************************
+    * Method Name    : assignPieces
+    * Author         : Jordan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: This method assigns the pieces to the players,
+    * by iterating through each cell on the board
+    * and checking if it contains a piece.
+    * If a piece is found, it is added to the list of pieces owned by
+    * the corresponding player (player 1 or player 2).
+    **********************************************************/
+    public static void assignPieces()  
+    {
         p1Pieces.clear();
         p2Pieces.clear();
         // FOR every row
-        for (int i = 0; i < ROWS; i++)  {
+        for (int i = 0; i < ROWS; i++)  
+        {
             // FORevery collum
-            for (int j = 0; j < COLS; j++)  {
+            for (int j = 0; j < COLS; j++) 
+            {
                 // IF the Cell doesn't have a piece
-                if (cells[i][j].getPiece() != null)  {
+                if (cells[i][j].getPiece() != null)  
+                {
                     // IF Piece in the cell is owned by white
-                    if (cells[i][j].getPiece().getOwnedBy() == 1)  {
+                    if (cells[i][j].getPiece().getOwnedBy() == 1) 
+                    {
                         // give the piece to whites
                         p1Pieces.add(cells[i][j].getPiece());
                     }
                     // ELSE IF Piece in the cell is owned by black
-                    else if (cells[i][j].getPiece().getOwnedBy() == 2)  {
+                    else if (cells[i][j].getPiece().getOwnedBy() == 2)  
+                    {
                         // give the piece to black
                         p2Pieces.add(cells[i][j].getPiece());
                     } // end IF
                 } // end IF
             } // END FOR
         } // END FOR
-
     }// end assign piecees
 
-    /**
-     * Draws the background of the chess board.
-     * 
-     * @param g the graphics object used for drawing
-     */
-    private void drawBackground(Graphics g)  {
+    /********************************************************** 
+    * Method Name    :drawBackGround
+    * Author         : Jordan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: Draws the background of the chess board.
+    **********************************************************/
+    private void drawBackground(Graphics g)  
+    {
         g.setColor(Color.WHITE);
         // FOR every other index in the array, draw a white square
-        for (int i = 0; i < ROWS; i++)  {
-            for (int j = 0; j < COLS; j++)  {
+        for (int i = 0; i < ROWS; i++)  
+        {
+            for (int j = 0; j < COLS; j++)  
+            {
                 // if i plus j moduled by 2 equal 0
-                if ((i + j) % 2 == 0)  {
+                if ((i + j) % 2 == 0)  
+                {
                     // colors square white
                     g.fillRect(j * (TILE_SIZE * gameSize), i * (TILE_SIZE * gameSize), TILE_SIZE * gameSize,
                             TILE_SIZE * gameSize);
                 } // END IF
             } // END FOR
         } // END FOR
-
     }// END drawBackground
 
-    /**
-     * Draws all the pieces on the board using the Graphics object
-     * 
-     * @param g the Graphics object used for drawing
-     */
-    private void draw(Graphics g)  {
+    /********************************************************** 
+    * Method Name    : draw
+    * Author         : Jordan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: Draws all the pieces on the board using the Graphics object
+    **********************************************************/
+    private void draw(Graphics g)  
+    {
         // FOR every piece in Whited Pieces array
-        for (Piece piece : p1Pieces)  {
-            if (!piece.isCaptured())  {
+        for (Piece piece : p1Pieces)  
+        {
+            if (!piece.isCaptured()) 
+            {
                 piece.draw(g, this);
             }
         } // END FOR
 
         // FOR every piece in blacks Pieces array
-        for (Piece piece : p2Pieces)  {
-            if (!piece.isCaptured())  {
+        for (Piece piece : p2Pieces)  
+        {
+            if (!piece.isCaptured())  
+            {
                 piece.draw(g, this);
             }
         } // END FOR
-
     }// END draw
-
-    /**
-     * Returns the current turns value.
-     * 
-     * @return an integer representing the current turn value.
-     */
-    public int getCurrentTurn()  {
+    
+    /********************************************************** 
+    * Method Name    : getCurrentTurn
+    * Author         : Jordan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: returns whoes turn it is 
+    **********************************************************/
+    public int getCurrentTurn()  
+    {
         return currentTurn;
     }// END getCurrentTurn
 
-    public static void setCurrentTurn()  {
+    /********************************************************** 
+    * Method Name    : setCurrentTurn
+    * Author         : Alan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: returns whoes turn it is 
+    **********************************************************/
+    public static void setCurrentTurn()  
+    {
         // IF its whites turn
-        if (currentTurn == 1)  {
+        if (currentTurn == 1) 
+        {
             // set currentTurn equal to black
             currentTurn = 2;
             guiCreator.turn = 2;
         }
         // ELSE is blacks turn
-        else  {
+        else  
+        {
             // set currentTurn equal to white
             currentTurn = 1;
             guiCreator.turn = 1;
-
         } // END IF
-    }
+    }//END setCurrentTurn
 
-    /**
-     * Returns the game size of the game.
-     * 
-     * @return an integer representing the game size.
-     */
-    public static int getGameSize()  {
+    /********************************************************** 
+    * Method Name    : getGameSize
+    * Author         : Jordan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: Returns the game size of the game.
+    **********************************************************/
+    public static int getGameSize() 
+    {
         return gameSize;
     }// END getGameSize
 
-    /**
-     * Sets the game size of the game.
-     * 
-     * @param gameSize an integer representing the game size.
-     */
-    public void setGameSize(int gameSize)  {
+    /********************************************************** 
+    * Method Name    : setGameSize
+    * Author         : Jordan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description:  Sets the game size of the game.
+    **********************************************************/
+    public void setGameSize(int gameSize)  
+    {
         Screen.gameSize = gameSize;
-    }
+    }//END setGameSize
 
-    public void promotePawn(String color, int ownedBy, int x, int y, String promoteType)  {
+    /********************************************************** 
+    * Method Name    : promotePawn
+    * Author         : Alan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description:  promote pawn into passed promoteType
+    **********************************************************/
+    public void promotePawn(String color, int ownedBy, int x, int y, String promoteType)  
+    {
         // Clear piece in cells x and y location
         cells[x][y].setPiece(null);
         repaint();
         // IF promoteType equal queen
-        if (promoteType.equals("Queen"))  {
+        if (promoteType.equals("Queen"))  
+        {
             // set piece at x and y to a Queen
             cells[x][y] = new Cell(x, y, new Queen(color, x, y, ownedBy, this));
         } // END IF
 
         // IF promoteType equal Bishop
-        if (promoteType.equals("Bishop"))  {
+        if (promoteType.equals("Bishop"))  
+        {
             // set piece at x and y to a Bishop
             cells[x][y] = new Cell(x, y, new Bishop(color, x, y, ownedBy, this));
         } // END IF
 
         // IF promoteType equal Rook
-        if (promoteType.equals("Rook"))  {
+        if (promoteType.equals("Rook"))  
+        {
             // set piece at x and y to a Rook
             cells[x][y] = new Cell(x, y, new Rook(color, x, y, ownedBy, this));
         } // END IF
 
         // IF promoteType equal Knight
-        if (promoteType.equals("Knight"))  {
+        if (promoteType.equals("Knight"))  
+        {
             // set piece at x and y to a Knight
             cells[x][y] = new Cell(x, y, new Knight(color, x, y, ownedBy, this));
         } // END IF
 
         // IF y equal 7
-        if (y == 7)  {
+        if (y == 7)  
+        {
             // add promted piece to white pieces array
             p1Pieces.add(cells[x][y].getPiece());
         }
         // ELSE y equal 0
-        else  {
+        else  
+        {
             // add promted piece to black pieces array
             p2Pieces.add(cells[x][y].getPiece());
         } // END IF
 
         // IF piece at x and y owned by white
-        if (cells[x][y].getPiece().getOwnedBy() == 1)  {
+        if (cells[x][y].getPiece().getOwnedBy() == 1) 
+        {
             // display piece and pieces x and y location
             guiCreator.move.setText("White" + cells[x][y].getPiece().toString() + "(" + x + "," + y + ")");
         }
         // ELSE piece at x and y owned by black
-        else  {
+        else  
+        {
             // display piece and pieces x and y location
             guiCreator.move.setText("Black" + cells[x][y].getPiece().toString() + "(" + x + "," + y + ")");
         } // END IF
 
         repaint();
     }// end promotedPawn
-
 }// end Screen

@@ -31,12 +31,13 @@ public class Cell
     private boolean cell_isHighlighted;//cell is highlighed or not 
     /********************************************************/
     
-    /**
-     * Constructor for Cell.
-     * Sets the coordinate of piece passed and sets the piece to null.
-     * @param x - x position of cell
-     * @param y - y position of cell
-     */
+    /**********************************************************
+    * Method Name    : Cell
+    * Author         : Jordan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: Constructor for Cell.
+    **********************************************************/
     public Cell(int x, int y)
     {
         cell_x = x;
@@ -45,13 +46,13 @@ public class Cell
         cell_isHighlighted = false;
     }//end Cell
 
-     /**
-     * Constructor for Cell.
-     * Sets the coordinate of piece passed and sets the piece to piece passed.
-     * @param x - x postion of cell
-     * @param y - y position of cell
-     * @param piece - type of piece 
-     */
+    /**********************************************************
+    * Method Name    : Cell
+    * Author         : Jordan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: Constructor for Cell.
+    **********************************************************/
     public Cell(int x, int y, Piece piece) 
     {
         cell_x = x;
@@ -60,10 +61,13 @@ public class Cell
         cell_isHighlighted = false;
     }//end cell
 
-    /** 
-    * This method sets the piece on cell to the given piece and updates the piece's position.
-    * @param piece The piece to set on this cell.
-    */
+    /**********************************************************
+    * Method Name    : setPiece
+    * Author         : Jordan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description:This method sets the piece on cell to the given piece and updates the piece's position.
+    **********************************************************/
     public void setPiece(Piece piece) 
     {
         cell_piece = piece;
@@ -78,65 +82,85 @@ public class Cell
 
     }//end setPiece
 
-    /**
-    * This method returns the piece currently occupying cell.
-    * @return The piece currently occupying this cell.
-    */
+    /**********************************************************
+    * Method Name    : getPiece
+    * Author         : Jordan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description:This method returns the piece currently occupying cell.
+    **********************************************************/
     public Piece getPiece()
     {
         return cell_piece;
     }//end getPiece
 
-    /**
-    * This method sets whether or not this cell is highlighted.
-    * @param isHighlighted checks if this cell is highlighted.
-    */
+    /**********************************************************
+    * Method Name    : setHighlighted
+    * Author         : Jordan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description:This method sets whether or not this cell is highlighted.
+    **********************************************************/
     public void setHighlighted(boolean isHighlighted)
     {
         cell_isHighlighted = isHighlighted;
     }//end setHighlighted
-
-   /**
-    * This method returns whether or not this cell is currently highlighted.
-    * @return Whether or not this cell is currently highlighted.
-    */
+    
+    /**********************************************************
+    * Method Name    : isHighlighted
+    * Author         : Jordan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description:This method returns whether or not this cell is currently highlighted.
+    **********************************************************/
     public boolean isHighlighted()
     {
         return cell_isHighlighted;
     }//end isHighlighted
 
-    /**
-    * This method returns the x-coordinate of the cell
-    * @return x cordinate of the cell
-    */
+    /**********************************************************
+    * Method Name    : getX
+    * Author         : Jordan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: This method returns the x-coordinate of the cell
+    **********************************************************/
     public int getX()
     {
         return cell_x;
     }//end getX
 
-    /**
-    * This method returns the y-coordinate of the cell
-    * @return y coordinate of the cell
-    */
+    /**********************************************************
+    * Method Name    : getY
+    * Author         : Jordan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: This method returns the y-coordinate of the cell
+    **********************************************************/
     public int getY() 
     {
         return cell_y;
     }//end getY
 
-   /**
-    * This method returns whether or not this cell is occupied by a game piece.
-    * @return Whether or not this cell is occupied.
-    */
+    /**********************************************************
+    * Method Name    : isOccupied
+    * Author         : Jordan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: This method returns whether or not this cell is occupied by a game piece.
+    **********************************************************/
     public boolean isOccupied()
     {
         return cell_piece != null;
     }//end isOccupied
 
-    /**
-     * Checks if a given Piece object is occupying this cell.
-     * @param piece check if this piece is in thiscell.
-     * @return true if the given piece is occupying this cell, false otherwise.
-     */
+    /**********************************************************
+    * Method Name    : isOccupied
+    * Author         : Jordan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: Checks if a given Piece object is occupying this cell.
+    **********************************************************/
     public boolean isOccupiedBy(Piece piece) 
     {
         return cell_piece == piece;
