@@ -2,10 +2,6 @@ package main.Piece.ChessPieces;
 
 import main.java.Chess.frontend.Cell;
 import main.java.Chess.frontend.Screen;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
 import main.Piece.InvalidMovementException;
 import main.Piece.Piece;
 /**********************************************************
@@ -24,22 +20,20 @@ import main.Piece.Piece;
  **********************************************************/
 public class King extends Piece
 {
-    //class constants
-    //class variables 
-    public String color;
-    public boolean whiteKing = false; //
-    public boolean blackKing = false;
+    //Class constants
+    //Class variables 
+    public String color;              //Color of piece
+    public boolean whiteKing = false; //to check if kings have moved
+    public boolean blackKing = false; //to check if kings have moved
     /************************************/
 
-    /*
-     * Consructor of King.
-     * Sets owner, color, and (x,y) position of King piece.
-     * @param color - color of King piece.
-     * @param x - x positon of King piece.
-     * @param y - y position of King piece 
-     * @param owner - sets owner of King piece.
-     * @param board - sets the size of png of piece.
-     */
+    /**********************************************************
+	* Method Name    : King
+	* Author         : Alan/Jordan
+	* Date           : 
+	* Course/Section : Software Engineering 221-301
+	* Program Description: Constructor for King.
+	**********************************************************/
     public King (String color, int x, int y, int owner, Screen board)
     {
         super(x, y, owner, board);
@@ -48,10 +42,14 @@ public class King extends Piece
         this.color = color;
     }//END King 
 
-    /**
-     * This method checks if King moved.
-     * @return true if King didn't move false if King did move
-     */
+    /**********************************************************
+	* Method Name    : didKingMove
+	* Author         : Alan/Jordan
+	* Date           : 
+	* Course/Section : Software Engineering 221-301
+	* Program Description: This method checks if King has moved
+    * from starting position.
+	**********************************************************/
     public boolean didKingMove() 
     {
         //Local constants
@@ -82,9 +80,13 @@ public class King extends Piece
         return false;
     }//END didKingMove
 
-    /**
-     * This method checks if King moved.
-     */
+    /**********************************************************
+	* Method Name    : kingMove
+	* Author         : Alan/Jordan
+	* Date           : 
+	* Course/Section : Software Engineering 221-301
+	* Program Description: Checks if King is at original sqaure.
+	**********************************************************/
     public void kingMove()
     {
         //Local constants
@@ -114,12 +116,14 @@ public class King extends Piece
         }//END IF
     }//END kingMove
 
-    /**
-     * Checks if lane is clear to see if castling is possible.
-     * @param rook - check if rooks are at starting position.
-     * @param cells - checks if specific squares on board have no Pieces 
-     * @return - returns true if castling is possible false if not.
-     */
+    /**********************************************************
+	* Method Name    : checkIfLaneClear
+	* Author         : Alan/Jordan
+	* Date           : 
+	* Course/Section : Software Engineering 221-301
+	* Program Description: This method checks if lanes 
+    * at Y:0 and Y:& are empty 
+	**********************************************************/
     public boolean checkIfLaneClear(Rook rook, Cell cells[][]) 
     {
         //Local constants
@@ -174,12 +178,14 @@ public class King extends Piece
         return false;
      }//END checkIfLaneClear
 
-    /**
-     * 
-     * @param side - direction of castling
-     * @param player - White or Black lanes.
-     * @return
-     */
+     /**********************************************************
+	* Method Name    : getRook
+	* Author         : Alan/Jordan
+	* Date           : 
+	* Course/Section : Software Engineering 221-301
+	* Program Description: checks if White and Blacks rooks are 
+    * in starting locations
+	**********************************************************/
     private static Piece getRook(String side, int player) 
     { 
         //Local constants
@@ -220,20 +226,19 @@ public class King extends Piece
         }//END IF
     }//END getRook
 
-    /**
-     * This method set pieces to right position for the technique
-     * castling.
-     * @param rook
-     * @param cells
-     */
+    /**********************************************************
+	* Method Name    : castling 
+	* Author         : Alan/Jordan
+	* Date           : 
+	* Course/Section : Software Engineering 221-301
+	* Program Description: This method set pieces to right position 
+    * for castling
+	**********************************************************/
     public void castling(Rook rook,  Cell cells[][]) 
     {
         //Local constants
         //Local variables 
         /*****************************************************/
-
-        // depending on the rook and owner we know which side to castle
-        // we also know that the king is in the middle of the board
 
         //IF rookWleft is true
         //This means that rook hasn't moved
@@ -259,16 +264,24 @@ public class King extends Piece
         {
             cells[6][7].setPiece(this);
             cells[5][7].setPiece(rook);
-        }
+        }//END IF
 
-    }
-    /**
-     * This method determines what move the kings can do.
-     * @throws InvalidMovementException - if move not legal it throws the exception
-     */
+    }//END castling
+
+    /**********************************************************
+	* Method Name    : move
+	* Author         : Alan/Jordan
+	* Date           : 
+	* Course/Section : Software Engineering 221-301
+	* Program Description: This method determines what move the King can do.
+	**********************************************************/
     @Override
     public void move(Cell[][] cells, Screen board, Cell start, Cell end) throws InvalidMovementException
     {
+        //Local constants
+        //Local variables 
+        /*****************************************************/
+
         //IF Piece moved up
         if(end.getY() > start.getY())
         {
@@ -315,7 +328,7 @@ public class King extends Piece
             }
         }
         //ELSE IF piece moved down 1 
-        else if(end.getY()< start.getY())
+        else if(end.getY() < start.getY())
         {
             //IF piece moved to the right 1 and down 1
             if((end.getX() == start.getX() + 1) && end.getY() == start.getY() - 1)
@@ -340,11 +353,18 @@ public class King extends Piece
             }//END IF
         }//END IF 
     }//END move
-    @Override
-    public String toString()
-    {
-        return "King";
-    }
+  
+    /**********************************************************
+	* Method Name    : getAllPossibleMoves
+	* Author         : Jordan
+	* Date           : 
+	* Course/Section : Software Engineering 221-301
+	* Program Description: 
+	**********************************************************/
+    //Local constants
+    //Local variables
+    Cell[][] possibleMoves = new Cell[8][];
+    /*****************************************************/
     @Override
     public Cell[][] getAllPossibleMoves(Screen board) 
     {
@@ -388,4 +408,17 @@ public class King extends Piece
         }
         return possibleMoves;
     }
-}
+
+    /**********************************************************
+	* Method Name    : toString
+	* Author         : Alan/Jordan
+	* Date           : 
+	* Course/Section : Software Engineering 221-301
+	* Program Description: Return the Piece type
+	**********************************************************/
+    public String toString()
+    {
+        return "King";
+    }//END toString
+
+}//END King
