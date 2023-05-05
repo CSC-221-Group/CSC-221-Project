@@ -52,6 +52,10 @@ public abstract class Piece
 	**********************************************************/
     public Piece(int x, int y, Screen board) 
     {
+        //Local constants
+        //Local variables 
+        /*****************************************************/
+        
         //set position of piece to the given (x,y) cords.
         gameSize = Screen.getGameSize();
         pos = new Point(x, y);
@@ -66,6 +70,10 @@ public abstract class Piece
 	**********************************************************/
     public Piece(int x, int y, int ownedBy, Screen board) 
     {
+        //Local constants
+        //Local variables 
+        /*****************************************************/
+
         pos = new Point(x, y); 
         // Set ownedBy to white or black
         gameSize = Screen.getGameSize();
@@ -81,6 +89,9 @@ public abstract class Piece
 	**********************************************************/
     protected void loadImage(String game, String path)
     {
+        //Local constants
+        //Local variables 
+        /*****************************************************/
         try 
         {
             //loads image depending on game and pieces name
@@ -111,7 +122,10 @@ public abstract class Piece
     * If the pieces is outside the board, the piece doesnt move at all.
 	**********************************************************/
     public void update() 
-    {
+    {  
+        //Local constants
+        //Local variables 
+        /*****************************************************/
 
         //If the Pieces x position is less than 0 
         if(pos.x < 0) 
@@ -149,6 +163,10 @@ public abstract class Piece
 	**********************************************************/
     public void draw(Graphics g, ImageObserver obs) 
     {
+        //Local constants
+        //Local variables 
+        /*****************************************************/
+
         g.drawImage(icon, pos.x * (Screen.TILE_SIZE * gameSize), (7 * (Screen.TILE_SIZE * gameSize)) - pos.y * (Screen.TILE_SIZE * gameSize), obs);
     }//END draw
 
@@ -161,6 +179,10 @@ public abstract class Piece
 	**********************************************************/
     public Point getPos() 
     {
+        //Local constants
+        //Local variables 
+        /*****************************************************/
+
         //returns pieces current x- and y-cordinates.
         return pos;
     }//end getPos
@@ -174,6 +196,10 @@ public abstract class Piece
 	**********************************************************/
     public void setPos(int x, int y) 
     {
+        //Local constants
+        //Local variables 
+        /*****************************************************/
+
         pos.x = x;
         pos.y = y;
     }//end SetPos
@@ -187,8 +213,11 @@ public abstract class Piece
 	**********************************************************/
     public boolean isClicked(MouseEvent e) 
     {
+        //Local constants
+        //Local variables 
         double x = e.getX() / Screen.TILE_SIZE;
         double y = e.getY() / Screen.TILE_SIZE;
+        /*****************************************************/
        
         //IF x and y have a piece there 
         if(x == pos.x && y == pos.y) 
@@ -214,6 +243,10 @@ public abstract class Piece
 	**********************************************************/
     public int getOwnedBy() 
     {
+        //Local constants
+        //Local variables 
+        /*****************************************************/
+
         return ownedBy;
     }//End getOwnedBy
 
@@ -226,6 +259,10 @@ public abstract class Piece
 	**********************************************************/
     public void setOwnedBy(int ownedBy) 
     {
+        //Local constants
+        //Local variables 
+        /*****************************************************/
+
         this.ownedBy = ownedBy;
     }//end setOwnedBy
 
@@ -238,6 +275,10 @@ public abstract class Piece
 	**********************************************************/
     public boolean isCaptured() 
     {
+        //Local constants
+        //Local variables 
+        /*****************************************************/
+
         return captured;
     }//end is captured
 
@@ -250,6 +291,9 @@ public abstract class Piece
 	**********************************************************/
     public void setCaptured(boolean captured) 
     {
+        //Local constants
+        //Local variables 
+        /*****************************************************/
         this.captured = captured;
     }//end setCaptured
     
@@ -263,7 +307,11 @@ public abstract class Piece
 	**********************************************************/
     public boolean capture(Piece endPiece, Cell start, Cell end)
     {
-        boolean capture = false;
+        //Local constants
+        //Local variables 
+        boolean capture = false; 
+        /*****************************************************/
+
         //IF square at releasepoint doesnt have a piece in it
         if(endPiece != null) 
         {
@@ -322,90 +370,106 @@ public abstract class Piece
         }
         return possibleMoves;
     }
-     /**********************************************************
+
+    /**********************************************************
 	* Method Name    : laneCheckYAxis
 	* Author         : Alan
 	* Date           : 
 	* Course/Section : Software Engineering 221-301
-	* Program Description: checks if x axis is free from starting position
+	* Program Description: checks if Y axis is free from starting position
     *   to ending postion of the piece
 	**********************************************************/
    public  boolean laneCheckYAxis(Cell cells[][], Cell start, Cell end)
     {
-        boolean laneCheck = true;
-
+        //Local constants
+        //Local variables 
+        boolean laneCheck = true; // Checks if lane is clear
+        /*****************************************************/ 
         for(int i = 0;i <= 7; i++)
         {
             //IF Piece is moving up
             if(end.getY() > start.getY())
             {  
-                //IF pieces Y is outside of board and y is not less than starting position && 
-                if(end.getY() - i > -1 && end.getY() - i != start.getY() && end.getY() - i >= start.getY())
+                //IF pieces Y is not outside of board and y is not equal to starting position and y minus i is not less than starting position 
+                if(end.getY() - i > -1 && end.getY() - i != start.getY() && end.getY() - i > start.getY())
                 {
+                    //IF y - i position has a piece in it 
                     if(cells[end.getX()][end.getY() - i].getPiece() != null )
                     {
                         laneCheck =  false;
-                    }
-                }
+                    }//END IF 
+                }//END IF 
             }
+            //ELSE IF piece is moving down
             else if(end.getY() < start.getY())
             {
-               if(end.getY() + i < 8 && end.getY() + i != start.getY()&& end.getY() + i < start.getY())
+                //IF pieces Y is not outside of board and y is not equal to starting position and y plus i is not greater than starting position 
+                if(end.getY() + i < 8 && end.getY() + i != start.getY()&& end.getY() + i < start.getY())
                 {
+                    //IF y + i position has a piece in it 
                     if(cells[end.getX()][end.getY() + i].getPiece() != null)
                     {
                         laneCheck = false;
-                    }
-                }
-            }    
-        }
+                    }//END IF 
+                }//END IF 
+            }//END IF 
+        }//ENd FOR
        return laneCheck;
-    } 
+    }//END lanecheckYaxis
     
     /**********************************************************
-	* Method Name    : capture 
-	* Author         : Jordan
+	* Method Name    : laneCheckXAxis
+	* Author         : Alan
 	* Date           : 
 	* Course/Section : Software Engineering 221-301
-	* Program Description:deletes pieces that is "captured" and
-    * sets piece that captured to thay sqaure
+	* Program Description: checks if X axis is free from starting position
+    *   to ending postion of the piece
 	**********************************************************/
     public boolean laneCheckXAxis(Cell cells [][], Cell start, Cell end)
     {
-        boolean laneCheck = true;
-
+        //Local constants
+        //Local variables 
+        boolean laneCheck = true; // Checks if lane is clear
+        /*****************************************************/
         for(int i = 0;i <= 7; i++)
         {
+            //IF Piece is moving to the right
             if(end.getX() > start.getX())
-            {
+            { 
+                //IF pieces x is not outside of board and x is not equal to starting position and x minus i is not less than starting position 
                 if(end.getX() - i > -1 && end.getX() - i != start.getX() && end.getX() - i > start.getX())
                 { 
+                    //IF x - i position has a piece in it 
                     if(cells[end.getX() - i][end.getY()].getPiece() != null)
                     {
                         laneCheck =  false;
-                    }
-                }
+                    }//END IF 
+                }//END IF 
             }
+            //ELSE IF piece is moving to the left
             else if(end.getX() < start.getX())
             {
+                 //IF pieces x is not outside of board and x is not equal to starting position and x plus i is not less than starting position 
                 if(end.getX() + i < 8 && end.getX() + i != start.getX() && end.getX() + i < start.getX())
                 {
+                    //IF x + i position has a piece in it 
                     if(cells[end.getX() + i][end.getY()].getPiece() != null)
                     {
                         laneCheck = false;
-                    }
-                }
-            }   
-        }
+                    }//END IF 
+                }//END IF
+            }//END IF 
+        }//END FOR
         return laneCheck;
-    }
+    }//END laneCheckXAxis
+
     /**********************************************************
 	* Method Name    : capture 
 	* Author         : Jordan
 	* Date           : 
 	* Course/Section : Software Engineering 221-301
-	* Program Description:deletes pieces that is "captured" and
-    * sets piece that captured to thay sqaure
+	* Program Description: checks if diagnal is free from starting position
+    * to ending postions 
 	**********************************************************/
     public boolean diagonalCheck(Cell cells [][], Cell start, Cell end)
     {
@@ -417,38 +481,46 @@ public abstract class Piece
 
         for(int i = 1; i < endX; i++)
         {
+            //IF piece is moving up and to the left 
             if(end.getX() < start.getX() && end.getY() > start.getY())
             {
+                //IF x - i position ans start + i has a piece in it 
                 if(cells[start.getX() - i][start.getY() + i].getPiece() != null)
                 {
                     diagonalCheck = false;
-                }
+                }//END IF 
             } 
+            //ELSE IF piece is moving up and to the right 
             else if(end.getX() > start.getX() && end.getY() > start.getY())
             {
+                //IF x + i position ans start + i has a piece in it 
                 if(cells[start.getX() + i][start.getY() + i].getPiece() != null)
                 {
                     diagonalCheck = false;
-                }
+                }//END IF 
             }
+            //ELSE IF piece is moving down and to the right 
             else if(end.getX() > start.getX() && end.getY() < start.getY())
             {
+                //IF x + i position ans start - i has a piece in it 
                 if(cells[start.getX() + i][start.getY() - i].getPiece() != null)
                 {
                     diagonalCheck = false;
                 }
             }
+            //ELSE IF piece is moving down and to the left 
             else if(end.getX() < start.getX() && end.getY() < start.getY())
             {
+                //IF x - i position ans start - i has a piece in it 
                 if(cells[start.getX() - i][start.getY() - i].getPiece() != null)
                 {
                     diagonalCheck = false;
-                }
-            }
-
-        }
+                }//END IF 
+            }//ENDIF 
+        }//END FFOR 
         return diagonalCheck;
-    }
+    }//END diagonalCheck
+    
     /**********************************************************
 	* Method Name    : capturOrMove
 	* Author         : Alan
@@ -460,6 +532,10 @@ public abstract class Piece
 	**********************************************************/
     public void captureORMove(Cell start, Cell end)
     {
+        //Local constants
+        //Local variables 
+        /*****************************************************/
+
         //IF release point not empty
         if(end.getPiece() != null)
         { 

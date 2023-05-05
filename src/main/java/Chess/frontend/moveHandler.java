@@ -22,7 +22,8 @@ import java.util.ArrayList;
 import main.Piece.Piece;
 import main.Piece.ChessPieces.King;
 
-public class moveHandler {
+public class moveHandler 
+{
     Piece[][] allPieces = new Piece[2][16]; // A two dimensional array that holds p1 and p2's pieces
     Screen board;
     ArrayList<Cell> possibleMoves = new ArrayList<Cell>(); // An arraylist that holds all possible moves for a current

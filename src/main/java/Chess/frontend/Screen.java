@@ -13,7 +13,7 @@ import main.Piece.ChessPieces.*;
 
 /**********************************************************
  * Program Name : Screen
- * Author : Jordan
+ * Author : Jordan/Alan
  * Date : 3/19/23
  * Course/Section : Software Engineering 221-301
  * Program Description: This program draws the board and piece
@@ -61,7 +61,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
 
     /**********************************************************
      * Program Name : mouseAdapter
-     * Author : Jordan
+     * Author : Jordan/Alan
      * Date : 3/19/23
      * Course/Section : Software Engineering 221-301
      * Program Description: This class checks all the mouse movements events
@@ -83,13 +83,28 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         boolean mousePressed = false;
         public static Piece currentPiece = null;
         private Screen board;
+        /**************************************
 
+        /**********************************************************
+        * Method Name    : mouseAdapter 
+        * Author         : Jordan
+        * Date           : 
+        * Course/Section : Software Engineering 221-301
+        * Program Description: receives mouse events 
+        **********************************************************/
         public mouseAdapter(Screen board) 
         {
             this.board = board;
-        }
+        }//END mouseAdapter
 
-        /*****************************************/
+        
+        /**********************************************************
+        * Method Name    : displaylocationError
+        * Author         : Jordan
+        * Date           : 
+        * Course/Section : Software Engineering 221-301
+        * Program Description:Display the infomation of the erorr that occured.
+        **********************************************************/
         private void displayLocationError()
         {
             System.out.println("Mouse pressed outside of board");
@@ -98,16 +113,15 @@ public class Screen extends JPanel implements ActionListener, KeyListener
             System.out.println("Cords: " + (preX / TILE_SIZE) + ", " + ((ROWS - 1) - (preY / TILE_SIZE)));
             System.out.println("Adjusted Cords: " + (preX / (TILE_SIZE * gameSize)) + ", "
                     + ((ROWS - 1) - (preY / (TILE_SIZE * gameSize))));
-        }
+        }//END displaylocationerror
 
-        /**
-         * This methode determines which cell was clicked and sets the currentPiece
-         * variable
-         * to the piece occupying that cell if it is owned by the current turn's player.
-         * And sets preX and preY to x and y of mousepressed event.
-         * 
-         * @param e The mouse event that triggered this method.
-         */
+        /**********************************************************
+        * Method Name    : mousePressed
+        * Author         : Jordan
+        * Date           : 
+        * Course/Section : Software Engineering 221-301
+        * Program Description: This method determines which cell was clicked .
+        **********************************************************/
         @Override
         public void mousePressed(MouseEvent e) 
         {
@@ -119,26 +133,30 @@ public class Screen extends JPanel implements ActionListener, KeyListener
             /************************************************/
 
             // IF x or y equals less than 0
-            if (x < 0 || y < 0)  {
+            if (x < 0 || y < 0)  
+            {
                 displayLocationError();
                 // exit method
                 return;
             } // END IF
 
             // IF x greater than boards limits or y greater than boards limits
-            if (x > COLS || y > ROWS)  {
+            if (x > COLS || y > ROWS)
+            {
                 displayLocationError();
                 return;
             } // END IF
 
             // IF the cell is unoccupied.
-            if (!cell.isOccupied())  {
+            if (!cell.isOccupied())  
+            {
                 // exit method
                 return;
             } // END IF
 
             // IF the piece thats clicked is not owned by player who clicked it
-            if (cell.getPiece().getOwnedBy() != currentTurn)  {
+            if (cell.getPiece().getOwnedBy() != currentTurn)  
+            {
                 // exit method
                 return;
             } // END IF
@@ -151,12 +169,6 @@ public class Screen extends JPanel implements ActionListener, KeyListener
             preY = y;
         }// end mousePressed
 
-        @Override
-        public void mouseDragged(MouseEvent e)
-        {
-            // Not needed for now
-        }
-
         /**
          * This method checks where the mouse was released.
          * 
@@ -164,7 +176,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
          */
         @Override
         public void mouseReleased(MouseEvent e) 
-            {
+        {
             // IF mouse not pressed
             if (!mousePressed) 
             {
@@ -174,14 +186,25 @@ public class Screen extends JPanel implements ActionListener, KeyListener
 
             mousePressed = false;
             // call updatedLocation
-            try  {
+            try 
+            {
                 updateLocation(e);
-            } catch (InvalidMovementException e1)  {
+            }
+            catch (InvalidMovementException e1)  
+            {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
 
         }// end mouseRelease
+
+        /**********************************************************
+        * Method Name    : mousePressed
+        * Author         : Jordan/Alan
+        * Date           : 
+        * Course/Section : Software Engineering 221-301
+        * Program Description: This methode determines which cell was clicked .
+        **********************************************************/
         /**
          * Updates the location of the current piece based on
          * the coordinates of the mouse release event.
@@ -189,95 +212,139 @@ public class Screen extends JPanel implements ActionListener, KeyListener
          * @param e The mouse release event.
          * @throws InvalidMovementException
          */
-
-        public void updateLocation(MouseEvent e) throws InvalidMovementException  {
-            // local constants
+        public void updateLocation(MouseEvent e) throws InvalidMovementException  
+        {    
+            //local constants
             final char[] letters =  { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' };
-            // local variables
+            //local variables
             int x = e.getX() / (TILE_SIZE * gameSize);
             int y = (ROWS - 1) - (e.getY() / (TILE_SIZE * gameSize));
             Cell cell = cells[x][y];
             Piece endPiece = null;
             /********************************************/
-            // IF x or y outside the board
-            if (x > COLS || y > ROWS)  {
+            
+            //IF x or y outside the board
+            if (x > COLS || y > ROWS)  
+            {
                 // exit method
                 return;
-            } // END IF
+            } //END IF
 
-            // IF square is occupied
-
-            if (cell.isOccupied())  {
-                // exit method
-                if (cells[x][y].getPiece().getOwnedBy() == currentTurn)  {
-
+            //IF square is occupied
+            if (cell.isOccupied())  
+            {
+                //IF piece is owned by same team
+                if (cells[x][y].getPiece().getOwnedBy() == currentTurn)  
+                {
+                    //Display sqaure is occupied 
                     System.out.println("Square is occupied");
-                    if (currentPiece.getClass() == King.class)  {
+
+                    //IF current piece is a King 
+                    if (currentPiece.getClass() == King.class)  
+                    {
+                        //Cast current piece into a King 
                         King king = (King) currentPiece;
-                        if (king.didKingMove() == false)  {
-                            if (cell.isOccupied() && cell.getPiece().getClass() == Rook.class)  {
+
+                        //IF the king did move 
+                        if (king.didKingMove() == false)  
+                        {
+                            //IF cells is by a rook
+                            if (cell.isOccupied() && cell.getPiece().getClass() == Rook.class)  
+                            {
+                                //Cast cells piece to a rook
                                 Rook rook = (Rook) cell.getPiece();
-                                if (rook.hasNotMoved() == false)  {
-                                    if (king.checkIfLaneClear(rook, cells))  {
+                                //IF rook has not moved 
+                                if (rook.hasNotMoved() == false)  
+                                {
+                                    //IF lane clear for castling 
+                                    if (king.checkIfLaneClear(rook, cells)) 
+                                    {
+                                        //Castle 
                                         king.castling(rook, cells);
+                                        //Set piece to null
                                         currentPiece = null;
+                                        //Draw pieces on the board
                                         repaint();
+                                        //Set turn to opposite team
                                         setCurrentTurn();
+                                        //Exit method 
                                         return;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                } else  {
+                                    }//END IF 
+                                }//END IF 
+                            }//END IF 
+                        }//END IF 
+                    }//END IF 
+                }
+                //ELSE capture piece 
+                else  
+                {
                     endPiece = cells[x][y].getPiece();
                 }
-            }
-                // IF y equal to 7 and cell is not occupied or IF y equal to 0 and cell is not
-                // occupied
-                if (y == 7 && !cell.isOccupied() || y == 0 && !cell.isOccupied())  {
-                    // IF current piece is a pawn
-                    if (currentPiece.getClass() == Pawn.class)  {
-                        // call guiCreator promoteScreen
-                        guiCreator.promoteScreen(x, y);
-                    } // END IF
-                } // END IF
-                currentPiece.move(cells,null, cells[preX][preY], cells[x][y]);
-                String information = "";
-                if (cells[preX][preY].isOccupied() == false)  {
-                    // piece moved successfully
-                    if (endPiece != null && endPiece != cells[x][y].getPiece())  {
-                        capturedPieces.add(endPiece);
-                        if (endPiece.getOwnedBy() == 1)  {
-                            p1Pieces.remove(endPiece);
-                            information += "White Captured \n" + endPiece.toString() + " at " + letters[x] + y;
-                        } else  {
-                            p2Pieces.remove(endPiece);
-                            information += "Black Captured \n" + endPiece.toString() + "at " + letters[x] + y;
-                        }
-                    } else if (currentPiece.getOwnedBy() == 1)  {
-                        // updated guiCreator move JLabel
-                        information += "White" + currentPiece.toString() + ":" + letters[x ] + y;
-                    } else  {
-                        // updated guiCreator move JLabel
-                        information += "Black" + currentPiece.toString() + ":" + letters[x ] + y;
+            }//END IF 
+           
+                // IFcurrent piece is a pawn
+            if (currentPiece.getClass() == Pawn.class )  
+            {
+                //IF starting locations Y is 1 and ending location y = 0
+                // or if starting location is 6 and ending position is 7
+                if(preY == 1 && y == 0 || preY == 6 && y == 7)
+                {
+                    //call guiCreator promoteScreen
+                    guiCreator.promoteScreen(x, y);
+                }//END IF 
+            }// END IF
+
+            //Check if move is legal
+            currentPiece.move(cells,null, cells[preX][preY], cells[x][y]);
+
+            String information = "";
+            
+            //IF cells at 
+            if (cells[preX][preY].isOccupied() == false)  
+            {
+                //piece moved successfully
+                if (endPiece != null && endPiece != cells[x][y].getPiece())  
+                {
+                    capturedPieces.add(endPiece);
+                    if (endPiece.getOwnedBy() == 1)  
+                    {
+                        p1Pieces.remove(endPiece);
+                        information += "White Captured \n" + endPiece.toString() + " at " + letters[x] + y;
+                    } 
+                    else  
+                    {
+                        p2Pieces.remove(endPiece);
+                        information += "Black Captured \n" + endPiece.toString() + "at " + letters[x] + y;
                     }
-                    displayToTextBox(information);
-                    if (currentPiece.getClass() == Pawn.class)  {
-                        Pawn.enPassant(currentPiece, x, y);
-                    }
-                    currentPiece = null;
-                    // draw all pieces again
-                    repaint();
-                    // Sets current turn
-                    setCurrentTurn();
                 }
+                else if (currentPiece.getOwnedBy() == 1)  
+                {
+                    // updated guiCreator move JLabel
+                    information += "White" + currentPiece.toString() + ":" + letters[x] + y;
+                } 
+                else  
+                {
+                    // updated guiCreator move JLabel
+                    information += "Black" + currentPiece.toString() + ":" + letters[x] + y;
+                }
+                displayToTextBox(information);
 
-            } // end update location
+                if (currentPiece.getClass() == Pawn.class)  
+                {
+                    Pawn.enPassant(currentPiece, x, y);
+                }
+                currentPiece = null;
+                // draw all pieces again
+                repaint();
+                // Sets current turn
+                setCurrentTurn();
+            }
 
-    }// end mouseAdapter
+        }//end update location
+    }//end mouseAdapter
 
-    public static void displayToTextBox(String text)  {
+    public static void displayToTextBox(String text)  
+    {
         guiCreator.move.setText(text);
     }
 
@@ -600,7 +667,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     public void promotePawn(String color, int ownedBy, int x, int y, String promoteType)  {
         // Clear piece in cells x and y location
         cells[x][y].setPiece(null);
-
+        repaint();
         // IF promoteType equal queen
         if (promoteType.equals("Queen"))  {
             // set piece at x and y to a Queen
