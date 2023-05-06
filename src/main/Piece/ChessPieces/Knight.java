@@ -2,9 +2,6 @@ package main.Piece.ChessPieces;
 
 import main.java.Chess.frontend.Cell;
 import main.java.Chess.frontend.Screen;
-
-import javax.swing.plaf.nimbus.State;
-
 import main.Piece.InvalidMovementException;
 import main.Piece.Piece;
 /**********************************************************
@@ -25,16 +22,16 @@ public class Knight extends Piece
 {
     //class constants
     //class variables 
-    public String color;
+    public String color; //Color of piece
     /************************************/
-    /**
-     * Consructor of Knight.
-     * Sets owner, color, and (x,y) position of Knight piece.
-     * @param color - color of Knight piece.
-     * @param x - x positon of Knight piece.
-     * @param y - y position of Knight piece 
-     * @param owner - sets owner of Knight piece,
-     */
+
+    /**********************************************************
+	* Method Name    : Knight 
+	* Author         : Alan/Jordan
+	* Date           : 
+	* Course/Section : Software Engineering 221-301
+	* Program Description:Constructor for Knight.
+	**********************************************************/
     public Knight (String color, int x, int y, int owner, Screen board)
     {
         super(x, y, owner, board);
@@ -43,13 +40,20 @@ public class Knight extends Piece
         this.color = color;
     }//END Knight
 
-    /**
-     *  This method determines what move the knights can do.
-     * @throws InvalidMovementException - if move not legal it throws the exception
-     */
+    /**********************************************************
+	* Method Name    : move 
+	* Author         : Alan/Jordan
+	* Date           : 
+	* Course/Section : Software Engineering 221-301
+	* Program Description: This method determines what move the Knight can do.
+	**********************************************************/
     @Override
     public void move(Cell[][] cells, Screen board, Cell start, Cell end) throws InvalidMovementException 
     {
+        //Local constants
+        //Local variables 
+        /*****************************************************/
+
         //IF release points Y greater then starting point Y
         if(end.getY() > start.getY())
         {
@@ -112,29 +116,58 @@ public class Knight extends Piece
             throw new InvalidMovementException();
         }//END IF 
     }//END move
-
-    @Override
-    public String toString()
-    {
-        return "Knight";
-    }
-    @Override
+    
+    /**********************************************************
+	* Method Name    : getAllPossibleMoves
+	* Author         : Jordan
+	* Date           : 
+	* Course/Section : Software Engineering 221-301
+	* Program Description: 
+	**********************************************************/
+    /****************************************/
     public Cell[][] getAllPossibleMoves(Screen board) 
     {
         //Local constants
         //Local variables
-        Cell[][] possibleMoves = new Cell[4][];
+        Cell[][] possibleMoves = new Cell[4][2];
         /****************************************/
-        possibleMoves[0][0] = board.getCell(getPos().x - 2, getPos().y + 1);
-        possibleMoves[0][1] = board.getCell(getPos().x - 1, getPos().y + 2);
-        possibleMoves[1][0] = board.getCell(getPos().x + 2, getPos().y + 1);
-        possibleMoves[1][1] = board.getCell(getPos().x + 1, getPos().y + 2);
-        possibleMoves[2][0] = board.getCell(getPos().x - 2, getPos().y - 1);
-        possibleMoves[2][1] = board.getCell(getPos().x - 1, getPos().y - 2);
-        possibleMoves[3][0] = board.getCell(getPos().x + 2, getPos().y - 1);
-        possibleMoves[3][1] = board.getCell(getPos().x + 1, getPos().y - 2);
+        // Add checks to make sure the cell the knight can move to is not null
+        // Add checks to make sure the cell the knight can move to is not occupied by a piece of the same color
+        if(getPos().x - 2 >= 0 && getPos().y + 1 < 8 && getPos().y + 1 >= 0 && getPos().x - 2 < 8)
+        {
+            possibleMoves[0][0] = board.getCell(getPos().x - 2, getPos().y + 1);
+            possibleMoves[0][1] = board.getCell(getPos().x - 1, getPos().y + 2);
+        }
+        if(getPos().x + 2 >= 0 && getPos().y + 1 < 8 && getPos().y + 1 >= 0 && getPos().x + 2 < 8)
+        {
+            possibleMoves[1][0] = board.getCell(getPos().x + 2, getPos().y + 1);
+            possibleMoves[1][1] = board.getCell(getPos().x + 1, getPos().y + 2);
+        }
+        if(getPos().x - 2 >= 0 && getPos().y - 1 < 8 && getPos().y - 1 >= 0 && getPos().x - 2 < 8)
+        {
+            possibleMoves[2][0] = board.getCell(getPos().x - 2, getPos().y - 1);
+            possibleMoves[2][1] = board.getCell(getPos().x - 1, getPos().y - 2);
+        }
+        if(getPos().x + 2 >= 0 && getPos().y - 1 < 8 && getPos().y - 1 >= 0 && getPos().x + 2 < 8)
+        {
+            possibleMoves[3][0] = board.getCell(getPos().x + 2, getPos().y - 1);
+            possibleMoves[3][1] = board.getCell(getPos().x + 1, getPos().y - 2);
+        }
         return possibleMoves;
     }
+
+    /**********************************************************
+	* Method Name    : toString
+	* Author         : Alan/Jordan
+	* Date           : 
+	* Course/Section : Software Engineering 221-301
+	* Program Description: Return the Piece type
+	**********************************************************/
+    @Override
+    public String toString()
+    {
+        return "Knight";
+    }//END toString
 }
 
 

@@ -30,15 +30,14 @@ public class Pawn extends Piece
     public static int enPassantW = 0;
     public static int enPassantB = 0;
     /************************************/
-    /**
-     * Consructor of Pawn.
-     * Sets owner, color, and (x,y) position of Pawn piece.
-     * 
-     * @param color - color of Pawn piece.
-     * @param x     - x positon of Pawn piece.
-     * @param y     - y position of Pawn piece
-     * @param owner - sets owner of Pawn piece
-     */
+
+   /**********************************************************
+	* Method Name    : Pawn
+	* Author         : Alan/Jordan
+	* Date           : 
+	* Course/Section : Software Engineering 221-301
+	* Program Description:Constructor for Pawn.
+	**********************************************************/
     public Pawn(String color, int x, int y, int owner, Screen board) 
     {
         // Calls Piece contructor
@@ -48,77 +47,86 @@ public class Pawn extends Piece
         String Chess = "Chess";
         loadImage(Chess, color + "Pawn");
         this.color = color;
-    }
+    }//END Pawn
 
-    /**
-     * @param board
-     * @param start
-     * @param end
-     * @throws InvalidMovementException
-     */
+    /**********************************************************
+	* Method Name    : move 
+	* Author         : Alan/Jordan
+	* Date           : 
+	* Course/Section : Software Engineering 221-301
+	* Program Description: This method determines what move the Pawn can do.
+	**********************************************************/
     @Override
     public void move(Cell cell[][],Screen board, Cell start, Cell end) throws InvalidMovementException 
     {
         //Local constants
         //Local variables 
         /*****************************************************/
-        // lets just isntantly detect capturing
+        
+        //IF piece is capturing
         if (end.getPiece() != null) 
         {
-            // this is capturing
+            //IF white own the Piece
             if(getOwnedBy() == 1 ) 
             {
-                //white moves up the y axis
+                //IF piece is moving up and taking the piece to the right
                 if(end.getX() == start.getX() + 1 && end.getY() == start.getY() + 1) 
                 {
-                    // we can move the piece
                     capture(end.getPiece(), start, end);
                     canDoubleMovement = false;
                 } 
+                //ELSE IF piece is moving up and taking the piece to the left
                 else if(end.getX() == start.getX() - 1 && end.getY() == start.getY() + 1) 
                 {
                     // we can move the piece
                     capture(end.getPiece(), start, end);
                     canDoubleMovement = false;
-                } 
+                }
+                //ELSE move not legal 
                 else 
                 {
                     throw new InvalidMovementException("Invalid move");
-                }
+                }//END IF 
             } 
+            //ELSE piece is owned by white
             else 
             {
-                //black moves down the y axis
+                //IF piece is moving down and taking the piece to the right
                 if(end.getX() == start.getX() + 1 && end.getY() == start.getY() - 1) 
                 {
                     // we can move the piece
                     capture(end.getPiece(), start, end);
                     canDoubleMovement = false;
                 } 
+                //ELSE IF piece is moving down and taking the piece to the left
                 else if(end.getX() == start.getX() - 1 && end.getY() == start.getY() - 1) 
                 {
                     // we can move the piece
                     capture(end.getPiece(), start, end);
                     canDoubleMovement = false;
                 } 
+                //ELSE move not legal
                 else 
                 {
                     throw new InvalidMovementException("Invalid move");
-                }
-            }
-        } 
+                }//END IF 
+            }//END IF
+        }
+        //ELSE piece is moving but not capturing
         else 
         {
-            // this declares that there is nothing at the end point, now we can do normal movemement
+            //IF white pawn at starting square and is able to move to square up
             if(start.getY() == 1 && canDoubleMovement) 
             {
+                //IF x is the same and piece moves 2 squares up
                 if(end.getX() == start.getX() && end.getY() == start.getY() + 2) 
                 {
                     // we can move the piece
                     end.setPiece(start.getPiece());
                     start.setPiece(null);
                     canDoubleMovement = false;
-                } 
+                }
+                //ELSE IF x is the same and piece is moving 1 square up
                 else if(end.getX() == start.getX() && end.getY() == start.getY() + 1) 
                 {
                     // we can move the piece
@@ -126,13 +134,16 @@ public class Pawn extends Piece
                     start.setPiece(null);
                     canDoubleMovement = false;
                 }
+                //ELSE Move not legal
                 else 
                 {
                     throw new InvalidMovementException("Invalid move");
-                }
+                }//END IF 
             } 
+            //ELSE IF pawn is owned by black and black pawns are in starting squares  
             else if(start.getY() == 6 && canDoubleMovement) 
             {
+                //IF piece is same x axis and move two square up   
                 if(end.getX() == start.getX() && end.getY() == start.getY() - 2) 
                 {
                     // we can move the piece
@@ -140,6 +151,7 @@ public class Pawn extends Piece
                     start.setPiece(null);
                     canDoubleMovement = false;
                 } 
+                //ELSE IF //IF piece is same x axis and move one square up   
                 else if(end.getX() == start.getX() && end.getY() == start.getY() - 1) 
                 {
                     // we can move the piece
@@ -147,21 +159,25 @@ public class Pawn extends Piece
                     start.setPiece(null);
                     canDoubleMovement = false;
                 } 
+                //ELSE move not legal
                 else 
                 {
                     throw new InvalidMovementException("Invalid move");
-                }
+                }//END IF 
             } 
+            //ELSE if piece not moving to squares up
             else 
             {
-                if(end.getX() == start.getX() && end.getY() == start.getY() + 1) 
+                //IF piece owned by white and piece in same x axis and piece moves one square up
+                if (start.getPiece().getOwnedBy() == 1 && end.getX() == start.getX() && end.getY() == start.getY() + 1) 
                 {
                     // we can move the piece
                     end.setPiece(start.getPiece());
                     start.setPiece(null);
                     canDoubleMovement = false;
                 } 
-                else if(end.getX() == start.getX() && end.getY() == start.getY() - 1) 
+                ////ELSE IF piece owned by black and piece in same x axis and piece moves one square up
+                else if(start.getPiece().getOwnedBy() == 2 &&end.getX() == start.getX() && end.getY() == start.getY() - 1) 
                 {
                     // we can move the piece
                     end.setPiece(start.getPiece());
@@ -171,14 +187,22 @@ public class Pawn extends Piece
                 else 
                 {
                     throw new InvalidMovementException("Invalid move");
-                }
-            }
-        }
-          // we must check if it results in a capture or not
-    }
+                }//END IF
+            }//EnD IF 
+        }//END IF
+    }//END move
 
+    /**********************************************************
+	* Method Name    : enPassant
+	* Author         : Alan/Jordan
+	* Date           : 
+	* Course/Section : Software Engineering 221-301
+	* Program Description: This method set pieces to right position 
+    * for enPassant
+	**********************************************************/
     public static void enPassant(Piece piece, int x, int y) 
     {
+        //IF Piece owned by white 
         if (piece.getOwnedBy() == 1) 
         {
             if (Screen.cells[x][y - 1].getPiece() != null && Screen.cells[x][y - 1].getPiece().getClass() == Pawn.class
@@ -212,9 +236,27 @@ public class Pawn extends Piece
     @Override
     public Cell[][] getAllPossibleMoves(Screen board)
     {
-        Cell[][] possibleMoves = new Cell[2][];
-        possibleMoves[1][0] = board.getCell(getPos().x + 1, getPos().y + 1);
-        possibleMoves[2][0] = board.getCell(getPos().x - 1, getPos().y + 1);
+        Cell[][] possibleMoves = new Cell[2][1];
+        if(getOwnedBy() == 1 ) 
+            {
+                if(board.getCell(getPos().x + 1, getPos().y + 1) != null)
+            {
+                possibleMoves[0][0] = board.getCell(getPos().x + 1, getPos().y + 1);
+            }
+            if(board.getCell(getPos().x -1 , getPos().y + 1) != null)
+            {
+                possibleMoves[1][0] = board.getCell(getPos().x - 1, getPos().y + 1);
+            }
+        } else {
+            if(board.getCell(getPos().x + 1, getPos().y - 1) != null)
+            {
+                possibleMoves[0][0] = board.getCell(getPos().x + 1, getPos().y - 1);
+            }
+            if(board.getCell(getPos().x -1 , getPos().y - 1) != null)
+            {
+                possibleMoves[1][0] = board.getCell(getPos().x - 1, getPos().y - 1);
+            }
+        }
         return possibleMoves;
     } 
 }

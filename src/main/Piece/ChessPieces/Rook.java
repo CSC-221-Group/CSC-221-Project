@@ -137,10 +137,10 @@ public class Rook extends Piece
         //Local Variables
         Cell[][] possibleMoves = new Cell[4][];
         /*****************************************************/
-        possibleMoves[1] = getPotentialMoves(1,0,board);
-        possibleMoves[2] = getPotentialMoves(-1,0,board);
-        possibleMoves[3] = getPotentialMoves(0,1,board);
-        possibleMoves[4] = getPotentialMoves(0,-1,board);
+        possibleMoves[0] = getPotentialMoves(1,0,board);
+        possibleMoves[1] = getPotentialMoves(-1,0,board);
+        possibleMoves[2] = getPotentialMoves(0,1,board);
+        possibleMoves[3] = getPotentialMoves(0,-1,board);
         return possibleMoves;
     }
 

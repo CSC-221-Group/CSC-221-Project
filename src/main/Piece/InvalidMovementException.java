@@ -23,7 +23,10 @@ public class InvalidMovementException extends Exception {
     * a check piece moves in a illegal way
 	**********************************************************/
     public InvalidMovementException(String msg) 
-    {
+    {   //Local constants
+        //Local variables 
+        /*****************************************************/
+        
         super(msg);
     }//END InvalidMovementException
     
@@ -37,6 +40,10 @@ public class InvalidMovementException extends Exception {
 	**********************************************************/
     public InvalidMovementException()
     {
+        //Local constants
+        //Local variables 
+        /*****************************************************/
+
         System.out.println("Invalid Move");
     }//END InvalidMovementException
 }//END InvalidMovementException
