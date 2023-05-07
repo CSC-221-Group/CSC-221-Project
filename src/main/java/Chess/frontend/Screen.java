@@ -410,6 +410,27 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     }//END getCell
 
     /**********************************************************
+    * Method Name    : assignPossibleMove
+    * Author         : Jordan
+    * Date           :
+    * Course/Section : Software Engineering 221-301
+    * Program Description: Takes a PossibleMove Array and assigns 
+    * a valid cell to the given index
+    **********************************************************/
+   public void assignPossibleMove(Cell[][] possibleMoves, int iX, int iY, int posX, int posY)
+   {
+        if( posX > 7 || posY > 7 || posX < 0 || posY < 0 || getCell(posX, posY) == null)
+        {
+            return;
+        }
+        else
+        {
+            possibleMoves[iX][iY] = getCell(posX, posY);
+        }//END IF
+   }
+
+
+    /**********************************************************
     * Method Name    : getScreen
     * Author         : Jordan
     * Date           : 
