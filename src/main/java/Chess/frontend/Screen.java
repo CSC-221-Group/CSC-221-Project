@@ -207,14 +207,15 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         * This method runs by three checks and castles if it is possible
         **********************************************************/
 
-        private boolean tryCastling(Cell startCell , Cell endCell) {
+        private boolean tryCastling(Cell startCell , Cell endCell) 
+        {
             //local constants
             //local variables
             Rook rook;
             King king;
             /************************************************/
             System.out.println("Start Cell: " + startCell.getX() + ", " + startCell.getY() + " End Cell: " + endCell.getX() + ", " + endCell.getY());
-            System.out.println("Start Piece: " + startCell.getPiece().getClass() + " End Piece: " + endCell.getPiece().getClass());
+            //System.out.println("Start Piece: " + startCell.getPiece().getClass() + " End Piece: " + endCell.getPiece().getClass());
             if(castlingPreCheck(startCell) && castlingRookCheck(endCell))
             {
                 rook = (Rook)endCell.getPiece();
@@ -340,7 +341,13 @@ public class Screen extends JPanel implements ActionListener, KeyListener
             currentPiece.move(cells,null, cells[preX][preY], cells[x][y]);
 
             String information = "";
-            
+           
+            //IF moved piece is a pawn
+            if (currentPiece.getClass() == Pawn.class)  
+            {
+                Pawn.enPassant(currentPiece, x, y);
+            }//end if 
+
             //IF piece moved 
             if (cells[preX][preY].isOccupied() == false && endPiece != null && endPiece != cells[x][y].getPiece())  
             {
@@ -373,12 +380,6 @@ public class Screen extends JPanel implements ActionListener, KeyListener
             }
 
             displayToTextBox(information);
-
-            //IF moved piece is a pawn
-            if (currentPiece.getClass() == Pawn.class)  
-            {
-                Pawn.enPassant(currentPiece, x, y);
-            }//end if 
 
             currentPiece = null;
             // draw all pieces again
@@ -584,9 +585,11 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     }
 
     @Override
-    public void keyPressed(KeyEvent e)  {
+    public void keyPressed(KeyEvent e)  
+    {
         int key = e.getKeyCode();
-        if (key == KeyEvent.VK_ESCAPE)  {
+        if (key == KeyEvent.VK_ESCAPE) 
+        {
             System.exit(0);
         }
         if (key == KeyEvent.VK_R)  {
@@ -862,34 +865,40 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     public void promotePawn(String color, int ownedBy, int x, int y, String promoteType)  
     {
         // Clear piece in cells x and y location
-        cells[x][y].setPiece(null);
-        repaint();
         // IF promoteType equal queen
+        if (y == 7)  
+        {
+            // add promted piece to white pieces array
+            p1Pieces.remove(cells[x][y].getPiece());
+        }
+        // ELSE y equal 0
+        else  
+        {
+            // add promted piece to black pieces array
+            p2Pieces.remove(cells[x][y].getPiece());
+        } // END IF
         if (promoteType.equals("Queen"))  
         {
             // set piece at x and y to a Queen
-            cells[x][y] = new Cell(x, y, new Queen(color, x, y, ownedBy, this));
+            cells[x][y].setPiece(new Queen(color, x, y, ownedBy, this));
         } // END IF
-
         // IF promoteType equal Bishop
-        if (promoteType.equals("Bishop"))  
+        else if (promoteType.equals("Bishop"))  
         {
             // set piece at x and y to a Bishop
-            cells[x][y] = new Cell(x, y, new Bishop(color, x, y, ownedBy, this));
+            cells[x][y].setPiece(new Bishop(color, x, y, ownedBy, this));
         } // END IF
-
         // IF promoteType equal Rook
-        if (promoteType.equals("Rook"))  
+        else if (promoteType.equals("Rook"))  
         {
             // set piece at x and y to a Rook
-            cells[x][y] = new Cell(x, y, new Rook(color, x, y, ownedBy, this));
+            cells[x][y].setPiece(new Rook(color, x, y, ownedBy, this));
         } // END IF
-
         // IF promoteType equal Knight
-        if (promoteType.equals("Knight"))  
+        else if (promoteType.equals("Knight"))  
         {
             // set piece at x and y to a Knight
-            cells[x][y] = new Cell(x, y, new Knight(color, x, y, ownedBy, this));
+            cells[x][y].setPiece(new Knight(color, x, y, ownedBy, this));
         } // END IF
 
         // IF y equal 7
@@ -917,7 +926,5 @@ public class Screen extends JPanel implements ActionListener, KeyListener
             // display piece and pieces x and y location
             guiCreator.move.setText("Black" + cells[x][y].getPiece().toString() + "(" + x + "," + y + ")");
         } // END IF
-
-        repaint();
     }// end promotedPawn
 }// end Screen

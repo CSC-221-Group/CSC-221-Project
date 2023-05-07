@@ -81,6 +81,10 @@ public class Knight extends Piece
             {
                 captureORMove(start, end);
             }//END IF
+            else
+            {
+                throw new InvalidMovementException();
+            }
         }
         else if(end.getY() < start.getY())
         {
@@ -108,13 +112,11 @@ public class Knight extends Piece
             {
                 captureORMove(start, end);
             }//END IF 
+            else
+            {
+                throw new InvalidMovementException();
+            }
         }
-        //ELSE move not legal 
-        else
-        {
-            //Throw InvalidMovementException
-            throw new InvalidMovementException();
-        }//END IF 
     }//END move
     
     /**********************************************************
