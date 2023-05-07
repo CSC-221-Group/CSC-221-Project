@@ -202,7 +202,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         /**********************************************************
         * Method Name    : tryCastling
         * Author         : Jordan
-        * Date           : 
+        * Date           : 5/6/2023
         * Course/Section : Software Engineering 221-301
         * This method runs by three checks and castles if it is possible
         **********************************************************/
@@ -214,8 +214,6 @@ public class Screen extends JPanel implements ActionListener, KeyListener
             Rook rook;
             King king;
             /************************************************/
-            System.out.println("Start Cell: " + startCell.getX() + ", " + startCell.getY() + " End Cell: " + endCell.getX() + ", " + endCell.getY());
-            //System.out.println("Start Piece: " + startCell.getPiece().getClass() + " End Piece: " + endCell.getPiece().getClass());
             if(castlingPreCheck(startCell) && castlingRookCheck(endCell))
             {
                 rook = (Rook)endCell.getPiece();
@@ -236,7 +234,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
          /**********************************************************
         * Method Name    : castlingPreCheck
         * Author         : Jordan
-        * Date           : 
+        * Date           : 5/6/2023
         * Course/Section : Software Engineering 221-301
         * Checks if the king is castling & can castle
         **********************************************************/
@@ -264,7 +262,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         /**********************************************************
         * Method Name    : castlingRookCheck
         * Author         : Jordan
-        * Date           : 
+        * Date           :  5/6/2023
         * Course/Section : Software Engineering 221-301
         * Checks if the piece is a rook and if it has moved or not.
         **********************************************************/
@@ -301,11 +299,13 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         public void updateLocation(MouseEvent e) throws InvalidMovementException  
         {    
             //local constants
+            final int enemyTurn = currentTurn == 1 ? 2 : 1;
             //local variables
             int x = e.getX() / (TILE_SIZE * gameSize);
             int y = (ROWS - 1) - (e.getY() / (TILE_SIZE * gameSize));
             Cell cell = cells[x][y];
             Piece endPiece = null;
+            King king;
             /********************************************/
             
             //IF x or y outside the board
@@ -339,7 +339,9 @@ public class Screen extends JPanel implements ActionListener, KeyListener
 
             //Check if move is legal
             currentPiece.move(cells,null, cells[preX][preY], cells[x][y]);
-
+            king = (King) findPiece(King.class, currentTurn == 1 ? p2Pieces : p1Pieces);
+            System.out.println("King in check: " + king.isInCheck() + "Location: " + king.getPos().x + " " + king.getPos().y); 
+            king.setInCheck(moveHandler.checkForCheck(enemyTurn));
             String information = "";
            
             //IF moved piece is a pawn

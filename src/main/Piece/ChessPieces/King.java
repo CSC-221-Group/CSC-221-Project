@@ -25,6 +25,7 @@ public class King extends Piece
     public String color;              //Color of piece
     public boolean whiteKing = false; //to check if kings have moved
     public boolean blackKing = false; //to check if kings have moved
+    private boolean inCheck = false;  //to check if king is in check
     /************************************/
 
     /**********************************************************
@@ -38,9 +39,54 @@ public class King extends Piece
     {
         super(x, y, owner, board);
         String Chess = "Chess"; 
-        loadImage(Chess,color + "Bishop");
+        loadImage(Chess,color + "King");
         this.color = color;
     }//END King 
+
+    /**********************************************************
+     * Method Name    : isInCheck
+     * Author         : Jordan
+     * Date           : 5/7/2023
+     * Course/Section : Software Engineering 221-301
+     * Program Description: Checks if King is in check.
+     *  
+     * BEGIN isInCheck
+     *    IF King is in check
+     *      return true
+     *   ELSE
+     *     return false
+     *  END IF
+     * END isInCheck
+     **********************************************************/
+
+    public boolean isInCheck()
+    {
+        return inCheck;
+    }
+
+    /**********************************************************
+     * Method Name    : setInCheck
+     * Author         : Jordan
+     * Date           : 5/7/2023
+     * Course/Section : Software Engineering 221-301
+     * Program Description: Sets King in check.
+     *  
+     * BEGIN setInCheck
+     *    IF King is in check
+     *      set inCheck to true
+     *   ELSE
+     *     set inCheck to false
+     *  END IF
+     * END setInCheck
+     **********************************************************/
+
+    public void setInCheck(boolean inCheck)
+    {
+        this.inCheck = inCheck;
+    }
+
+
+
 
     /**********************************************************
 	* Method Name    : didKingMove
