@@ -39,6 +39,7 @@ import main.Piece.ChessPieces.*;
 public class Screen extends JPanel implements ActionListener, KeyListener                      
 {
     // class constants
+    public final char[] letters =  { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' };
     private final int DELAY = 10; // delay between each frame in ms
     public static final int TILE_SIZE = 32;// size of square on board
     public static final int ROWS = 8; // size of the board horizontally
@@ -199,6 +200,96 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         }//end mouseRelease
 
         /**********************************************************
+        * Method Name    : tryCastling
+        * Author         : Jordan
+        * Date           : 
+        * Course/Section : Software Engineering 221-301
+        * This method runs by three checks and castles if it is possible
+        **********************************************************/
+
+        private boolean tryCastling(Cell startCell , Cell endCell) {
+            //local constants
+            //local variables
+            Rook rook;
+            King king;
+            /************************************************/
+            System.out.println("Start Cell: " + startCell.getX() + ", " + startCell.getY() + " End Cell: " + endCell.getX() + ", " + endCell.getY());
+            System.out.println("Start Piece: " + startCell.getPiece().getClass() + " End Piece: " + endCell.getPiece().getClass());
+            if(castlingPreCheck(startCell) && castlingRookCheck(endCell))
+            {
+                rook = (Rook)endCell.getPiece();
+                king = (King)startCell.getPiece();
+                System.out.println("Castling, " + rook.rookWRight + " " + rook.rookWLeft + " " + rook.rookBRight + " " + rook.rookBLeft);
+                if(king.checkIfLaneClear(rook, cells))
+                {
+                    System.out.println("Castling2");
+                    king.castling(rook, cells);
+                    currentPiece = null;
+                    repaint();
+                    setCurrentTurn();
+                    return true;
+                }
+            }
+            return false;
+        }
+         /**********************************************************
+        * Method Name    : castlingPreCheck
+        * Author         : Jordan
+        * Date           : 
+        * Course/Section : Software Engineering 221-301
+        * Checks if the king is castling & can castle
+        **********************************************************/
+
+        private boolean castlingPreCheck(Cell theCell)
+        {
+            // local constants
+            // local variables
+            Piece piece = theCell.getPiece() != null ? theCell.getPiece() : null;
+            King king;
+            /************************************************/
+            if(theCell.isOccupied() == false || piece == null ||
+                 theCell.getPiece().getClass() != King.class ||
+                theCell.getPiece().getOwnedBy() != currentTurn)
+            {
+                return false;
+            }
+            king = (King)piece;
+            if(king.didKingMove())
+            {
+                return false;
+            }
+            return true;
+        }
+        /**********************************************************
+        * Method Name    : castlingRookCheck
+        * Author         : Jordan
+        * Date           : 
+        * Course/Section : Software Engineering 221-301
+        * Checks if the piece is a rook and if it has moved or not.
+        **********************************************************/
+
+        private boolean castlingRookCheck(Cell theCell)
+        {
+            // local constants
+            // local variables
+            Piece piece = theCell.getPiece() != null ? theCell.getPiece() : null;
+            Rook rook;
+            /************************************************/
+            if(theCell.isOccupied() == false || piece == null ||
+                 theCell.getPiece().getClass() != Rook.class)
+            {
+                return false;
+            }
+            rook = (Rook)piece;
+            if(rook.hasNotMoved() == false)
+            {
+                return false;
+            }
+            return true;
+        }
+
+
+        /**********************************************************
         * Method Name    : mousePressed
         * Author         : Jordan/Alan
         * Date           : 
@@ -209,7 +300,6 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         public void updateLocation(MouseEvent e) throws InvalidMovementException  
         {    
             //local constants
-            final char[] letters =  { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' };
             //local variables
             int x = e.getX() / (TILE_SIZE * gameSize);
             int y = (ROWS - 1) - (e.getY() / (TILE_SIZE * gameSize));
@@ -224,59 +314,17 @@ public class Screen extends JPanel implements ActionListener, KeyListener
                 return;
             } //END IF
 
-            //IF square is occupied
-            if (cell.isOccupied())  
+            // Attempt to Castle
+            if(tryCastling(cells[preX][preY], cells[x][y]))
             {
-                //IF piece is owned by same team
-                if (cells[x][y].getPiece().getOwnedBy() == currentTurn)  
-                {
-                    //Display sqaure is occupied 
-                    System.out.println("Square is occupied");
-
-                    //IF current piece is a King 
-                    if (currentPiece.getClass() == King.class)  
-                    {
-                        //Cast current piece into a King 
-                        King king = (King) currentPiece;
-
-                        //IF the king did move 
-                        if (king.didKingMove() == false)  
-                        {
-                            //IF cells is by a rook
-                            if (cell.isOccupied() && cell.getPiece().getClass() == Rook.class)  
-                            {
-                                //Cast cells piece to a rook
-                                Rook rook = (Rook) cell.getPiece();
-                                //IF rook has not moved 
-                                if (rook.hasNotMoved() == false)  
-                                {
-                                    //IF lane clear for castling 
-                                    if (king.checkIfLaneClear(rook, cells)) 
-                                    {
-                                        //Castle 
-                                        king.castling(rook, cells);
-                                        //Set piece to null
-                                        currentPiece = null;
-                                        //Draw pieces on the board
-                                        repaint();
-                                        //Set turn to opposite team
-                                        setCurrentTurn();
-                                        //Exit method 
-                                        return;
-                                    }//END IF 
-                                }//END IF 
-                            }//END IF 
-                        }//END IF 
-                    }//END IF 
-                }
-                //ELSE capture piece 
-                else  
-                {
-                    endPiece = cells[x][y].getPiece();
-                }
-            }//END IF 
-           
-                // IFcurrent piece is a pawn
+                return;
+            }
+            // If this isn't castling, capture the piece if it is occupied
+            if(cell.isOccupied() && cell.getPiece().getOwnedBy() != currentTurn)
+            {
+                endPiece = cell.getPiece();
+            }//END ELSE IF
+            // IFcurrent piece is a pawn
             if (currentPiece.getClass() == Pawn.class )  
             {
                 //IF starting locations Y is 1 and ending location y = 0
@@ -294,54 +342,50 @@ public class Screen extends JPanel implements ActionListener, KeyListener
             String information = "";
             
             //IF piece moved 
-            if (cells[preX][preY].isOccupied() == false)  
+            if (cells[preX][preY].isOccupied() == false && endPiece != null && endPiece != cells[x][y].getPiece())  
             {
-                //IF piece captured 
-                if (endPiece != null && endPiece != cells[x][y].getPiece())  
+                //Add captured piece to array
+                capturedPieces.add(endPiece);
+                //IF piece owned by white 
+                if (endPiece.getOwnedBy() == 1)  
                 {
-                    //Add captured piece to array
-                    capturedPieces.add(endPiece);
-                    //IF piece owned by white 
-                    if (endPiece.getOwnedBy() == 1)  
-                    {
-                        p1Pieces.remove(endPiece);
-                        information += "White Captured \n" + endPiece.toString() + " at " + letters[x] + y;
-                    } 
-                    //ELSE piece is owned by black
-                    else  
-                    {
-                        p2Pieces.remove(endPiece);
-                        information += "Black Captured \n" + endPiece.toString() + "at " + letters[x] + y;
-                    }//END IF 
-                }
-                //ELSE IF piece owned by white 
-                else if (currentPiece.getOwnedBy() == 1)  
-                {
-                    // updated guiCreator move JLabel
-                    information += "White" + currentPiece.toString() + ":" + letters[x] + y;
+                    p1Pieces.remove(endPiece);
+                    information += "White Captured \n" + endPiece.toString() + " at " + letters[x] + y;
                 } 
                 //ELSE piece is owned by black
                 else  
                 {
-                    // updated guiCreator move JLabel
-                    information += "Black" + currentPiece.toString() + ":" + letters[x] + y;
-                }
+                    p2Pieces.remove(endPiece);
+                    information += "Black Captured \n" + endPiece.toString() + "at " + letters[x] + y;
+                }//END IF 
+            }
+            //ELSE IF piece owned by white 
+            else if (currentPiece.getOwnedBy() == 1)  
+            {
+                // updated guiCreator move JLabel
+                information += "White" + currentPiece.toString() + ":" + letters[x] + y;
+            } 
+            //ELSE piece is owned by black
+            else  
+            {
+                // updated guiCreator move JLabel
+                information += "Black" + currentPiece.toString() + ":" + letters[x] + y;
+            }
 
-                displayToTextBox(information);
+            displayToTextBox(information);
 
-                //IF moved piece is a pawn
-                if (currentPiece.getClass() == Pawn.class)  
-                {
-                    Pawn.enPassant(currentPiece, x, y);
-                }//end if 
+            //IF moved piece is a pawn
+            if (currentPiece.getClass() == Pawn.class)  
+            {
+                Pawn.enPassant(currentPiece, x, y);
+            }//end if 
 
-                currentPiece = null;
-                // draw all pieces again
-                repaint();
-                // Sets current turn
-                setCurrentTurn();
-            }//END IF 
-        }//end update location
+            currentPiece = null;
+            // draw all pieces again
+            repaint();
+            // Sets current turn
+            setCurrentTurn();
+        }//END IF 
     }//end mouseAdapter
 
     /**********************************************************
@@ -408,6 +452,27 @@ public class Screen extends JPanel implements ActionListener, KeyListener
             return cells[x][y];
         }//END IF
     }//END getCell
+
+    /**********************************************************
+    * Method Name    : assignPossibleMove
+    * Author         : Jordan
+    * Date           :
+    * Course/Section : Software Engineering 221-301
+    * Program Description: Takes a PossibleMove Array and assigns 
+    * a valid cell to the given index
+    **********************************************************/
+   public void assignPossibleMove(Cell[][] possibleMoves, int iX, int iY, int posX, int posY)
+   {
+        if( posX > 7 || posY > 7 || posX < 0 || posY < 0 || getCell(posX, posY) == null)
+        {
+            return;
+        }
+        else
+        {
+            possibleMoves[iX][iY] = getCell(posX, posY);
+        }//END IF
+   }
+
 
     /**********************************************************
     * Method Name    : getScreen
@@ -533,9 +598,31 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         }
         if(key == KeyEvent.VK_C)
         {
-            System.out.println("Moving black pawn to a position where ti can capture the white King");
+            System.out.println("Moving black pawn to a position where it can capture the white King");
             cells[4][3].setPiece(null);
             cells[4][3].setPiece(p2Pieces.get(0));
+        }
+        if(key == KeyEvent.VK_B)
+        {
+            // Test KEY for Castling
+            cells[5][4].setPiece(cells[5][0].getPiece());
+            cells[5][0].setPiece(null);
+            cells[6][4].setPiece(cells[6][0].getPiece());
+            cells[6][0].setPiece(null);
+            cells[1][4].setPiece(cells[1][0].getPiece());
+            cells[1][0].setPiece(null);
+            cells[2][4].setPiece(cells[2][0].getPiece());
+            cells[2][0].setPiece(null);
+
+            cells[5][5].setPiece(cells[5][7].getPiece());
+            cells[5][7].setPiece(null);
+            cells[6][5].setPiece(cells[6][7].getPiece());
+            cells[6][7].setPiece(null);
+            cells[1][5].setPiece(cells[1][7].getPiece());
+            cells[1][7].setPiece(null);
+            cells[2][5].setPiece(cells[2][7].getPiece());
+            cells[2][7].setPiece(null);
+
         }
     }// end keypressed
 

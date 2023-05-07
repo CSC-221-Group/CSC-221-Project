@@ -25,10 +25,10 @@ public class Cell
 {
     //Class constants
     //Class variables
-    private int cell_x;                //x position of cell
-    private int cell_y;                //y position of cell
-    private Piece cell_piece;          //game piece on cell
-    private boolean cell_isHighlighted;//cell is highlighed or not 
+    private int cell_x;                     //x position of cell
+    private int cell_y;                     //y position of cell
+    private Piece cell_piece;               //game piece on cell
+    private boolean cell_isHighlighted;     //cell is highlighed or not 
     /********************************************************/
     
     /**********************************************************
@@ -151,11 +151,11 @@ public class Cell
     **********************************************************/
     public boolean isOccupied()
     {
-        return cell_piece != null;
+        return cell_piece != null ? true : false;
     }//end isOccupied
 
     /**********************************************************
-    * Method Name    : isOccupied
+    * Method Name    : isOccupiedBy
     * Author         : Jordan
     * Date           : 
     * Course/Section : Software Engineering 221-301
@@ -165,5 +165,7 @@ public class Cell
     {
         return cell_piece == piece;
     }//end isOccupiedBy
+
+
     
 }//end cell

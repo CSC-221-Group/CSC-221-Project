@@ -135,7 +135,9 @@ public class King extends Piece
         {
             //IF Piece at (X:5Y:0) is empty and Piece(X:6Y:0) is empty
             //Checks right side of whiteKing to see if castling is possible
-            if(cells[5][0].getPiece() == null && cells[6][0].getPiece() == null) 
+            System.out.println("checkIfLaneClear");
+            System.out.println(cells[5][0].isOccupied());
+            if(!cells[5][0].isOccupied()  && !cells[6][0].isOccupied()) 
             {
                 return true;
             }
@@ -146,8 +148,8 @@ public class King extends Piece
             //IF Piece at (X:1Y:0) is empty and Piece(X:2Y:0) is empty and
             //   Piece at(X:3Y:0) is empty
             //Checks left side of whiteKing to see if castling is possible
-            if(cells[1][0].getPiece() == null && cells[2][0].getPiece() == null 
-                && cells[3][0].getPiece() == null) 
+            if(!cells[1][0].isOccupied() && !cells[2][0].isOccupied() && 
+               !cells[3][0].isOccupied()) 
             {
                 return true;
             }
@@ -157,7 +159,7 @@ public class King extends Piece
         {
             //IF Piece at (X:5Y:7) is empty and Piece(X:6Y:7) is empty
             //Checks right side of blackKing to see if castling is possible
-            if(cells[5][7].getPiece() == null && cells[6][7].getPiece() == null) 
+            if(!cells[5][7].isOccupied() && !cells[6][7].isOccupied())
             {
                 return true;
             }
@@ -168,8 +170,8 @@ public class King extends Piece
             //IF Piece at (X:1Y:7) is empty and Piece(X:2Y:7) is empty and
             //   Piece at(X:3Y:7) is empty
             //Checks left side of blackKing to see if castling is possible
-            if(cells[1][7].getPiece() == null && cells[2][7].getPiece() == null
-                && cells[3][7].getPiece() == null) 
+            if(!cells[1][7].isOccupied() && !cells[2][7].isOccupied() && 
+               !cells[3][7].isOccupied()) 
             {
                 return true;
             }
@@ -372,40 +374,14 @@ public class King extends Piece
         //Local variables
         Cell[][] possibleMoves = new Cell[8][1];
         /*****************************************************/
-        // Add checks to make sure the cell the knight can move to is not null
-        // Add checks to make sure the cell the knight can move to is not occupied by a piece of the same color
-        if(board.getCell(getPos().x, getPos().y + 1 ) != null)
-        {
-            possibleMoves[0][0] = board.getCell(getPos().x, getPos().y + 1 );
-        }
-        if(board.getCell(getPos().x + 1, getPos().y + 1 ) != null)
-        {
-            possibleMoves[1][0] = board.getCell(getPos().x + 1, getPos().y + 1 );
-        }
-        if(board.getCell(getPos().x + 1, getPos().y ) != null)
-        {
-            possibleMoves[2][0] = board.getCell(getPos().x + 1, getPos().y );
-        }
-        if(board.getCell(getPos().x + 1, getPos().y - 1 ) != null)
-        {
-            possibleMoves[3][0] = board.getCell(getPos().x + 1, getPos().y - 1 );
-        }  
-        if(board.getCell(getPos().x, getPos().y - 1 ) != null)
-        {
-            possibleMoves[4][0] = board.getCell(getPos().x, getPos().y - 1 );
-        }
-        if(board.getCell(getPos().x - 1, getPos().y - 1 ) != null)
-        {
-            possibleMoves[5][0] = board.getCell(getPos().x - 1, getPos().y - 1 );
-        }
-        if(board.getCell(getPos().x - 1, getPos().y ) != null)
-        {
-            possibleMoves[6][0] = board.getCell(getPos().x - 1, getPos().y );
-        }
-        if(board.getCell(getPos().x - 1, getPos().y + 1 ) != null)
-        {
-            possibleMoves[7][0] = board.getCell(getPos().x - 1, getPos().y + 1 );
-        }
+        board.assignPossibleMove(possibleMoves, 0, 0, getPos().x, getPos().y + 1 );
+        board.assignPossibleMove(possibleMoves, 1, 0, getPos().x + 1, getPos().y + 1 );
+        board.assignPossibleMove(possibleMoves, 2, 0, getPos().x + 1, getPos().y );
+        board.assignPossibleMove(possibleMoves, 3, 0, getPos().x + 1, getPos().y - 1 );
+        board.assignPossibleMove(possibleMoves, 4, 0, getPos().x, getPos().y - 1 );
+        board.assignPossibleMove(possibleMoves, 5, 0, getPos().x - 1, getPos().y - 1 );
+        board.assignPossibleMove(possibleMoves, 6, 0, getPos().x - 1, getPos().y );
+        board.assignPossibleMove(possibleMoves, 7, 0, getPos().x - 1, getPos().y + 1 );
         return possibleMoves;
     }
 
