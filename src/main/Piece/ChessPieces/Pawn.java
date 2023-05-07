@@ -200,7 +200,7 @@ public class Pawn extends Piece
 	* Program Description: This method set pieces to right position 
     * for enPassant
 	**********************************************************/
-    public static void enPassant(Piece piece, int x, int y) 
+    public static boolean enPassant(Piece piece, int x, int y) 
     {
         //IF Piece owned by white 
         if (piece.getOwnedBy() == 1) 
@@ -211,6 +211,7 @@ public class Pawn extends Piece
                 Screen.cells[x][y - 1].setPiece(null);
 
                 enPassantW = 1;
+                return true;
             }
         } 
         else 
@@ -221,9 +222,11 @@ public class Pawn extends Piece
                 Screen.cells[x][y + 1].setPiece(null);
 
                 enPassantB = 1;
+                return true;
             }
 
         }
+        return false;
     }
 
 
