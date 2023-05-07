@@ -57,25 +57,27 @@ public class Rook extends Piece
     public boolean hasNotMoved()
     {   
         //Local constants
+        Point WHITEPOS[] = {new Point(0,0), new Point(7,0)};
+        Point BLACKPOS[] = {new Point(0,7), new Point(7,7)};
         //Local variables 
         Point pos = getPos();
         /*****************************************************/
-
-        //IF piece is owned by white and piece is (X:0Y:0)
-        if(getOwnedBy() == 1 && pos.x == 0 && pos.y == 0) 
+        //IF piece is owned by white and piece is (X:0Y:0) or (X:0Y:7)
+        if(getOwnedBy() == 1)
         {
-            return true;
+            if(pos.x == WHITEPOS[0].x && WHITEPOS[0].y == pos.y || pos.x == WHITEPOS[1].x && WHITEPOS[1].y == pos.y)
+            {
+                return true;
+            }
         } 
-        //ELSE IF piece is owned by black and piece is (X:7Y:0)
-        else if(getOwnedBy() == 2 && pos.x == 7 && pos.y == 0) 
+        else //ELSE IF piece is owned by black and piece is (X:7Y:0) or (X:7Y:7)
         {
-            return true;
+            if(pos.x == BLACKPOS[0].x && BLACKPOS[0].y == pos.y || pos.x == BLACKPOS[1].x && BLACKPOS[1].y == pos.y)
+            {
+                return true;
+            }
         }
-        //ELSE piece has moved
-        else 
-        {
-            return false;
-        }//END IF 
+        return false;
     }//END hasNotMoved
 
     /**********************************************************

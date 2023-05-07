@@ -151,7 +151,7 @@ public class Cell
     **********************************************************/
     public boolean isOccupied()
     {
-        return cell_piece != null;
+        return cell_piece != null ? true : false;
     }//end isOccupied
 
     /**********************************************************
