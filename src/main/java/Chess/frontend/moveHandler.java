@@ -59,17 +59,17 @@ public class moveHandler
      * Program Description: Gathers all possible moves for the given turn
      */
 
-    public void gatherPossibleMoves(int currentTurn) {
+    public Cell[][] gatherPossibleMoves(int currentTurn) {
         // Clears the possibleMoves arraylist
         possibleMoves.clear();
         // Loops through all of the current player's pieces
-        for (int i = 0; i < allPieces[currentTurn].length; i++) {
+        for (int i = 0; i < allPieces[currentTurn].length - 1; i++) {
             // Checks to see if the current piece is not null
             if (allPieces[currentTurn][i] != null) {
                 // Loops through all of the current piece's possible moves
                 Cell[][] temp = allPieces[currentTurn][i].getAllPossibleMoves(board);
                 for (int j = 0; j < temp.length; j++) {
-                    for (int k = 0; k < temp[j].length; k++) {
+                    for (int k = 0; k < temp[j].length - 1; k++) {
                         // Checks to see if the current move is not null
                         if (temp[j][k] != null) {
                             // Adds the current move to the possibleMoves arraylist
@@ -79,7 +79,66 @@ public class moveHandler
                 }
             }
         }
+        return possibleMoves.toArray(new Cell[possibleMoves.size()][possibleMoves.size()]);
     }
+
+
+    public boolean checkIfKingMoveValid(Cell[][] possibleMoves, Cell endCell) 
+    {
+        // Loops through all of the possible moves
+        for (int i = 0; i < possibleMoves.length; i++) {
+            for (int j = 0; j < possibleMoves[i].length; j++) {
+                // Checks to see if the current move is not null
+                if (possibleMoves[i][j] != null) {
+                    // Checks to see if the current move is the same as the endCell
+                    if (possibleMoves[i][j] == endCell) {
+                        // Returns true if the move is valid
+                        return true;
+                    }
+                }
+            }
+        }
+        // Returns false if the move is not valid
+        return false;
+    }
+
+
+    public boolean checkIfCheckMate(Cell[][] possibleMoves, King king) 
+    {
+        
+        // Loops through all of the possible moves
+        Cell[][] kingMoves = king.getAllPossibleMoves(board);
+        for(int i = 0; i < kingMoves.length; i++)
+        {
+            for(int j = 0; j < kingMoves[i].length; j++)
+            {
+                // Checks to see if the current move is not null
+                if(kingMoves[i][j] != null)
+                {
+                    // Checks to see if the current move is not null
+                    if(searchMove(possibleMoves, kingMoves[i][j]))
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    static boolean searchMove(Cell[][] arr, Cell target)
+    {
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr[i].length; j++) {
+                if (arr[i][j] == target) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    
 
     /*
      * Method Name : checkForCheck

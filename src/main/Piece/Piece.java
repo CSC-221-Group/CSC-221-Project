@@ -492,18 +492,21 @@ public abstract class Piece
        
         for(int i = 0; i < 8; i++)
         {
-            if(board.getCell(pos.x + x, pos.y + y).getPiece() == null)
+            if(board.getCell(pos.x + x, pos.y + y) != null)
             {
-                possibleMoves[i] = board.getCell(pos.x + x, pos.y + y);
-            }
-            else if(board.getCell(pos.x + x, pos.y + y).getPiece().getOwnedBy() != this.getOwnedBy())
-            {
-                possibleMoves[i] = board.getCell(pos.x + x, pos.y + y);
-                break;
-            }
-            else
-            {
-                break;
+                if(board.getCell(pos.x + x, pos.y + y).getPiece() == null)
+                {
+                    possibleMoves[i] = board.getCell(pos.x + x, pos.y + y);
+                }
+                else if(board.getCell(pos.x + x, pos.y + y).getPiece().getOwnedBy() != this.getOwnedBy())
+                {
+                    possibleMoves[i] = board.getCell(pos.x + x, pos.y + y);
+                    break;
+                }
+                else
+                {
+                    break;
+                }
             }
             x+=x;
             y+=y;

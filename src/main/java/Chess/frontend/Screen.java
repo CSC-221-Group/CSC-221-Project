@@ -305,7 +305,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
             int y = (ROWS - 1) - (e.getY() / (TILE_SIZE * gameSize));
             Cell cell = cells[x][y];
             Piece endPiece = null;
-            King king;
+            King king = (King) findPiece(King.class, currentTurn == 1 ? p1Pieces : p2Pieces);
             /********************************************/
             
             //IF x or y outside the board
@@ -314,6 +314,20 @@ public class Screen extends JPanel implements ActionListener, KeyListener
                 // exit method
                 return;
             } //END IF
+
+            // if the player is in check and picked a move that doesn't get them out of check
+            if (king.isInCheck() &&  !moveHandler.checkIfKingMoveValid(moveHandler.gatherPossibleMoves(enemyTurn), cell))  
+            {
+                // exit method
+                if(moveHandler.checkIfCheckMate(moveHandler.gatherPossibleMoves(enemyTurn), king ))
+                {
+                    //display winScreen
+                    guiCreator.winScreen();
+                    return;
+                }
+                return;
+            } // END IF
+
 
             // Attempt to Castle
             if(tryCastling(cells[preX][preY], cells[x][y]))
@@ -340,7 +354,6 @@ public class Screen extends JPanel implements ActionListener, KeyListener
             //Check if move is legal
             currentPiece.move(cells,null, cells[preX][preY], cells[x][y]);
             king = (King) findPiece(King.class, currentTurn == 1 ? p2Pieces : p1Pieces);
-            System.out.println("King in check: " + king.isInCheck() + "Location: " + king.getPos().x + " " + king.getPos().y); 
             king.setInCheck(moveHandler.checkForCheck(enemyTurn));
             String information = "";
            

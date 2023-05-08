@@ -327,7 +327,7 @@ public class guiCreator
             public void actionPerformed(ActionEvent e) 
             {
                 //set Turn equal to 3
-                turn= 3;
+                turn = 3;
                 //close chess frame
                 chessFrame.setVisible(false);
                 //display winScreen

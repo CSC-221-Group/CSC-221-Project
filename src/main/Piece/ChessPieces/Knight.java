@@ -165,7 +165,7 @@ public class Knight extends Piece
         //Local constants
         
         //Local variables
-        Cell[][] possibleMoves = new Cell[4][];     //Array for Possible Moves for Kight
+        Cell[][] possibleMoves = new Cell[4][2];     //Array for Possible Moves for Kight
         /****************************************/
         possibleMoves[0][0] = board.getCell(getPos().x - 2, getPos().y + 1);
         possibleMoves[0][1] = board.getCell(getPos().x - 1, getPos().y + 2);
