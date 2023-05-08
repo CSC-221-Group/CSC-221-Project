@@ -41,6 +41,7 @@ public abstract class Piece
     private int ownedBy;             //1 for white or 2 for black
     private boolean captured = false;//if the piece was captured or no.
     private int gameSize = 1;
+    private boolean checkingKing = false;
     
     /***********************************************************************/
     /**
@@ -212,6 +213,20 @@ public abstract class Piece
         }//END IF  
     }//end Update
     
+    public void setCheckingKing(boolean checkingKing)
+    {
+        this.checkingKing = checkingKing;
+    }//END setCheckingKing
+
+    public boolean getCheckingKing()
+    {
+        return checkingKing;
+    }//END getCheckingKing
+
+
+
+
+
     /**
      * Draws the games pieces on the screen.
      * @param g used to draw the pieces image on the screen.

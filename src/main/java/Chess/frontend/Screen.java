@@ -316,17 +316,18 @@ public class Screen extends JPanel implements ActionListener, KeyListener
             } //END IF
 
             // if the player is in check and picked a move that doesn't get them out of check
-            if (king.isInCheck() &&  !moveHandler.checkIfKingMoveValid(moveHandler.gatherPossibleMoves(enemyTurn), cell))  
-            {
-                // exit method
-                if(moveHandler.checkIfCheckMate(moveHandler.gatherPossibleMoves(enemyTurn), king ))
-                {
-                    //display winScreen
-                    guiCreator.winScreen();
-                    return;
-                }
-                return;
-            } // END IF
+            // if (king.isInCheck())  
+            // {
+            //     // exit method
+            //     if(board.getCell(preX, preY).getPiece().getClass() == King.class)
+            //     {
+            //         if(!moveHandler.checkIfKingMoveValid(moveHandler.gatherPossibleMoves(enemyTurn), cell))
+            //         {
+            //             // check to see if the move is valid, if the unit is a king, and if the king is in check
+            //             return;
+            //         }
+            //     } 
+            // } // END IF
 
 
             // Attempt to Castle
@@ -353,8 +354,8 @@ public class Screen extends JPanel implements ActionListener, KeyListener
 
             //Check if move is legal
             currentPiece.move(cells,null, cells[preX][preY], cells[x][y]);
-            king = (King) findPiece(King.class, currentTurn == 1 ? p2Pieces : p1Pieces);
-            king.setInCheck(moveHandler.checkForCheck(enemyTurn));
+            // king = (King) findPiece(King.class, currentTurn == 1 ? p2Pieces : p1Pieces);
+            // king.setInCheck(moveHandler.checkForCheck(enemyTurn));
             String information = "";
            
             //IF moved piece is a pawn
@@ -623,23 +624,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         if(key == KeyEvent.VK_B)
         {
             // Test KEY for Castling
-            cells[5][4].setPiece(cells[5][0].getPiece());
-            cells[5][0].setPiece(null);
-            cells[6][4].setPiece(cells[6][0].getPiece());
-            cells[6][0].setPiece(null);
-            cells[1][4].setPiece(cells[1][0].getPiece());
-            cells[1][0].setPiece(null);
-            cells[2][4].setPiece(cells[2][0].getPiece());
-            cells[2][0].setPiece(null);
 
-            cells[5][5].setPiece(cells[5][7].getPiece());
-            cells[5][7].setPiece(null);
-            cells[6][5].setPiece(cells[6][7].getPiece());
-            cells[6][7].setPiece(null);
-            cells[1][5].setPiece(cells[1][7].getPiece());
-            cells[1][7].setPiece(null);
-            cells[2][5].setPiece(cells[2][7].getPiece());
-            cells[2][7].setPiece(null);
 
         }
     }// end keypressed

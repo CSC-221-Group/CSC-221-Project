@@ -63,13 +63,14 @@ public class moveHandler
         // Clears the possibleMoves arraylist
         possibleMoves.clear();
         // Loops through all of the current player's pieces
-        for (int i = 0; i < allPieces[currentTurn].length - 1; i++) {
+        for (int i = 0; i <= allPieces[currentTurn].length - 1 ; i++) {
+            System.out.println("i: " + i);
             // Checks to see if the current piece is not null
             if (allPieces[currentTurn][i] != null) {
                 // Loops through all of the current piece's possible moves
                 Cell[][] temp = allPieces[currentTurn][i].getAllPossibleMoves(board);
                 for (int j = 0; j < temp.length; j++) {
-                    for (int k = 0; k < temp[j].length - 1; k++) {
+                    for (int k = 0; k <= temp[j].length; k++) {
                         // Checks to see if the current move is not null
                         if (temp[j][k] != null) {
                             // Adds the current move to the possibleMoves arraylist
@@ -93,13 +94,13 @@ public class moveHandler
                     // Checks to see if the current move is the same as the endCell
                     if (possibleMoves[i][j] == endCell) {
                         // Returns true if the move is valid
-                        return true;
+                        return false;
                     }
                 }
             }
         }
-        // Returns false if the move is not valid
-        return false;
+        // Returns false if the move is valid
+        return true;
     }
 
 
@@ -118,12 +119,12 @@ public class moveHandler
                     // Checks to see if the current move is not null
                     if(searchMove(possibleMoves, kingMoves[i][j]))
                     {
-                        return false;
+                        return true;
                     }
                 }
             }
         }
-        return true;
+        return false;
     }
 
     static boolean searchMove(Cell[][] arr, Cell target)
@@ -169,6 +170,7 @@ public class moveHandler
                             {
                                 // Returns true if the current player is in check
                                 System.out.println("The King is in check");
+                                allPieces[enemyTurn][i].setCheckingKing(true);
                                 return true;
                             }
                         }
