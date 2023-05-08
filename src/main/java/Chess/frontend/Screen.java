@@ -40,24 +40,18 @@ public class Screen extends JPanel implements ActionListener, KeyListener
 {
     // class constants
     public final char[] letters =  { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' };
-    private final int DELAY = 10; // delay between each frame in ms
-    public static final int TILE_SIZE = 32;// size of square on board
-    public static final int ROWS = 8; // size of the board horizontally
-    public static final int COLS = 8; // size of the board vertically
-    // private static final int serialVersionUID = 1;
-
+    private final int DELAY = 10;                                            // delay between each frame in ms
+    public static final int TILE_SIZE = 32;                                  // size of square on board
+    public static final int ROWS = 8;                                        // size of the board horizontally
+    public static final int COLS = 8;                                        // size of the board vertically
     // Class variables
-    public static int gameSize = 1; // size of the board
-    private Timer timer; // triggers actionPerformed()
-    public static int currentTurn = 1; // 1 = player1, 2 = player2
-    private static ArrayList<Piece> p1Pieces = new ArrayList<Piece>();// Pieces owned by White
-    private static ArrayList<Piece> p2Pieces = new ArrayList<Piece>(); // Pieces owned by Black
+    public static int gameSize = 1;                                          // size of the board
+    private Timer timer;                                                     // triggers actionPerformed()
+    public static int currentTurn = 1;                                       // 1 = player1, 2 = player2
+    private static ArrayList<Piece> p1Pieces = new ArrayList<Piece>();       // Pieces owned by White
+    private static ArrayList<Piece> p2Pieces = new ArrayList<Piece>();       // Pieces owned by Black
     private static ArrayList<Piece> capturedPieces = new ArrayList<Piece>(); // Pieces that have been captured
-
-    public static moveHandler moveHandler; // Handles all possible moves
-
-
-
+    // public static moveHandler moveHandler; // Handles all possible moves
     public static Cell[][] cells = new Cell[ROWS][COLS]; // Boards squares
 
     /**********************************************************
@@ -92,6 +86,21 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         * Date           : 
         * Course/Section : Software Engineering 221-301
         * Program Description: receives mouse events 
+        *BEGIN - Mouse Pressed
+        *  IF User Clicks Nothing
+        *         Display Error
+        *  IF User Clicks Outside Game Board
+        *          Display Error
+        *  IF User Moves a to unoccupied space
+        *          Exit Method
+        *  IF User Selects Piece That Is Not Owned By Them
+        *          Exit Method
+        *  END IF
+        * Initalize Current Location of Piece that was Clicked
+        * Initalize mouse Pressed to TRUE
+        * Initalize Piece Previous Position
+        * END - Mouse Pressed
+        *
         **********************************************************/
         public mouseAdapter(Screen board) 
         {
@@ -122,6 +131,20 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         * Date           : 
         * Course/Section : Software Engineering 221-301
         * Program Description: This method determines which cell was clicked .
+        * BEGIN - Mouse Pressed
+        *  IF User Clicks Nothing
+        *         Display Error
+        *  IF User Clicks Outside Game Board
+        *          Display Error
+        *  IF User Moves a to unoccupied space
+        *          Exit Method
+        *  IF User Selects Piece That Is Not Owned By Them
+        *          Exit Method
+        *  END IF
+        * Initalize Current Location of Piece that was Clicked
+        * Initalize mouse Pressed to TRUE
+        * Initalize Piece Previous Position
+        * END - Mouse Pressed
         **********************************************************/
         @Override
         public void mousePressed(MouseEvent e) 
@@ -170,11 +193,13 @@ public class Screen extends JPanel implements ActionListener, KeyListener
             preY = y;
         }// end mousePressed
 
-        /**
-         * This method checks where the mouse was released.
-         * 
-         * @param e The mouse event.
-         */
+        /**********************************************************
+        * Method Name    : mousePressed
+        * Author         : Jordan
+        * Date           : 
+        * Course/Section : Software Engineering 221-301
+        * Program Description: This method determines Where mouse was released 
+        **********************************************************/
         @Override
         public void mouseReleased(MouseEvent e) 
         {
@@ -196,7 +221,6 @@ public class Screen extends JPanel implements ActionListener, KeyListener
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
-
         }//end mouseRelease
 
         /**********************************************************
@@ -206,7 +230,6 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         * Course/Section : Software Engineering 221-301
         * This method runs by three checks and castles if it is possible
         **********************************************************/
-
         private boolean tryCastling(Cell startCell , Cell endCell) 
         {
             //local constants
@@ -231,14 +254,14 @@ public class Screen extends JPanel implements ActionListener, KeyListener
             }
             return false;
         }
-         /**********************************************************
+
+        /**********************************************************
         * Method Name    : castlingPreCheck
         * Author         : Jordan
         * Date           : 5/6/2023
         * Course/Section : Software Engineering 221-301
         * Checks if the king is castling & can castle
         **********************************************************/
-
         private boolean castlingPreCheck(Cell theCell)
         {
             // local constants
@@ -259,6 +282,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
             }
             return true;
         }
+
         /**********************************************************
         * Method Name    : castlingRookCheck
         * Author         : Jordan
@@ -266,7 +290,6 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         * Course/Section : Software Engineering 221-301
         * Checks if the piece is a rook and if it has moved or not.
         **********************************************************/
-
         private boolean castlingRookCheck(Cell theCell)
         {
             // local constants
@@ -329,7 +352,6 @@ public class Screen extends JPanel implements ActionListener, KeyListener
             //     } 
             // } // END IF
 
-
             // Attempt to Castle
             if(tryCastling(cells[preX][preY], cells[x][y]))
             {
@@ -358,11 +380,11 @@ public class Screen extends JPanel implements ActionListener, KeyListener
             // king.setInCheck(moveHandler.checkForCheck(enemyTurn));
             String information = "";
            
-            //IF moved piece is a pawn
-            if (currentPiece.getClass() == Pawn.class)  
-            {
-                Pawn.enPassant(currentPiece, x, y);
-            }//end if 
+            // //IF moved piece is a pawn
+            // if (currentPiece.getClass() == Pawn.class)  
+            // {
+            //     Pawn.enPassant(cells, currentPiece, x, y);
+            // }//end if 
 
             //IF piece moved 
             if (cells[preX][preY].isOccupied() == false && endPiece != null && endPiece != cells[x][y].getPiece())  
@@ -436,6 +458,13 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     * Date           : 
     * Course/Section : Software Engineering 221-301
     * Program Description: Find specified piece 
+    *BEGIN - Find piece
+    * For (Each Piece in pieces array)
+    *    IF(Piece class equlas specified piece)
+    *      return
+    *    END IF
+    *  END IF
+    *END - Find piece
     **********************************************************/
     private Piece findPiece(Class c, ArrayList<Piece> Pieces)  
     {
@@ -457,6 +486,10 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     * Date           : 
     * Course/Section : Software Engineering 221-301
     * Program Description: Find specified cell
+    *BEGIN - Get Cell
+    * IF( user Clicks outside of the board)
+    *   Return Nothing
+    *END - Get Cell
     **********************************************************/
     public Cell getCell(int x, int y) 
     {
@@ -470,26 +503,25 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         }//END IF
     }//END getCell
 
-    /**********************************************************
-    * Method Name    : assignPossibleMove
-    * Author         : Jordan
-    * Date           :
-    * Course/Section : Software Engineering 221-301
-    * Program Description: Takes a PossibleMove Array and assigns 
-    * a valid cell to the given index
-    **********************************************************/
-   public void assignPossibleMove(Cell[][] possibleMoves, int iX, int iY, int posX, int posY)
-   {
-        if( posX > 7 || posY > 7 || posX < 0 || posY < 0 || getCell(posX, posY) == null)
-        {
-            return;
-        }
-        else
-        {
-            possibleMoves[iX][iY] = getCell(posX, posY);
-        }//END IF
-   }
-
+//     /**********************************************************
+//     * Method Name    : assignPossibleMove
+//     * Author         : Jordan
+//     * Date           :
+//     * Course/Section : Software Engineering 221-301
+//     * Program Description: Takes a PossibleMove Array and assigns 
+//     * a valid cell to the given index
+//     **********************************************************/
+//    public void assignPossibleMove(Cell[][] possibleMoves, int iX, int iY, int posX, int posY)
+//    {
+//         if( posX > 7 || posY > 7 || posX < 0 || posY < 0 || getCell(posX, posY) == null)
+//         {
+//             return;
+//         }
+//         else
+//         {
+//             possibleMoves[iX][iY] = getCell(posX, posY);
+//         }//END IF
+//    }
 
     /**********************************************************
     * Method Name    : getScreen
@@ -533,6 +565,11 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     * Course/Section : Software Engineering 221-301
     * Program Description: Initializes the screen with appropriate listeners
     * and dimensions, and initializes the game.
+    *BEGIN - initScreen
+    * Initalize Current turn to 1
+    * Pawn EnPassant W
+    * Pawn EnPassant B
+    *END - initScreen
     **********************************************************/
     private void initScreen(int gameSize) 
     {
@@ -546,7 +583,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         setBackground(Color.BLACK);
         initGame();
         initVariables();
-        moveHandler = new moveHandler(getScreen(), p1Pieces, p2Pieces);
+        // moveHandler = new moveHandler(getScreen(), p1Pieces, p2Pieces);
     }// end initScreen
 
     /**********************************************************
@@ -556,6 +593,10 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     * Course/Section : Software Engineering 221-301
     * Program Description:Initializes the game by starting the timer,
     * resetting the board, and assigning pieces.
+    *BEGIN - initGame
+    *   Set Pieces to Correct Place
+    *   Assigned Pices to Black and White
+    *END - initGame
     **********************************************************/
     private void initGame()  
     {
@@ -610,10 +651,10 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         }
         if (key == KeyEvent.VK_R)  {
             System.out.println("Checking for check Current Turn: " + currentTurn + "");
-            moveHandler.checkForCheck(currentTurn);
+            // moveHandler.checkForCheck(currentTurn);
             int enemyTurn = currentTurn == 1 ? 2 : 1;
             System.out.println("Checking for check Current Turn: " + enemyTurn + "");
-            moveHandler.checkForCheck(enemyTurn);
+            // moveHandler.checkForCheck(enemyTurn);
         }
         if(key == KeyEvent.VK_C)
         {
@@ -709,6 +750,19 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     * and checking if it contains a piece.
     * If a piece is found, it is added to the list of pieces owned by
     * the corresponding player (player 1 or player 2).
+    *BEGIN - assign Pieces
+    *  FOR(Every Row)
+    *   FOR(Every Collum)
+    *      IF(Cell Doesnt have a piece)
+    *         IF(Piece in Cell is owned by White)
+    *           Give the piece to whites
+    *         ELSE(Piece is Owened by Black)
+    *           Give Pice to Black
+    *         END IF
+    *      END IF
+    *    END FOR
+    *  END FOR
+    *END - assign Pices
     **********************************************************/
     public static void assignPieces()  
     {
@@ -746,6 +800,12 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     * Date           : 
     * Course/Section : Software Engineering 221-301
     * Program Description: Draws the background of the chess board.
+    *BEGIN - Draw Back Ground
+    *  FOR every other index in the array draw white square
+    *      IF paramaters are met
+    *        Colors square white
+    *      END IF
+    *  END FOR
     **********************************************************/
     private void drawBackground(Graphics g)  
     {
@@ -772,6 +832,12 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     * Date           : 
     * Course/Section : Software Engineering 221-301
     * Program Description: Draws all the pieces on the board using the Graphics object
+    *BEGIN - draw
+    *  FOR(Every Piece in white Array)
+    *  END FOR
+    *  FOR every Piece in Black Array
+    *  END FOR
+    *END Draw
     **********************************************************/
     private void draw(Graphics g)  
     {
@@ -800,6 +866,9 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     * Date           : 
     * Course/Section : Software Engineering 221-301
     * Program Description: returns whoes turn it is 
+    *BEGIN - getCurrentTurn
+    *  Return Current Turn
+    *END - getCurrentTurn
     **********************************************************/
     public int getCurrentTurn()  
     {
@@ -812,6 +881,13 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     * Date           : 
     * Course/Section : Software Engineering 221-301
     * Program Description: returns whoes turn it is 
+    *BEGIN - setCurrentTurn
+    *IF(it is White Turn)
+    *     Set Turn to Black
+    *  ELSE
+    *    set current turn to white
+    *  END IF
+    *END - setCurrentTurn
     **********************************************************/
     public static void setCurrentTurn()  
     {
@@ -849,6 +925,9 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     * Date           : 
     * Course/Section : Software Engineering 221-301
     * Program Description:  Sets the game size of the game.
+    *BEGIN - getGameSize
+    *  Return Game Size
+    *END - getGameSize
     **********************************************************/
     public void setGameSize(int gameSize)  
     {
@@ -861,6 +940,30 @@ public class Screen extends JPanel implements ActionListener, KeyListener
     * Date           : 
     * Course/Section : Software Engineering 221-301
     * Program Description:  promote pawn into passed promoteType
+    *BEGIN - promotePawn
+    *  Clear Piece in Cells
+    *  IF(Promote selection is Queen)
+    *     Set piece to Queen
+    *  END IF
+    *  IF(Promote selection is Bishop)
+    *     Set Piece to Bishop
+    *  END IF
+    *  IF(Promote selection is Rook)
+    *     Set Piece to Rook
+    *  END IF
+    *  IF(Promote selection is Knight)
+    *     Set Piece to Knight
+    *   END IF
+    *  IF(Piece can promote)
+    *     Add Piece to White Array
+    *  END IF
+    *  IF (piece is owned by white)
+    *     Display Piece and Location
+    *  ELSE(piece is owned by black)
+    *     Display Piece Location
+    *  END IF
+    *Repaint Screen
+    *END - Promote Pawn
     **********************************************************/
     public void promotePawn(String color, int ownedBy, int x, int y, String promoteType)  
     {

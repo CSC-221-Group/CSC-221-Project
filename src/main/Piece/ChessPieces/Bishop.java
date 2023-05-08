@@ -30,7 +30,7 @@ public class Bishop extends Piece
 	* Author         : Alan/Jordan
 	* Date           : 
 	* Course/Section : Software Engineering 221-301
-	* Program Description: Consructor of Bishop.
+	* Program Description: Constuctor of Bishop.
 	**********************************************************/
     public Bishop(String color, int x, int y, int owner, Screen board)
     {
@@ -46,6 +46,10 @@ public class Bishop extends Piece
 	* Date           : 
 	* Course/Section : Software Engineering 221-301
 	* Program Description: This method determines what move the bishops can do.
+    * IF(if piece is moving diagnally and no pieces in the way)
+    *     capture or move
+    *  ELSE
+    *     throw invalid movment
 	**********************************************************/
     @Override
     public void move(Cell[][] cells, Screen board, Cell start, Cell end) throws InvalidMovementException 
@@ -70,30 +74,6 @@ public class Bishop extends Piece
     }//END move
 
     /**********************************************************
-	* Method Name    : getAllPossibleMoves
-	* Author         : Jordan
-	* Date           : 
-	* Course/Section : Software Engineering 221-301
-	* Program Description: 
-	**********************************************************/
-    @Override
-    public Cell[][] getAllPossibleMoves(Screen board)
-    {
-        //Local constants
-        //Local variables
-        Cell possibleMoves[][] = new Cell[4][];
-        /*****************************************************/
-        
-        possibleMoves[0] = getPotentialMoves(1, 1, board);
-        possibleMoves[1] = getPotentialMoves(-1, 1, board);
-        possibleMoves[2] = getPotentialMoves(1, -1, board);
-        possibleMoves[3] = getPotentialMoves(-1, -1, board);
-        
-        return possibleMoves;
-
-    }//END getAllPossibleMoves
-
-    /**********************************************************
 	* Method Name    : toString
 	* Author         : Alan/Jordan
 	* Date           : 
@@ -105,5 +85,30 @@ public class Bishop extends Piece
     {
         return "Bishop";
     }//END toString
+
+    // /**********************************************************
+	// * Method Name    : getAllPossibleMoves
+	// * Author         : Jordan
+	// * Date           : 
+	// * Course/Section : Software Engineering 221-301
+	// * Program Description: 
+	// **********************************************************/
+    // @Override
+    // public Cell[][] getAllPossibleMoves(Screen board)
+    // {
+    //     //Local constants
+    //     //Local variables
+    //     Cell possibleMoves[][] = new Cell[4][];
+    //     /*****************************************************/
+        
+    //     possibleMoves[0] = getPotentialMoves(1, 1, board);
+    //     possibleMoves[1] = getPotentialMoves(-1, 1, board);
+    //     possibleMoves[2] = getPotentialMoves(1, -1, board);
+    //     possibleMoves[3] = getPotentialMoves(-1, -1, board);
+        
+    //     return possibleMoves;
+
+    // }//END getAllPossibleMoves
+    
 }//END Bishop
 

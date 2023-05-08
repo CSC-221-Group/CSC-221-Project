@@ -66,7 +66,14 @@ public class Cell
     * Author         : Jordan
     * Date           : 
     * Course/Section : Software Engineering 221-301
-    * Program Description:This method sets the piece on cell to the given piece and updates the piece's position.
+    * Program Description:This method sets the piece on cell to
+    *     the given piece and updates the piece's position.
+    *
+    *BEGIN - setPiece
+    *  IF(piece != Null)
+    *   Set Piece Location to Clas Variables
+    *  END IF
+    *END - setPiece
     **********************************************************/
     public void setPiece(Piece piece) 
     {
@@ -79,7 +86,6 @@ public class Cell
             piece.setPos(cell_x,cell_y);
             System.out.println("Piece set to " + cell_x + " " + cell_y);
         }//END IF
-
     }//end setPiece
 
     /**********************************************************
@@ -88,9 +94,18 @@ public class Cell
     * Date           : 
     * Course/Section : Software Engineering 221-301
     * Program Description:This method returns the piece currently occupying cell.
+    *
+    *BEGIN - getPiece
+    *  return call piece
+    *END - getPiece
     **********************************************************/
     public Piece getPiece()
     {
+        //Local Constants
+        //Local Variables
+        /**************************setPiece********************************* */
+   
+
         return cell_piece;
     }//end getPiece
 
@@ -124,6 +139,10 @@ public class Cell
     * Date           : 
     * Course/Section : Software Engineering 221-301
     * Program Description: This method returns the x-coordinate of the cell
+    *
+    *BEGIN - getX
+    *  Return X
+    *END - getX
     **********************************************************/
     public int getX()
     {
@@ -136,6 +155,10 @@ public class Cell
     * Date           : 
     * Course/Section : Software Engineering 221-301
     * Program Description: This method returns the y-coordinate of the cell
+    *
+    *BEGIN - getY
+    *  return Y
+    *END - getY
     **********************************************************/
     public int getY() 
     {
@@ -148,6 +171,9 @@ public class Cell
     * Date           : 
     * Course/Section : Software Engineering 221-301
     * Program Description: This method returns whether or not this cell is occupied by a game piece.
+    *BEGIN - isOccupied
+    *  Return cell is not null
+    *END - is Occupied
     **********************************************************/
     public boolean isOccupied()
     {
@@ -160,6 +186,10 @@ public class Cell
     * Date           : 
     * Course/Section : Software Engineering 221-301
     * Program Description: Checks if a given Piece object is occupying this cell.
+    *
+    *BEGIN - is OccupiedBy
+    *  Return cell piece is equal to piece
+    *END - is OccupiedBy
     **********************************************************/
     public boolean isOccupiedBy(Piece piece) 
     {

@@ -159,24 +159,24 @@ public class Knight extends Piece
         return "Knight";
     }
    
-    @Override
-    public Cell[][] getAllPossibleMoves(Screen board) 
-    {
-        //Local constants
+    // @Override
+    // public Cell[][] getAllPossibleMoves(Screen board) 
+    // {
+    //     //Local constants
         
-        //Local variables
-        Cell[][] possibleMoves = new Cell[4][2];     //Array for Possible Moves for Kight
-        /****************************************/
-        possibleMoves[0][0] = board.getCell(getPos().x - 2, getPos().y + 1);
-        possibleMoves[0][1] = board.getCell(getPos().x - 1, getPos().y + 2);
-        possibleMoves[1][0] = board.getCell(getPos().x + 2, getPos().y + 1);
-        possibleMoves[1][1] = board.getCell(getPos().x + 1, getPos().y + 2);
-        possibleMoves[2][0] = board.getCell(getPos().x - 2, getPos().y - 1);
-        possibleMoves[2][1] = board.getCell(getPos().x - 1, getPos().y - 2);
-        possibleMoves[3][0] = board.getCell(getPos().x + 2, getPos().y - 1);
-        possibleMoves[3][1] = board.getCell(getPos().x + 1, getPos().y - 2);
-        return possibleMoves;
-    }
+    //     //Local variables
+    //     Cell[][] possibleMoves = new Cell[4][2];     //Array for Possible Moves for Kight
+    //     /****************************************/
+    //     possibleMoves[0][0] = board.getCell(getPos().x - 2, getPos().y + 1);
+    //     possibleMoves[0][1] = board.getCell(getPos().x - 1, getPos().y + 2);
+    //     possibleMoves[1][0] = board.getCell(getPos().x + 2, getPos().y + 1);
+    //     possibleMoves[1][1] = board.getCell(getPos().x + 1, getPos().y + 2);
+    //     possibleMoves[2][0] = board.getCell(getPos().x - 2, getPos().y - 1);
+    //     possibleMoves[2][1] = board.getCell(getPos().x - 1, getPos().y - 2);
+    //     possibleMoves[3][0] = board.getCell(getPos().x + 2, getPos().y - 1);
+    //     possibleMoves[3][1] = board.getCell(getPos().x + 1, getPos().y - 2);
+    //     return possibleMoves;
+    // }
 }
 
 

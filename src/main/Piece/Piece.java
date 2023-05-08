@@ -4,7 +4,6 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import javax.imageio.ImageIO;
 import main.java.Chess.frontend.Cell;
 import main.java.Chess.frontend.Screen;
@@ -12,7 +11,7 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 /**********************************************************
  * Program Name   : Piece
- * Author         : Jordan 
+ * Author         : Jordan/Alan 
  * Date           : 3/19/23
  * Course/Section : Software Engineering 221-301
  * Program Description: This program does everything relating to 
@@ -25,33 +24,31 @@ import java.awt.event.MouseEvent;
  * loadImage - Sets the png of the piece passed.
  * update - updates the location of the pieces. 
  * draw - draws the graphic of the piece.
+ * getPos- get current position of piece.
  * setPos - sets location of piece passed.
  * isClicked - checks if piece was cliked, and displays if it was or not.
  * getOwnedBy - gets who the piece is owned by
  * setOwnedBy - sets who owns the piece passed.
  * isCaptured - Checks if the pieces has been capture or not.
+ * setCaptured - sets pieces to be captured 
+ * capture - deletes pieces that is "captured" and sets piece that captured to thay sqaure
+ * laneCheckYAxis -  checks if Y axis is free from starting position to ending postion of the piece
+ * laneCheckXAxis -checks if X axis is free from starting position to ending postion of the piece
+ * diagonalCheck -checks if diagnal is free from starting position to ending postions 
+ * captureOrMove - checks if the release point of the piece is occupied and occupied take else just move the piece there
  **********************************************************/
 public abstract class Piece
  {
     //Class constants
-    
     //Class variables 
-    private BufferedImage icon;      //png of Piece
+    private BufferedImage icon;      //png of Pieces
     private Point pos;               // Postiong of Piece 
     private int ownedBy;             //1 for white or 2 for black
     private boolean captured = false;//if the piece was captured or no.
-    private int gameSize = 1;
-    private boolean checkingKing = false;
+    private int gameSize = 1;        //size of game 
+    // private boolean checkingKing = false; 
     
-    /***********************************************************************/
-    /**
-    * Constructor for the Piece class.
-    * Makes a new Piece object at the position (x, y) on the board.
-    *
-    * @param x The x position of the Piece.
-    * @param y The y position of the Piece.
-    */
-    /**********************************************************
+    /***********************************************************************
 	* Method Name    : Piece 
 	* Author         : Jordan
 	* Date           : 
@@ -62,11 +59,6 @@ public abstract class Piece
     *  set position to cords
     *END - piece
 	**********************************************************/
-    
-    //local constatns
-
-    //local variables
-/*************************************piece*********************** */
     public Piece(int x, int y, Screen board) 
     {
         //set position of piece to the given (x,y) cords.
@@ -74,14 +66,6 @@ public abstract class Piece
         pos = new Point(x, y);
     }//END Piece
 
-    /**
-    * Constructor for the Piece class.
-    * Makes a new Piece object at the position (x, y) on the board and if white or black own the piece.
-    * @param x The x postion of the Piece.
-    * @param y The y position of the Piece.
-    * @param ownedBy An int representing which color owns the piece. 1 = white 2 = black
-    *        
-    */
     /**********************************************************
 	* Method Name    : Piece 
 	* Author         : Jordan
@@ -101,13 +85,7 @@ public abstract class Piece
         this.ownedBy = ownedBy;
     }//END Piece
     
-    /**
-     * Loads an image file for a piece passed through.
-     * @param game String representing the game to get the png from.
-     * @param path String representing the Pieces in the specified game.
-     *       
-     */
-        /**********************************************************
+    /**********************************************************
 	* Method Name    : loadImage
 	* Author         : Jordan
 	* Date           : 
@@ -125,11 +103,6 @@ public abstract class Piece
     *  END CATCH 
     *END - laodImage
 	**********************************************************/
-    
-    //local constatnts
-
-    //local variables
-/**********************************load Image************************* */
     protected void loadImage(String game, String path)
     {
         try 
@@ -149,14 +122,10 @@ public abstract class Piece
         {
             System.out.println("Error loading player image " + e.getMessage());
         }
-    }//End loadImage
 
-    /**
-    * Updates the position of the game pieces, 
-    * also checks if the piece still on the board.
-    * If the pieces is outside the board, the piece doesnt move at all.
-    */
-     /**********************************************************
+    }//EEND loadImage
+
+    /**********************************************************
 	* Method Name    : update
 	* Author         : Jordan
 	* Date           : 
@@ -178,12 +147,6 @@ public abstract class Piece
     *  END IF
     *END - update
 	**********************************************************/
-   
-   //local constants
-
-   //local variables
-
-/*************************Update**************************** */
     public void update() 
     {
         //If the Pieces x position is less than 0 
@@ -213,25 +176,6 @@ public abstract class Piece
         }//END IF  
     }//end Update
     
-    public void setCheckingKing(boolean checkingKing)
-    {
-        this.checkingKing = checkingKing;
-    }//END setCheckingKing
-
-    public boolean getCheckingKing()
-    {
-        return checkingKing;
-    }//END getCheckingKing
-
-
-
-
-
-    /**
-     * Draws the games pieces on the screen.
-     * @param g used to draw the pieces image on the screen.
-     * @param obs used to track the loading of the pieces image.
-     */
     /**********************************************************
 	* Method Name    : draw
 	* Author         : Jordan
@@ -243,20 +187,11 @@ public abstract class Piece
     *  draw image
     *END - draw
 	**********************************************************/
-    
-    //local constants
-
-    //local variables
-/*************************************draw************************ */
-     public void draw(Graphics g, ImageObserver obs) 
+    public void draw(Graphics g, ImageObserver obs) 
     {
         g.drawImage(icon, pos.x * (Screen.TILE_SIZE * gameSize), (7 * (Screen.TILE_SIZE * gameSize)) - pos.y * (Screen.TILE_SIZE * gameSize), obs);
     }//END Draw
 
-    /**
-     * Returns the current position of the game piece (x,y) cordinates
-     * @return returns pieces current x- and y-cordinates.
-     */
     /**********************************************************
 	* Method Name    : getPos
 	* Author         : Jordan
@@ -268,25 +203,12 @@ public abstract class Piece
     *  retrun current piece x,y cords
     *END - getpos
     **********************************************************/
-    //local constants
-
-    //local variables
-/*****************************getpos*************************** */
-     public Point getPos() 
+    public Point getPos() 
     {
         //returns pieces current x- and y-cordinates.
         return pos;
     }//end getPos
 
-//TODO add a method to see if the move is valid
-
-//TODO add a method to see if the move results in a capture
-
-    /**
-    * Sets the position of the games pieces to passed (x,y) coordinates.
-    * @param x The new x-coordinate of passed piece.
-    * @param y The new y- coordinate of passed piece.
-    */
    /**********************************************************
 	* Method Name    : setPos
 	* Author         : Jordan
@@ -298,22 +220,12 @@ public abstract class Piece
     * set y cord
     *END - setpos
     **********************************************************/
-   
-   //local constants
-
-   //local variables
-/**************************setpos ************************/ 
     public void setPos(int x, int y) 
     {
         pos.x = x;
         pos.y = y;
     }//end SetPos
 
-    /**
-     * Checks if the game piece has been clicked.
-     * @param e A MouseEvent object representing the user's click event.
-     * @return true if the entity has been clicked, false otherwise.
-     */
    /**********************************************************
 	* Method Name    : isClicked
 	* Author         : Jordan
@@ -326,11 +238,6 @@ public abstract class Piece
     * get y from mouse
     *END - isClicked
     **********************************************************/
-     
-    //local constants
-
-    //local variables
-/*************************************isClicked************* */
     public boolean isClicked(MouseEvent e) 
     {
         double x = e.getX() / Screen.TILE_SIZE;
@@ -348,10 +255,6 @@ public abstract class Piece
         return false;
     }//end IsClicked
 
-    /**
-    * return who owns the piece.
-    * @return int of the player that owns the piece.
-    */
     /**********************************************************
 	* Method Name    : getOwnedBy
 	* Author         : Jordan
@@ -363,20 +266,11 @@ public abstract class Piece
     * return ownedBy
     *END - getOwnedBy  
 	**********************************************************/
-    
-    //local constatns
-
-    //local variables
-/***************************Get Owned BY****************** */
     public int getOwnedBy() 
     {
         return ownedBy;
     }//End getOwnedBy
 
-    /**
-    * Sets if black or white own the piece.
-    * @param ownedBy sets who owns the piece passed.
-    */
    /**********************************************************
 	* Method Name    : setOwnedBy
 	* Author         : Jordan
@@ -385,7 +279,7 @@ public abstract class Piece
 	* Program Description: Sets if black or white own the piece.
     *
     *BEGIN - setOwnedBy
-    *
+    * sets the classes ownedby to passes int
     *END - setOwnedBy
 	**********************************************************/
     public void setOwnedBy(int ownedBy) 
@@ -393,10 +287,6 @@ public abstract class Piece
         this.ownedBy = ownedBy;
     }//end setOwnedBy
 
-    /**
-    * return true if game piece has been captured false otherwise.
-    * @return Whether or not the game piece has been captured.
-    */
    /**********************************************************
 	* Method Name    : isCaptured 
 	* Author         : Jordan
@@ -408,11 +298,6 @@ public abstract class Piece
     * return captured
     *END isCaptured
 	**********************************************************/
-    
-    //local constatns
-
-    //local variables
-/**************************isCaptured*********************** */
     public boolean isCaptured() 
     {
         return captured;
@@ -426,14 +311,9 @@ public abstract class Piece
 	* Program Description: sets pieces to be captured
     *
     *BEGIN - setCaptured
-    *  
+    *  set piece passed to captured
     *END - setCaptured
 	**********************************************************/
-    
-    //local constants
-
-    //local variables
-/***********************************set captured**************** */
     public void setCaptured(boolean captured) 
     {
         this.captured = captured;
@@ -448,8 +328,7 @@ public abstract class Piece
     * sets piece that captured to thay sqaure
     *
     *BEGIN - capture
-    *  IF(endPoint for piece is empty)
-    *     end != null
+    *  IF(endPoint for piece is not empty)
     *        IF(piece is owned by oposite team)
     *           set capture to True
     *           set release point to capture
@@ -461,73 +340,32 @@ public abstract class Piece
     * Return Capture
     *END - capture
 	**********************************************************/
-    
-    //local constants
-
-    //local variables
-/****************************capture*********************** */
     public boolean capture(Piece endPiece, Cell start, Cell end)
     {
         boolean capture = false;
+        //IF(endPoint for piece is not empty)
         if(endPiece != null) 
         {
+            //IF(piece is owned by oposite team)
             if(endPiece.getOwnedBy() != getOwnedBy()) 
             {
+                //set capture to True
                 capture = true;
+                //set release point to capture
                 endPiece.setCaptured(true);
+                //Remove captured piece
                 end.setPiece(null);
+                //delete piece at starting point 
                 start.setPiece(null);
+                //Set peice at starting point
                 end.setPiece(this);
+                //set postion of piece
                 setPos(end.getX(), end.getY());
-            }
-
-        }
-       
+            }//END IF
+        }//END IF 
        return capture;
-   }
+   }//END capture 
 
-/*
-    Start Potential Move Methods
-*/
-
-    public abstract Cell[][] getAllPossibleMoves(Screen board);
-
-    /*
-        This Method gets all potential moves for a piece given an x/y
-    */
-    public Cell[] getPotentialMoves(int x, int y, Screen board) 
-    {
-        // x / y is the direction it is moving in, increment it until it hits a piece or the edge of the board
-        //Local constants
-       
-        //Local variables
-        Point pos = this.getPos();          //COMMENT
-        Cell possibleMoves[] = new Cell[8]; //COMMENT
-        /*****************************************************/
-       
-        for(int i = 0; i < 8; i++)
-        {
-            if(board.getCell(pos.x + x, pos.y + y) != null)
-            {
-                if(board.getCell(pos.x + x, pos.y + y).getPiece() == null)
-                {
-                    possibleMoves[i] = board.getCell(pos.x + x, pos.y + y);
-                }
-                else if(board.getCell(pos.x + x, pos.y + y).getPiece().getOwnedBy() != this.getOwnedBy())
-                {
-                    possibleMoves[i] = board.getCell(pos.x + x, pos.y + y);
-                    break;
-                }
-                else
-                {
-                    break;
-                }
-            }
-            x+=x;
-            y+=y;
-        }
-        return possibleMoves;
-    }
 
      /**********************************************************
 	* Method Name    : laneCheckYAxis
@@ -539,7 +377,7 @@ public abstract class Piece
     *
     *BEGIN - laneCheckYAxis
     *  IF(Piece is moving up)
-    *     IF(pieces Y cord is inside board)
+    *     IF(//IF piece is relase point it inside the board and Y - i is not at starting position and y - 1 not less than starting postion
     *        IF(Y index has piece in it)
     *           lanCheck false
     *        END IF
@@ -554,40 +392,42 @@ public abstract class Piece
     * Return laneCheck
     *END - laneCheckYAxiz
 	**********************************************************/
-   
-    //local constatns
-
-    //local variables
-/*****************laneCheckYAxis**************** */
     public  boolean laneCheckYAxis(Cell cells[][], Cell start, Cell end)
     {
         boolean laneCheck = true;
         for(int i = 1;i <= 7; i++)
-        {
+        {   
+            //IF Piece is moving up
             if(end.getY() > start.getY())
             {  
+                //IF piece is relase point it inside the board and Y - i is not at starting position and y - 1 not less than starting postion
                 if(end.getY() - i > -1 && end.getY() - i != start.getY() && end.getY() - i > start.getY())
                 {
+                    //IFsquare at y - i not empty
                     if(cells[end.getX()][end.getY() - i].getPiece() != null )
                     {
+                        //Lanecheck is fasle 
                         laneCheck =  false;
-                    }
-                }
+                    }//END IF 
+                }//END IF 
             }
+            //ELSE IF piece is moving down 
             else if(end.getY() < start.getY())
             {
+                //IF piece is relase point it inside the board and Y + i is not at starting position and y + 1 not less than starting postion
                if(end.getY() + i < 8 && end.getY() + i != start.getY()&& end.getY() + i < start.getY())
                 {
+                    //IFsquare at y + i not empty
                     if(cells[end.getX()][end.getY() + i].getPiece() != null)
                     {
+                        //LaneCheck is false 
                         laneCheck = false;
-                    }
-                }
-            }    
-        }
-        System.out.println(laneCheck);
+                    }//END IF 
+                }//END IF 
+            }//END IF 
+        }//END FOR 
        return laneCheck;
-    }
+    }//END lanCheckYAxis 
     
     /**********************************************************
 	* Method Name    : laneCheckXAxis
@@ -623,35 +463,42 @@ public abstract class Piece
 
         for(int i = 1;i <= 7; i++)
         {
+            //IF piece is moving to the right
             if(end.getX() > start.getX())
             {
+                //IF piece is relase point it inside the board and Y - i is not at starting position and x - i not less than starting postion
                 if(end.getX() - i > -1 && end.getX() - i != start.getX() && end.getX() - i > start.getX())
                 { 
+                    //IF square not empty
                     if(cells[end.getX() - i][end.getY()].getPiece() != null)
                     {
-                        System.out.println("check");
+                        //laneCheck is false 
                         laneCheck =  false;
-                    }
-                }
-            }
+                    }//END IF 
+                }//END IF 
+            }//END IF 
+            //ELSE IF piece is moving to the left 
             else if(end.getX() < start.getX())
             {
+                //IF piece is relase point it inside the board and X + i is not at starting position and X + i not less than starting postion
                 if(end.getX() + i < 8 && end.getX() + i != start.getX() && end.getX() + i > start.getX())
                 {
+                    //IF square not empty
                     if(cells[end.getX() + i][end.getY()].getPiece() != null)
                     {
-                        System.out.println("check2");
+                                                //laneCheck is false 
+
                         laneCheck = false;
-                    }
-                }
-            }   
-        }
+                    }//END IF 
+                }//END IF 
+            }//END IF 
+        }//END FOR
         return laneCheck;
-    }
+    }//END laneCheckXAxis
     
      /**********************************************************
-	* Method Name    : Diagonal Check
-	* Author         : Jordan
+	* Method Name    : diagonalCheck
+	* Author         : Alan
 	* Date           : 
 	* Course/Section : Software Engineering 221-301
 	* Program Description: checks if diagnal is free from starting position
@@ -663,7 +510,7 @@ public abstract class Piece
     *       IF(index position as a piece in it)
     *          diagonal check to false
     *       END IF
-    *    ELSE IF (piece is moving up and to the right)
+    *    ELSE IF (piece is moving up and to the right and up)
     *       IF(index position hasa piece in it)
     *          diagonal check to false
     *       END IF
@@ -680,49 +527,56 @@ public abstract class Piece
     * Return diagonal check
     *END - diagonal check
     **********************************************************/
-    
-    //local constatns
-
-    //local variables
-/**************************diagonal check******************** */
     public boolean diagonalCheck(Cell cells [][], Cell start, Cell end)
     {
+        //local constatns
+        //local variables
         boolean diagonalCheck = true;
         int endX = Math.abs(start.getX() - end.getX());
+        /**************************diagonal check******************** */
+        
         for(int i = 1; i < endX; i++)
         {
+            //IF(piece is moving up and left)
             if(end.getX() < start.getX() && end.getY() > start.getY())
             {
+                //IF square not empty
                 if(cells[start.getX() - i][start.getY() + i].getPiece() != null)
                 {
                     diagonalCheck = false;
-                }
-            } 
+                }//END IF 
+            }//END IF 
+            //ELSE IF (piece is moving up and to the right and up)
             else if(end.getX() > start.getX() && end.getY() > start.getY())
             {
+                //IF square not empty
                 if(cells[start.getX() + i][start.getY() + i].getPiece() != null)
                 {
                     diagonalCheck = false;
-                }
+                }//END IF 
             }
+            //ELSE IF (piece is moving down and to the right)
             else if(end.getX() > start.getX() && end.getY() < start.getY())
             {
+                //IF square not empty 
                 if(cells[start.getX() + i][start.getY() - i].getPiece() != null)
                 {
                     diagonalCheck = false;
-                }
-            }
+                }//END IF 
+            }//END IF 
+            //ELSE IF (piece is moving down and to the left)
             else if(end.getX() < start.getX() && end.getY() < start.getY())
             {
+                //IF square not empty 
                 if(cells[start.getX() - i][start.getY() - i].getPiece() != null)
                 {
                     diagonalCheck = false;
-                }
-            }
-
-        }
+                }//END IF 
+            }//END IF 
+        }//END FOR 
         return diagonalCheck;
-    }
+    }//END diagonalCheck
+
     /**********************************************************
 	* Method Name    : capturOrMove
 	* Author         : Alan
@@ -741,11 +595,6 @@ public abstract class Piece
     *  END IF
     *END - captureOrMove
 	**********************************************************/
-    
-    //local constatns
-
-    //local variables
-/**************************capture or move******************* */
     public void captureORMove(Cell start, Cell end)
     {
         if(end.getPiece() != null)
@@ -759,4 +608,46 @@ public abstract class Piece
         }
     }
     public abstract void move(Cell cells[][],Screen board, Cell start, Cell end) throws InvalidMovementException;
+
+    /*
+        Start Potential Move Methods
+    */
+    // public abstract Cell[][] getAllPossibleMoves(Screen board);
+
+    // /*
+    //     This Method gets all potential moves for a piece given an x/y
+    // */
+    // public Cell[] getPotentialMoves(int x, int y, Screen board) 
+    // {
+    //     // x / y is the direction it is moving in, increment it until it hits a piece or the edge of the board
+    //     //Local constants
+       
+    //     //Local variables
+    //     Point pos = this.getPos();          //COMMENT
+    //     Cell possibleMoves[] = new Cell[8]; //COMMENT
+    //     /*****************************************************/
+       
+    //     for(int i = 0; i < 8; i++)
+    //     {
+    //         if(board.getCell(pos.x + x, pos.y + y) != null)
+    //         {
+    //             if(board.getCell(pos.x + x, pos.y + y).getPiece() == null)
+    //             {
+    //                 possibleMoves[i] = board.getCell(pos.x + x, pos.y + y);
+    //             }
+    //             else if(board.getCell(pos.x + x, pos.y + y).getPiece().getOwnedBy() != this.getOwnedBy())
+    //             {
+    //                 possibleMoves[i] = board.getCell(pos.x + x, pos.y + y);
+    //                 break;
+    //             }
+    //             else
+    //             {
+    //                 break;
+    //             }
+    //         }
+    //         x+=x;
+    //         y+=y;
+    //     }
+    //     return possibleMoves;
+    // }
 }//End Piece

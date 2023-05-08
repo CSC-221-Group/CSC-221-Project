@@ -17,6 +17,12 @@ import main.Piece.Piece;
  * -------
  * King- sets color position and owner of King piece.
  * move - sets legal moves for King piece.
+ * isInCheck - Checks if King is in check.
+ * setInCheck- Sets King in check.
+ * didKingMove - This method checks if King has moved from starting position.e 
+ * kingMove - Checks if King is at original sqaure.
+ * checkIfLaneClear - checks if lanes are clear for castling
+ * castling - This method set pieces to right position for castling
  **********************************************************/
 public class King extends Piece
 {
@@ -62,7 +68,7 @@ public class King extends Piece
     public boolean isInCheck()
     {
         return inCheck;
-    }
+    }//END isInCheck
 
     /**********************************************************
      * Method Name    : setInCheck
@@ -83,10 +89,7 @@ public class King extends Piece
     public void setInCheck(boolean inCheck)
     {
         this.inCheck = inCheck;
-    }
-
-
-
+    }//END setInCheck
 
     /**********************************************************
 	* Method Name    : didKingMove
@@ -95,6 +98,18 @@ public class King extends Piece
 	* Course/Section : Software Engineering 221-301
 	* Program Description: This method checks if King has moved
     * from starting position.
+    * BEGIN - didKingMove
+    *  IF(Location of king is empty on white side)
+    *     IF(piece at location is a king)
+    *        return true
+    *     END IF
+    *  ELSE
+    *     King is Black
+    *     IF(piece at location is a king)
+    *        return true
+    *     END IF
+    *  END IF
+    *  return False
 	**********************************************************/
     public boolean didKingMove() 
     {
@@ -103,7 +118,6 @@ public class King extends Piece
         /*****************************************************/
 
         //IF Piece at (X:0,Y:4) is not empty and owned by white
-        //Starting position of White King
         if(getOwnedBy() == 1 && Screen.cells[0][4].getPiece() != null)
         {
             //IF Piece at (X:0,Y:4) is equal to a king
@@ -113,7 +127,6 @@ public class King extends Piece
             }//END IF
         }
         //ELSE IF Piece at (X:7,Y:4) is not empty and owned by black
-        //Starting position of Black King
         else if(getOwnedBy() == 2 && Screen.cells[7][4].getPiece() != null)
         {
             //IF Piece at (X:7,Y:4) is equal to a king
@@ -121,7 +134,6 @@ public class King extends Piece
             {
                 return true;
             }//END IF
-
         }//END IF
         return false;
     }//END didKingMove
@@ -132,6 +144,19 @@ public class King extends Piece
 	* Date           : 
 	* Course/Section : Software Engineering 221-301
 	* Program Description: Checks if King is at original sqaure.
+
+    * IF(white King start has piece)
+    *     IF( Piece at king start != King)
+    *        set white king to false
+    *     END IF
+    *  END IF
+    *  IF(black King start has piece)
+    *     IF(piece at king start != king)
+    *        set black king to false
+    *     END IF
+    *  END IF
+    *END - kingMove
+
 	**********************************************************/
     public void kingMove()
     {
@@ -168,7 +193,32 @@ public class King extends Piece
 	* Date           : 
 	* Course/Section : Software Engineering 221-301
 	* Program Description: This method checks if lanes 
-    * at Y:0 and Y:& are empty 
+    * 
+    *BEGIN - checkIfLaneClear
+    *  IF(White Right Rook is at starting position)
+    *    IF(Lane is Open)
+    *       display "Lane is Open"
+    *       Retrun True
+    *    END IF
+    *  ELSE IF( White Left Rook is at starting postition)
+    *     IF(lane is open)
+    *        display "Lane is Open"
+    *        Return True
+    *     END IF
+    *  IF(Black Right Rook is at starting postion)
+    *     IF(lane is open)
+    *        display "Lane is Open"
+    *        Return Ture
+    *      END IF
+    *  END IF
+    *  IF(Black Left Rook is at starting postion)
+    *     IF(lane is open)
+    *        display "Lane is Open"
+    *        Retrun True
+    *     END IF
+    *  END IF
+    * Return False
+    *END-checkIfLaneClear
 	**********************************************************/
     public boolean checkIfLaneClear(Rook rook, Cell cells[][]) 
     {
@@ -180,9 +230,6 @@ public class King extends Piece
         if(rook.rookWRight) 
         {
             //IF Piece at (X:5Y:0) is empty and Piece(X:6Y:0) is empty
-            //Checks right side of whiteKing to see if castling is possible
-            System.out.println("checkIfLaneClear");
-            System.out.println(cells[5][0].isOccupied());
             if(!cells[5][0].isOccupied()  && !cells[6][0].isOccupied()) 
             {
                 return true;
@@ -193,7 +240,6 @@ public class King extends Piece
         {
             //IF Piece at (X:1Y:0) is empty and Piece(X:2Y:0) is empty and
             //   Piece at(X:3Y:0) is empty
-            //Checks left side of whiteKing to see if castling is possible
             if(!cells[1][0].isOccupied() && !cells[2][0].isOccupied() && 
                !cells[3][0].isOccupied()) 
             {
@@ -204,7 +250,6 @@ public class King extends Piece
         else if(rook.rookBRight) 
         {
             //IF Piece at (X:5Y:7) is empty and Piece(X:6Y:7) is empty
-            //Checks right side of blackKing to see if castling is possible
             if(!cells[5][7].isOccupied() && !cells[6][7].isOccupied())
             {
                 return true;
@@ -215,7 +260,6 @@ public class King extends Piece
         {
             //IF Piece at (X:1Y:7) is empty and Piece(X:2Y:7) is empty and
             //   Piece at(X:3Y:7) is empty
-            //Checks left side of blackKing to see if castling is possible
             if(!cells[1][7].isOccupied() && !cells[2][7].isOccupied() && 
                !cells[3][7].isOccupied()) 
             {
@@ -233,6 +277,22 @@ public class King extends Piece
 	* Course/Section : Software Engineering 221-301
 	* Program Description: checks if White and Blacks rooks are 
     * in starting locations
+    *BEGIN - getRook
+    * IF(player is White)
+    *    IF(string is Left)
+    *       retrun piece at (X y0 0)
+    *     ELSE
+    *        Return (x 7y 0)
+    *     END IF
+    *  ELSE
+    *    IF(string is left)
+    *      retrun (x 0y 7)
+    *    END IF
+    *    ELSE
+    *       return (x 7y 7)
+    *    END IF
+    *  END IF
+    *END - getRook
 	**********************************************************/
     private static Piece getRook(String side, int player) 
     { 
@@ -281,6 +341,14 @@ public class King extends Piece
 	* Course/Section : Software Engineering 221-301
 	* Program Description: This method set pieces to right position 
     * for castling
+    *
+    *   BEGIN - castling
+    *  IF(white left rook is true)
+    *  ELSE(white right Rook)
+    *  IF(black left rook is ture)
+    *  ELSE(black right rook it ture)
+    *  END IF
+    *END - castling
 	**********************************************************/
     public void castling(Rook rook,  Cell cells[][]) 
     {
@@ -289,7 +357,6 @@ public class King extends Piece
         /*****************************************************/
 
         //IF rookWleft is true
-        //This means that rook hasn't moved
         if(rook.rookWLeft) 
         {
             cells[2][0].setPiece(this);
@@ -313,7 +380,6 @@ public class King extends Piece
             cells[6][7].setPiece(this);
             cells[5][7].setPiece(rook);
         }//END IF
-
     }//END castling
 
     /**********************************************************
@@ -322,6 +388,35 @@ public class King extends Piece
 	* Date           : 
 	* Course/Section : Software Engineering 221-301
 	* Program Description: This method determines what move the King can do.
+    *BEGIN - move
+    *  IF(piece moved up)
+    *     IF(piece moved up and right)
+    *        capture or move
+    *     END IF
+    *  ELSE IF(Piece moved left and up one)
+    *     Capture or Move
+    *  ELSE IF( piece move up 1)
+    *     Capture or Move
+    *  ELSE
+    *     Move is not legal
+    *     Throw Invalid move
+    *   END IF
+    * ELSE IF(Piece stayed in same collum)
+    *    IF(Piece moved up 1 and stayed in same collum)
+    *      capture or move
+    *    ELSE
+    *       Move is not legal
+    *       Throw invalid Move
+    *    END IF
+    *  ELSE IF(piece moved down 1)
+    *     IF(piece moved right and down 1)
+    *        capture or move
+    *     ELSE
+    *        Move is not legal
+    *        Throw Invalid Move
+    *     END IF
+    *  END IF
+    *END - move
 	**********************************************************/
     @Override
     public void move(Cell[][] cells, Screen board, Cell start, Cell end) throws InvalidMovementException
@@ -403,35 +498,6 @@ public class King extends Piece
     }//END move
   
     /**********************************************************
-	* Method Name    : getAllPossibleMoves
-	* Author         : Jordan
-	* Date           : 
-	* Course/Section : Software Engineering 221-301
-	* Program Description: 
-	**********************************************************/
-    //Local constants
-    //Local variables
-    Cell[][] possibleMoves = new Cell[8][];
-    /*****************************************************/
-    @Override
-    public Cell[][] getAllPossibleMoves(Screen board) 
-    {
-        //Local constants
-        //Local variables
-        Cell[][] possibleMoves = new Cell[8][1];
-        /*****************************************************/
-        board.assignPossibleMove(possibleMoves, 0, 0, getPos().x, getPos().y + 1 );
-        board.assignPossibleMove(possibleMoves, 1, 0, getPos().x + 1, getPos().y + 1 );
-        board.assignPossibleMove(possibleMoves, 2, 0, getPos().x + 1, getPos().y );
-        board.assignPossibleMove(possibleMoves, 3, 0, getPos().x + 1, getPos().y - 1 );
-        board.assignPossibleMove(possibleMoves, 4, 0, getPos().x, getPos().y - 1 );
-        board.assignPossibleMove(possibleMoves, 5, 0, getPos().x - 1, getPos().y - 1 );
-        board.assignPossibleMove(possibleMoves, 6, 0, getPos().x - 1, getPos().y );
-        board.assignPossibleMove(possibleMoves, 7, 0, getPos().x - 1, getPos().y + 1 );
-        return possibleMoves;
-    }
-
-    /**********************************************************
 	* Method Name    : toString
 	* Author         : Alan/Jordan
 	* Date           : 
@@ -442,5 +508,34 @@ public class King extends Piece
     {
         return "King";
     }//END toString
+    
+    /**********************************************************
+	// * Method Name    : getAllPossibleMoves
+	// * Author         : Jordan
+	// * Date           : 
+	// * Course/Section : Software Engineering 221-301
+	// * Program Description: 
+	// **********************************************************/
+    // //Local constants
+    // //Local variables
+    // Cell[][] possibleMoves = new Cell[8][];
+    // /*****************************************************/
+    // @Override
+    // public Cell[][] getAllPossibleMoves(Screen board) 
+    // {
+    //     //Local constants
+    //     //Local variables
+    //     Cell[][] possibleMoves = new Cell[8][1];
+    //     /*****************************************************/
+    //     board.assignPossibleMove(possibleMoves, 0, 0, getPos().x, getPos().y + 1 );
+    //     board.assignPossibleMove(possibleMoves, 1, 0, getPos().x + 1, getPos().y + 1 );
+    //     board.assignPossibleMove(possibleMoves, 2, 0, getPos().x + 1, getPos().y );
+    //     board.assignPossibleMove(possibleMoves, 3, 0, getPos().x + 1, getPos().y - 1 );
+    //     board.assignPossibleMove(possibleMoves, 4, 0, getPos().x, getPos().y - 1 );
+    //     board.assignPossibleMove(possibleMoves, 5, 0, getPos().x - 1, getPos().y - 1 );
+    //     board.assignPossibleMove(possibleMoves, 6, 0, getPos().x - 1, getPos().y );
+    //     board.assignPossibleMove(possibleMoves, 7, 0, getPos().x - 1, getPos().y + 1 );
+    //     return possibleMoves;
+    // }
 
 }//END King
