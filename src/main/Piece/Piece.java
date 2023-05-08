@@ -547,7 +547,7 @@ public abstract class Piece
     public  boolean laneCheckYAxis(Cell cells[][], Cell start, Cell end)
     {
         boolean laneCheck = true;
-        for(int i = 0;i <= 7; i++)
+        for(int i = 1;i <= 7; i++)
         {
             if(end.getY() > start.getY())
             {  
@@ -606,7 +606,7 @@ public abstract class Piece
     {
         boolean laneCheck = true;
 
-        for(int i = 0;i <= 7; i++)
+        for(int i = 1;i <= 7; i++)
         {
             if(end.getX() > start.getX())
             {
@@ -614,16 +614,18 @@ public abstract class Piece
                 { 
                     if(cells[end.getX() - i][end.getY()].getPiece() != null)
                     {
+                        System.out.println("check");
                         laneCheck =  false;
                     }
                 }
             }
             else if(end.getX() < start.getX())
             {
-                if(end.getX() + i < 8 && end.getX() + i != start.getX() && end.getX() + i < start.getX())
+                if(end.getX() + i < 8 && end.getX() + i != start.getX() && end.getX() + i > start.getX())
                 {
                     if(cells[end.getX() + i][end.getY()].getPiece() != null)
                     {
+                        System.out.println("check2");
                         laneCheck = false;
                     }
                 }
