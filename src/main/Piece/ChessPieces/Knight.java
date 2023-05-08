@@ -35,13 +35,34 @@ public class Knight extends Piece
      */
     
    
-     public Knight (String color, int x, int y, int owner, Screen board)
+    public Knight (String color, int x, int y, int owner, Screen board)
     {
         super(x, y, owner, board);
         String Chess = "Chess"; 
         loadImage(Chess,color + "Knight");
         this.color = color;
     }//END Knight
+
+    /**********************************************************
+     * Method Name    : Knight
+     * Author         : Jordan
+     * Date           : 5/8/2023
+     * Course/Section : Software Engineering 221-301
+     * Program Description: Copy constructor for the Knight class
+     * 
+     * BEGIN Knight
+     *   set color to other.color
+     * END Knight
+     **********************************************************/
+
+    public Knight(Knight other)
+    {
+        super(other);
+        this.color = other.color;
+    }
+
+
+
 
     /**
      *  This method determines what move the knights can do.
@@ -177,6 +198,22 @@ public class Knight extends Piece
     //     possibleMoves[3][1] = board.getCell(getPos().x + 1, getPos().y - 2);
     //     return possibleMoves;
     // }
+    /**********************************************************
+     * Method Name    : copy
+     * Author         : Jordan
+     * Date           :
+     * Course/Section : Software Engineering 221-301
+     * Program Description: Copy the piece
+     * BEGIN copy
+     *    create new piece
+     *   return new piece
+     * END copy
+     * ********************************************************/
+    @Override
+    public Piece copy()
+    {
+        return new Knight(this);
+    }
 }
 
 

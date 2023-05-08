@@ -39,6 +39,12 @@ public class Queen extends Piece
         this.color = color;
     }//END Queen
     
+    public Queen(Queen other)
+    {
+        super(other);
+        color = other.color;
+    }
+
     /**********************************************************
 	* Method Name    : move
 	* Author         : Alan/Jordan
@@ -167,6 +173,22 @@ public class Queen extends Piece
     //     possibleMoves[7] = getPotentialMoves(-1,0, board);
     //     return possibleMoves;
     // }
+    /**********************************************************
+     * Method Name    : copy
+     * Author         : Jordan
+     * Date           :
+     * Course/Section : Software Engineering 221-301
+     * Program Description: Copy the piece
+     * BEGIN copy
+     *    create new piece
+     *   return new piece
+     * END copy
+     * ********************************************************/
+    @Override
+    public Piece copy()
+    {
+        return new Queen(this);
+    }
 }
 
 

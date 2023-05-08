@@ -45,6 +45,26 @@ public class Pawn extends Piece
         this.color = color;
     }//END Pawn
 
+
+    /**********************************************************
+     * Method Name    : Pawn
+     * Author         : Jordan
+     * Date           : 5/8/2023
+     * Course/Section : Software Engineering 221-301
+     * Program Description: Copy constructor for Pawn
+     * 
+     * BEGIN Pawn
+     *    set color to other's color
+     *   set canDoubleMovement to other's canDoubleMovement
+     * END Pawn
+    **********************************************************/
+    public Pawn(Pawn other)
+    {
+        super(other);
+        this.color = other.color;
+        this.canDoubleMovement = other.canDoubleMovement;
+    }
+
     /**********************************************************
 	* Method Name    : move 
 	* Author         : Alan/Jordan
@@ -332,5 +352,27 @@ public class Pawn extends Piece
     //         }
     //     }
     //     return possibleMoves;
+
+
+    
+
+    /**********************************************************
+     * Method Name    : copy
+     * Author         : Jordan
+     * Date           :
+     * Course/Section : Software Engineering 221-301
+     * Program Description: Copy the piece
+     * BEGIN copy
+     *    create new piece
+     *   return new piece
+     * END copy
+     * ********************************************************/
+    @Override
+    public Piece copy()
+    {
+        return new Pawn(this);
+    }
+
+
 }//END Pawn 
 

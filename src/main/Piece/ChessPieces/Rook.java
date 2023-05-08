@@ -45,8 +45,27 @@ public class Rook extends Piece
         String Chess = "Chess"; 
         loadImage(Chess,color + "Rook");
         this.color = color;
-
     }//END Rook
+
+    /**********************************************************
+     * Method Name    : Rook
+     * Author         : Jordan
+     * Date           : 5/8/2023
+     * Course/Section : Software Engineering 221-301
+     * Program Description: Copy constructor for the Rook class
+     * 
+     * BEGIN Rook
+     *   set color to other.color
+     * END Rook
+     **********************************************************/
+
+    public Rook(Rook other)
+    {
+        super(other);
+        this.color = other.color;
+    }
+
+
 
     /**********************************************************
 	* Method Name    : hasNotMoved
@@ -182,4 +201,21 @@ public class Rook extends Piece
     //     possibleMoves[3] = getPotentialMoves(0,-1,board);
     //     return possibleMoves;
     // }
+    /**********************************************************
+     * Method Name    : copy
+     * Author         : Jordan
+     * Date           :
+     * Course/Section : Software Engineering 221-301
+     * Program Description: Copy the piece
+     * BEGIN copy
+     *    create new piece
+     *   return new piece
+     * END copy
+     * ********************************************************/
+    @Override
+    public Piece copy()
+    {
+        return new Rook(this);
+    }
+
 }//END Rook

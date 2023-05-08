@@ -40,6 +40,12 @@ public class Bishop extends Piece
         this.color = color;
     }//END Bishop
 
+    public Bishop(Bishop other) 
+    {
+        super(other);
+        color = other.color;
+    }
+
     /**********************************************************
 	* Method Name    : move
 	* Author         : Alan/Jordan
@@ -110,5 +116,21 @@ public class Bishop extends Piece
 
     // }//END getAllPossibleMoves
     
+    /**********************************************************
+     * Method Name    : copy
+     * Author         : Jordan
+     * Date           :
+     * Course/Section : Software Engineering 221-301
+     * Program Description: Copy the piece
+     * BEGIN copy
+     *    create new piece
+     *   return new piece
+     * END copy
+     * ********************************************************/
+    @Override
+    public Piece copy()
+    {
+        return new Bishop(this);
+    }
 }//END Bishop
 

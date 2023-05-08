@@ -49,6 +49,29 @@ public class King extends Piece
         this.color = color;
     }//END King 
 
+
+    /**********************************************************
+     * Method Name    : King
+     * Author         : Jordan
+     * Date           : 5/8/2023
+     * Course/Section : Software Engineering 221-301
+     * Program Description: Copy constructor for the King class
+     * 
+     *
+     **********************************************************/
+
+    public King(King other)
+    {
+        super(other);
+        whiteKing = other.whiteKing;
+        blackKing = other.blackKing;
+        inCheck = other.inCheck;
+        color = other.color;
+    }//END King
+
+
+
+
     /**********************************************************
      * Method Name    : isInCheck
      * Author         : Jordan
@@ -538,4 +561,20 @@ public class King extends Piece
     //     return possibleMoves;
     // }
 
+    /**********************************************************
+     * Method Name    : copy
+     * Author         : Jordan
+     * Date           :
+     * Course/Section : Software Engineering 221-301
+     * Program Description: Copy the piece
+     * BEGIN copy
+     *    create new piece
+     *   return new piece
+     * END copy
+     * ********************************************************/
+    @Override
+    public Piece copy()
+    {
+        return new King(this);
+    }
 }//END King

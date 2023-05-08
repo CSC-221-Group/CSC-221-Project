@@ -42,7 +42,8 @@ public abstract class Piece
     //Class constants
     //Class variables 
     private BufferedImage icon;      //png of Pieces
-    private Point pos;               // Postiong of Piece 
+    private Point pos;               // Postiong of Piece
+    private Point lastPos;
     private int ownedBy;             //1 for white or 2 for black
     private boolean captured = false;//if the piece was captured or no.
     private int gameSize = 1;        //size of game 
@@ -84,7 +85,36 @@ public abstract class Piece
         gameSize = Screen.getGameSize();
         this.ownedBy = ownedBy;
     }//END Piece
+
+    /**********************************************************
+     * Method Name    : Piece
+     * Author         : Jordan
+     * Date           : 5/8/2023
+     * Course/Section : Software Engineering 221-301
+     * Program Description: Copy constructor for Piece
+     * 
+     * BEGIN - Piece
+     * set position to cords
+     * END - Piece
+     **********************************************************/
+    public Piece(Piece other) 
+    {
+        pos = new Point(other.pos.x, other.pos.y);
+        ownedBy = other.ownedBy;
+        captured = other.captured;
+        gameSize = Screen.getGameSize();
+    }//END Piece
     
+
+    /**********************************************************
+     * Method Name    : copy
+     * Author         : Jordan
+     * Date           : 5/8/2023
+     * Course/Section : Software Engineering 221-301
+     * Program Description: Abstract function to copy a piece
+     **********************************************************/
+    public abstract Piece copy ();
+
     /**********************************************************
 	* Method Name    : loadImage
 	* Author         : Jordan
