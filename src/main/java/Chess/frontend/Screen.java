@@ -40,18 +40,24 @@ public class Screen extends JPanel implements ActionListener, KeyListener
 {
     // class constants
     public final char[] letters =  { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' };
-    private final int DELAY = 10;                                            // delay between each frame in ms
-    public static final int TILE_SIZE = 32;                                  // size of square on board
-    public static final int ROWS = 8;                                        // size of the board horizontally
-    public static final int COLS = 8;                                        // size of the board vertically
+    private final int DELAY = 10; // delay between each frame in ms
+    public static final int TILE_SIZE = 32;// size of square on board
+    public static final int ROWS = 8; // size of the board horizontally
+    public static final int COLS = 8; // size of the board vertically
+    // private static final int serialVersionUID = 1;
+
     // Class variables
-    public static int gameSize = 1;                                          // size of the board
-    private Timer timer;                                                     // triggers actionPerformed()
-    public static int currentTurn = 1;                                       // 1 = player1, 2 = player2
-    private static ArrayList<Piece> p1Pieces = new ArrayList<Piece>();       // Pieces owned by White
-    private static ArrayList<Piece> p2Pieces = new ArrayList<Piece>();       // Pieces owned by Black
+    public static int gameSize = 1; // size of the board
+    private Timer timer; // triggers actionPerformed()
+    public static int currentTurn = 1; // 1 = player1, 2 = player2
+    private static ArrayList<Piece> p1Pieces = new ArrayList<Piece>();// Pieces owned by White
+    private static ArrayList<Piece> p2Pieces = new ArrayList<Piece>(); // Pieces owned by Black
     private static ArrayList<Piece> capturedPieces = new ArrayList<Piece>(); // Pieces that have been captured
+
     // public static moveHandler moveHandler; // Handles all possible moves
+
+
+
     public static Cell[][] cells = new Cell[ROWS][COLS]; // Boards squares
 
     /**********************************************************
@@ -193,13 +199,11 @@ public class Screen extends JPanel implements ActionListener, KeyListener
             preY = y;
         }// end mousePressed
 
-        /**********************************************************
-        * Method Name    : mousePressed
-        * Author         : Jordan
-        * Date           : 
-        * Course/Section : Software Engineering 221-301
-        * Program Description: This method determines Where mouse was released 
-        **********************************************************/
+        /**
+         * This method checks where the mouse was released.
+         * 
+         * @param e The mouse event.
+         */
         @Override
         public void mouseReleased(MouseEvent e) 
         {
@@ -221,6 +225,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
+
         }//end mouseRelease
 
         /**********************************************************
@@ -230,6 +235,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         * Course/Section : Software Engineering 221-301
         * This method runs by three checks and castles if it is possible
         **********************************************************/
+
         private boolean tryCastling(Cell startCell , Cell endCell) 
         {
             //local constants
@@ -254,14 +260,14 @@ public class Screen extends JPanel implements ActionListener, KeyListener
             }
             return false;
         }
-
-        /**********************************************************
+         /**********************************************************
         * Method Name    : castlingPreCheck
         * Author         : Jordan
         * Date           : 5/6/2023
         * Course/Section : Software Engineering 221-301
         * Checks if the king is castling & can castle
         **********************************************************/
+
         private boolean castlingPreCheck(Cell theCell)
         {
             // local constants
@@ -282,7 +288,6 @@ public class Screen extends JPanel implements ActionListener, KeyListener
             }
             return true;
         }
-
         /**********************************************************
         * Method Name    : castlingRookCheck
         * Author         : Jordan
@@ -290,6 +295,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         * Course/Section : Software Engineering 221-301
         * Checks if the piece is a rook and if it has moved or not.
         **********************************************************/
+
         private boolean castlingRookCheck(Cell theCell)
         {
             // local constants
@@ -312,7 +318,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener
 
 
         /**********************************************************
-        * Method Name    : mousePressed
+        * Method Name    : updateLocation
         * Author         : Jordan/Alan
         * Date           : 
         * Course/Section : Software Engineering 221-301
@@ -322,13 +328,19 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         public void updateLocation(MouseEvent e) throws InvalidMovementException  
         {    
             //local constants
-            final int enemyTurn = currentTurn == 1 ? 2 : 1;
+            final int ENEMY_TURN = currentTurn == 1 ? 2 : 1;
+            final int CURRENT_TURN = currentTurn == 1 ? 1 : 2;
+            ArrayList<Piece> CURRENT_TURN_PIECES = CURRENT_TURN == 1 ? p1Pieces : p2Pieces;
+            ArrayList<Piece> ENEMY_TURN_PIECES = CURRENT_TURN == 1 ? p2Pieces : p1Pieces;
+            System.out.println("Current Turn: " + CURRENT_TURN);
+            System.out.println("Enemy Turn: " + ENEMY_TURN);
+
             //local variables
             int x = e.getX() / (TILE_SIZE * gameSize);
             int y = (ROWS - 1) - (e.getY() / (TILE_SIZE * gameSize));
             Cell cell = cells[x][y];
             Piece endPiece = null;
-            King king = (King) findPiece(King.class, currentTurn == 1 ? p1Pieces : p2Pieces);
+            King king = (King) findPiece(King.class, CURRENT_TURN_PIECES);
             /********************************************/
             
             //IF x or y outside the board
@@ -344,13 +356,34 @@ public class Screen extends JPanel implements ActionListener, KeyListener
             //     // exit method
             //     if(board.getCell(preX, preY).getPiece().getClass() == King.class)
             //     {
-            //         if(!moveHandler.checkIfKingMoveValid(moveHandler.gatherPossibleMoves(enemyTurn), cell))
+            //         if(!moveHandler.checkIfKingMoveValid(moveHandler.gatherPossibleMoves(ENEMY_TURN), cell))
             //         {
             //             // check to see if the move is valid, if the unit is a king, and if the king is in check
             //             return;
             //         }
-            //     } 
+            //     }
+            //     else
+            //     {
+            //         if(moveHandler.calculateCheckMate(cells, CURRENT_TURN_PIECES, ENEMY_TURN_PIECES, king))
+            //         {
+            //             //End the Game
+            //             System.out.println("Checkmate");
+            //             return;
+            //         }
+            //         else
+            //         {
+            //             currentPiece.fakeMove(x, y, board);
+            //             if(moveHandler.checkIfCheckMate(moveHandler.gatherPossibleMoves(ENEMY_TURN), king))
+            //             {
+            //                 // Invalid move, but there is a valid move somewhere
+            //                 currentPiece.undoFakeMove(board);
+            //                 System.out.println("Move was invalid, but there is a valid move somewhere");
+            //                 return;
+            //             }
+            //         }
+            //     }
             // } // END IF
+
 
             // Attempt to Castle
             if(tryCastling(cells[preX][preY], cells[x][y]))
@@ -376,14 +409,14 @@ public class Screen extends JPanel implements ActionListener, KeyListener
 
             //Check if move is legal
             currentPiece.move(cells,null, cells[preX][preY], cells[x][y]);
-            // king = (King) findPiece(King.class, currentTurn == 1 ? p2Pieces : p1Pieces);
-            // king.setInCheck(moveHandler.checkForCheck(enemyTurn));
+            // king = (King) findPiece(King.class,ENEMY_TURN_PIECES);
+            // king.setInCheck(moveHandler.checkForCheck(ENEMY_TURN));
             String information = "";
            
             // //IF moved piece is a pawn
             // if (currentPiece.getClass() == Pawn.class)  
             // {
-            //     Pawn.enPassant(cells, currentPiece, x, y);
+            //     Pawn.enPassant(currentPiece, x, y);
             // }//end if 
 
             //IF piece moved 
@@ -503,25 +536,26 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         }//END IF
     }//END getCell
 
-//     /**********************************************************
-//     * Method Name    : assignPossibleMove
-//     * Author         : Jordan
-//     * Date           :
-//     * Course/Section : Software Engineering 221-301
-//     * Program Description: Takes a PossibleMove Array and assigns 
-//     * a valid cell to the given index
-//     **********************************************************/
-//    public void assignPossibleMove(Cell[][] possibleMoves, int iX, int iY, int posX, int posY)
-//    {
-//         if( posX > 7 || posY > 7 || posX < 0 || posY < 0 || getCell(posX, posY) == null)
-//         {
-//             return;
-//         }
-//         else
-//         {
-//             possibleMoves[iX][iY] = getCell(posX, posY);
-//         }//END IF
-//    }
+    /**********************************************************
+    * Method Name    : assignPossibleMove
+    * Author         : Jordan
+    * Date           :
+    * Course/Section : Software Engineering 221-301
+    * Program Description: Takes a PossibleMove Array and assigns 
+    * a valid cell to the given index
+    **********************************************************/
+   public void assignPossibleMove(Cell[][] possibleMoves, int iX, int iY, int posX, int posY)
+   {
+        if( posX > 7 || posY > 7 || posX < 0 || posY < 0 || getCell(posX, posY) == null)
+        {
+            return;
+        }
+        else
+        {
+            possibleMoves[iX][iY] = getCell(posX, posY);
+        }//END IF
+   }
+
 
     /**********************************************************
     * Method Name    : getScreen
@@ -648,25 +682,6 @@ public class Screen extends JPanel implements ActionListener, KeyListener
         if (key == KeyEvent.VK_ESCAPE) 
         {
             System.exit(0);
-        }
-        if (key == KeyEvent.VK_R)  {
-            System.out.println("Checking for check Current Turn: " + currentTurn + "");
-            // moveHandler.checkForCheck(currentTurn);
-            int enemyTurn = currentTurn == 1 ? 2 : 1;
-            System.out.println("Checking for check Current Turn: " + enemyTurn + "");
-            // moveHandler.checkForCheck(enemyTurn);
-        }
-        if(key == KeyEvent.VK_C)
-        {
-            System.out.println("Moving black pawn to a position where it can capture the white King");
-            cells[4][3].setPiece(null);
-            cells[4][3].setPiece(p2Pieces.get(0));
-        }
-        if(key == KeyEvent.VK_B)
-        {
-            // Test KEY for Castling
-
-
         }
     }// end keypressed
 

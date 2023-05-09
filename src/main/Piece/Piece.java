@@ -115,6 +115,50 @@ public abstract class Piece
      **********************************************************/
     public abstract Piece copy ();
 
+
+    /**********************************************************
+     * Method Name    : fakeMove
+     * Author         : Jordan
+     * Date           : 5/8/2023
+     * Course/Section : Software Engineering 221-301
+     * Program Description: function to move without updating the board
+     * 
+     * BEGIN - fakeMove
+     * set lastPos to current pos
+     * set pos to new pos
+     * END - fakeMove
+     **********************************************************/
+
+    public void fakeMove (int x, int y, Screen board)
+    {
+        lastPos = new Point(pos.x, pos.y);
+        pos.x = x;
+        pos.y = y;
+        board.getCell(x, y).setPiece(this);
+    } 
+
+    /***********************************************************************
+     * Method Name    : undeoFakeMove
+     * Author         : Jordan
+     * Date           : 5/8/2023
+     * Course/Section : Software Engineering 221-301
+     * Program Description: function to undo a fake move
+     * 
+     * BEGIN - undoFakeMove
+     * set pos to lastPos
+     * END - undoFakeMove
+    */
+
+
+    public void undoFakeMove(Screen board)
+    {
+        board.getCell(pos.x, pos.y).setPiece(null);
+        pos.x = lastPos.x;
+        pos.y = lastPos.y;
+        board.getCell(lastPos.x, lastPos.y).setPiece(this);
+    }
+
+
     /**********************************************************
 	* Method Name    : loadImage
 	* Author         : Jordan
@@ -668,10 +712,6 @@ public abstract class Piece
     //             else if(board.getCell(pos.x + x, pos.y + y).getPiece().getOwnedBy() != this.getOwnedBy())
     //             {
     //                 possibleMoves[i] = board.getCell(pos.x + x, pos.y + y);
-    //                 break;
-    //             }
-    //             else
-    //             {
     //                 break;
     //             }
     //         }
