@@ -1,19 +1,36 @@
 package main.Piece;
 
-/**
- *
- * This exception should be thrown when a piece attempts to do an invalid move
- * 
- */
-public class InvalidMovementException extends Exception {
+/**********************************************************
+* Program Name   : InvalidMoveException
+* Author         : Jordan
+* Date           : 
+* Course/Section : Software Engineering 221-301
+* Program Description: 
+*  
+* Methods:
+* -------
+* InvalidMovementException() - Returns "Invalid Move"
+**********************************************************/
+public class InvalidMovementException extends Exception 
+{
 
-    /**
-     * 
-     * This constructor calls a new InvalidMovement
-     *
-     * @param msg the message.
-     */
-    public InvalidMovementException(String msg) {
-        super(msg);
-    }
-}
+    /**********************************************************
+	* Method Name    : InvalidMovementException
+	* Author         : Jordan
+	* Date           : 
+	* Course/Section : Software Engineering 221-301
+	* Program Description: This exception will be throw if 
+    * a check piece moves in a illegal way
+    *BEGIN - InvalidMovmentExpextion
+    * print "invalid Move"
+    *END - InvalidMovementExeption
+	**********************************************************/
+    public InvalidMovementException()
+    {
+        //Local constants
+        //Local variables 
+        /*****************************************************/
+
+        System.out.println("Invalid Move");
+    }//END InvalidMovementException
+}//END InvalidMovementException

@@ -1,12 +1,10 @@
 package main.java.Chess.frontend;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.imageio.ImageIO;
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.GridLayout;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Point;
@@ -26,44 +24,47 @@ import java.io.IOException;
  *
  * Methods:
  * -------
- * makeText -
- * makeMainFrame -
- * makeFrame - 
- * makeTitle -
- * makeGameSelect -
- * chessGame - 
- * checkerGame -
+ * makeText - this method creates a JLabel and return it.
+ * makeMainFrame -This method creates a JButton and return it.
+ * makeFrame - This method creates the title screen for Board Classics
+ * makeTitle -This method creates the title screen for Board Classics
+ * makeGameSelect -Display a screen where user select a game in Board Classics.
+ * chessGame - Displays chess game.
  * winScreen - 
  * main -
  *********************************************************/
-
-
- 
 public class guiCreator
 {
     //Class constants
-    private static final int WIDTH = 500;
+    private static final int WIDTH = 600;
     private static final int HEIGHT = 400;
     private static final int FONT_SIZE = 48;
     private static final int BUTTON_WIDTH = 200;
     private static final int BUTTON_HEIGHT = 64;
     private static final int OPTIONS_BUTTON_WIDTH = 32;
     private static final int OPTIONS_BUTTON_HEIGHT = 32;
-    public static int gameSize = 6;
+    public static int gameSize = 1;
     //Class variables 
-    public static int turn = 1; 
+    public static int turn = 1;                        //Whos turn it is 
     public static Screen screen = new Screen(gameSize);//
-    public static JLabel move = new JLabel();         //
+    public static JLabel move = new JLabel();          //
     /*******************************************/
-    /**
-     * This method creates a JLabel and return it.
-     * @param text - text that will be put on JLable 
-     * @param x 
-     * @param y
-     * @param w
-     * @param h
-     * @return jlabel - returns label
-     */
+    
+    /**********************************************************
+    * Method Name    : makeText 
+    * Author         : Jordan/Alan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: This method creates a JLabel and return it.
+    *BEGIN - makeText   
+    *  set Text of Label to passed String
+    *  set color of label to Yellow
+    *  set font of label
+    *  set position of label to center
+    *  set bounds to passed int
+    *  return title screen
+    *END - makeText
+    **********************************************************/
     private static JLabel makeText(String text, int x, int y, int w, int h, int gameSize) 
     {
         //local constants
@@ -88,13 +89,20 @@ public class guiCreator
         return mainScreentitle;
     }//end makeText 
 
-
-
-    /**
-     * This method creates a JFrame and return it.
-     * 
-     * @return Jframe - returns a frame
-     */
+    /**********************************************************
+    * Method Name    : makeMainFrame
+    * Author         : Jordan/Alan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: This method creates a JFrame and return it.
+    *BEGIN - makeMainFrame
+    *  set size of frame to class constants
+    *  IF (Screen width is less than width times gamw size or screen lenght less than height times gamesize)
+    *     Display "Screen is too Small" Message
+    *  END IF
+    *  Set Background to Black
+    *END - makeMainFrame
+    **********************************************************/
     private static JFrame makeMainFrame() 
     {
         //local constants
@@ -103,12 +111,15 @@ public class guiCreator
         /*******************************************/
         //sets size of frame to the classes constants 
         Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        if( screenSize.getWidth() < WIDTH*gameSize || screenSize.getHeight() < HEIGHT*gameSize)
+
+        //IF Screen width is less than width times games size or screen lenght less than height times gamesize
+        if(screenSize.getWidth() < WIDTH*gameSize || screenSize.getHeight() < HEIGHT*gameSize)
         {
             gameSize = gameSize-1;
             System.out.println("Screen size too small, reducing game size to " + gameSize);
             return makeMainFrame();
-        }
+        }//END IF 
+
         frame.setSize(WIDTH*gameSize,HEIGHT*gameSize);
         frame.setResizable(false);
         //set background to black 
@@ -118,20 +129,30 @@ public class guiCreator
         frame.setVisible(true);
 
         return frame;
-
-
     }//end makeMainFrame 
 
-    /**
-     * This method creates a JButton and return it.
-     * @param text - text that will be put on Button
-     * @param x 
-     * @param y
-     * @param w
-     * @param h
-     * @return jButton - return button
-     */
-     private static JButton makeButton(String text, int x, int y, int w, int h, int imageSize) 
+    /**********************************************************
+    * Method Name    : makeButton
+    * Author         : Jordan/Alan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: This method creates a JButton and return it.
+    *BEGIN - makeButton
+    *  Get Button PNG
+    *  IF(Image size is grater than or equal to 2)
+    *     Increase size of Image
+    *     TRY to CATCH and Error and displau error message
+    *     END TRAY and CATCH
+    *     Resize Image
+    *     Set New Image
+    *     Set New Size
+    *  ELSE
+    *     Set Button Back ground to black
+    *     Return Button
+    *  END IF
+    *END - makeButton
+    **********************************************************/
+    private static JButton makeButton(String text, int x, int y, int w, int h, int imageSize) 
     {
         //local constants
         //local variables
@@ -139,6 +160,8 @@ public class guiCreator
         /******************************************/
         //get buttons png based on passed text 
         button.setIcon(new ImageIcon("images/" + text + "Gui.png"));
+        
+        //IF imageSize greater than or equal to 2 
         if(imageSize >= 2)
         {
             // Increase the size of the image
@@ -148,9 +171,12 @@ public class guiCreator
             y *= imageSize;
             BufferedImage icon;
             // Read the image
-            try {
+            try 
+            {
                 icon = ImageIO.read(new File("images/" + text + "Gui.png"));
-            } catch (IOException e) {
+            } 
+            catch (IOException e) 
+            {
                 System.out.println("Error: " + e);
                 return null;
             }
@@ -167,20 +193,32 @@ public class guiCreator
             button.setBounds(new Rectangle(new Point(x,y),new Dimension(icon.getWidth(), icon.getHeight())));
             // Set the new size
         }
+        //ELSE gamesize is 1 
         else 
         {
             button.setSize(w,h);
             button.setBounds(new Rectangle(new Point(x,y),new Dimension(w, h)));
-        }
+        }//END IF 
         button.setBackground(Color.BLACK);
         
         return button;
     }//end makeButton
 
-    /**
-    * This method creates the title screen for Board Classics
-    * 
-    */
+    /**********************************************************
+    * Method Name    : makeTtielScreen
+    * Author         : Jordan/Alan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: This method creates the title screen for Board Classics
+    *BEGIN - makeTitleScreen
+    *  When play Game Button is Clicked
+    *     Close Title Screen
+    *     Open Game Select Screen
+    *  When Option Button is Clicked
+    *     Close Title Scren
+    *     Open Options Screen
+    *END - makeTitleScreen
+    **********************************************************/
     public static void makeTitleScreen() 
     {
         //local constants
@@ -190,7 +228,6 @@ public class guiCreator
         JButton playGameButton = makeButton("playGame", WIDTH/4, HEIGHT/2, BUTTON_WIDTH, BUTTON_HEIGHT, gameSize);
         JButton optionsButton = makeButton("options", WIDTH/4, (HEIGHT/2) + (BUTTON_HEIGHT+(BUTTON_HEIGHT/2)), BUTTON_WIDTH, BUTTON_HEIGHT, gameSize);
         /******************************************/
-        
         
         titleScreen.add(mainScreentitle);
         //When playgameButton is clicked
@@ -222,11 +259,20 @@ public class guiCreator
         titleScreen.add(optionsButton);
 
     }//end makeTitleScreen
-
-    /**
-     * Display a screen where user select a game in Board Classics.
-     * 
-     */
+    
+    /**********************************************************
+    * Method Name    : makeGameScreen
+    * Author         : Jordan/Alan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: Display a screen where user select a game in Board Classics.
+    *
+    *BEGIN - makeGameScreen
+    *  when chess button is clicked
+    *     close game select screen
+    *     call Chess Game
+    *END - makeGameScreen
+    **********************************************************/
     public static void makeGameSelect()
     {
         //local constants
@@ -234,7 +280,6 @@ public class guiCreator
         JFrame gameSelectFrame = makeMainFrame();
         JLabel gameSelectTitle = makeText("Game Selection", 0, 0,  500, 100, gameSize);
         JButton playChessButton = makeButton("playChess", WIDTH/4, HEIGHT/2, BUTTON_WIDTH, BUTTON_HEIGHT, gameSize);
-        JButton playCheckersButton = makeButton("playCheckers",  WIDTH/4, (HEIGHT/2) + (BUTTON_HEIGHT+(BUTTON_HEIGHT/2)), BUTTON_WIDTH, BUTTON_HEIGHT, gameSize);
         /*****************************************************/
         
         gameSelectFrame.add(gameSelectTitle);
@@ -251,33 +296,35 @@ public class guiCreator
         });
         gameSelectFrame.add(playChessButton);
 
-        //when playcheckersbutton is pressed 
-        playCheckersButton.addActionListener(new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent e) 
-            {
-                //close gameselectFrame 
-                gameSelectFrame.setVisible(false);
-                //call CheckerGame
-                checkersGame();
-            }  
-        });
-        gameSelectFrame.add(playCheckersButton);
-
     }//end gameSelectScreen
 
-    /**
-     * Displays chess game.
-     * 
-    */
+    /**********************************************************
+    * Method Name    : chessGame
+    * Author         : Jordan/Alan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: Displays chess game.
+    * BEGIN - chessGame
+    *  initalize Width and height
+    *  IF(game size meets requirements)
+    *     set variables to fit the board
+    *  ELSE
+    *     Set variables to fit the board
+    *  When Surrender button is pressed
+    *     Close Chess Frame
+    *     display Win Screen
+    *  When drawnby is Clicked
+    *     set turn equal to 3
+    *     close chess frame
+    *     Display win Screen
+    *END - chessGame
+    **********************************************************/
     public static void chessGame()
     {
         //local constants 
-        final int WIDTH = 360;
-        final int HEIGHT = 294;
+        final int WIDTH = 400;
+        final int HEIGHT = 300;
         //local variables 
-        //TODO make screen chess class
         move.setText(null);
         Screen screen = new Screen(gameSize);
         JFrame chessFrame = new JFrame();
@@ -300,19 +347,18 @@ public class guiCreator
         {
             //Set variables to fit board
             chessFrame.setSize(new Dimension(WIDTH,HEIGHT));
-            move.setFont(new Font("Colon", Font.BOLD, 10));
-            movePanel.setBounds(new Rectangle(new Point(250,190),new Dimension(100, 100)));
+            move.setFont(new Font("Colon", Font.BOLD, 7));
+            movePanel.setBounds(new Rectangle(new Point(256,164),new Dimension(96, 20)));
         }
         //ELSE gameSize == 2
         else
         {
             //Set variables to fit board
             chessFrame.setSize(new Dimension(WIDTH*gameSize,HEIGHT*gameSize));
-            move.setFont(new Font("Colon", Font.BOLD, 24));
-            movePanel.setBounds(new Rectangle(new Point(510,420),new Dimension(200, 100)));
+            move.setFont(new Font("Colon", Font.BOLD, 14));
+            movePanel.setBounds(new Rectangle(new Point(256*gameSize,164*gameSize),new Dimension(192, 40)));
         }
-        //ELSE
-
+       
         chessFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         chessFrame.setVisible(true);
         //When surrenderButton is pressed 
@@ -325,7 +371,6 @@ public class guiCreator
                 chessFrame.setVisible(false);
                 //display winScreen
                 winScreen(); 
-                //TODO add paramater for which turn it is
             }
             
         });
@@ -339,7 +384,7 @@ public class guiCreator
             public void actionPerformed(ActionEvent e) 
             {
                 //set Turn equal to 3
-                turn= 3;
+                turn = 3;
                 //close chess frame
                 chessFrame.setVisible(false);
                 //display winScreen
@@ -347,59 +392,33 @@ public class guiCreator
             }
         });
         chessFrame.add(drawbt);
-
     }//end ChessGame
 
-    /**
-     * Displays checkers game.
-     *
-     */
-    public static void checkersGame()
-    {
-        //local constants
-        final int WIDTH = 360;
-        final int HEIGHT = 294;
-        //local variables 
-        JFrame checkersFrame = new JFrame();
-        JButton surrenderButton = new JButton();
-        Screen screen = new Screen(gameSize);
-        /************************************/
-
-        if(gameSize >= 2)
-        {
-            checkersFrame.setSize(new Dimension(WIDTH*gameSize,HEIGHT*gameSize));
-        }
-        else if(gameSize == 1)
-        {
-            checkersFrame.setSize(new Dimension(WIDTH,HEIGHT));
-        }
-
-        checkersFrame.add(screen);  
-        checkersFrame.addKeyListener(screen);
-        checkersFrame.pack();
-        checkersFrame.setLayout(null);
-        checkersFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        checkersFrame.setVisible(true);
-        
-        surrenderButton.setText("Surrender");
-        surrenderButton.setBounds(new Rectangle(new Point(255,100),surrenderButton.getPreferredSize()));
-        surrenderButton.addActionListener(new ActionListener() 
-        {
-            @Override
-            public void actionPerformed(ActionEvent e) 
-            {
-               checkersFrame.setVisible(false);
-               winScreen();
-            }
-            
-        }); 
-        checkersFrame.add(surrenderButton);
-
-    }//end checkerGame
-
-    /**
-     * Displays win screen of 'board classics'
-     */
+    /**********************************************************
+    * Method Name    : winScreen
+    * Author         : Jordan/Alan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description:Displays win screen of 'board classics'
+    *BEGIN - winScreen
+    *  IF(Turn equal to 1)
+    *     Display Player two Wins
+    *  ELSE IF(Turn Equals 2)
+    *     Display Player One Wins
+    *  ELSE
+    *     Display Draw Message
+    *  END IF
+    *  When Play Again button is pressed
+    *     Close win Frame
+    *     Call Chess Game
+    *  When Title Screen buton is pressed
+    *     Close win Frame
+    *     Call makeTitleScreen
+    *  When gameSelectButton is Pressed
+    *     Close winScreen
+    *     Call makeGameSelect
+    *END winScreen
+    **********************************************************/
     public static void winScreen()
     {
         //local constants
@@ -475,10 +494,21 @@ public class guiCreator
 
     }//close winScreen
 
-    /*
-     * Displays options screen
-     * 
-     */
+    /**********************************************************
+    * Method Name    : optionsScreen
+    * Author         : Jordan/Alan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: Displays options screen
+    *BEGIN - optionsScreen
+    *  when twoX is Clicked
+    *     set gameSize to 2
+    *  when oneX is Clicked
+    *     set gameSize to 1
+    *  when accept X is clicked
+    *      close options screen
+    *END - optionsScreen
+    **********************************************************/
     public static void optionsScreen()
     {
         //local constants
@@ -530,9 +560,44 @@ public class guiCreator
         optionsFrame.add(accept);
     }//end optionsScreen
 
-    /*
-     * Displays promote screen
-     */
+    /**********************************************************
+    * Method Name    : promoteScreen
+    * Author         : Jordan/Alan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: Displays promote screen
+    *BEGIN - promoteScreen
+    *  when Queen is Clicked
+    *  IF(pawn at y0)
+    *     promote pawn to black queen
+    *     close promote screen
+    *  ELSE
+    *     promote pawn to white queen
+    *     close promote screen
+    *  END IF
+    *  when Rook is Clicked
+    *     IF(pawn is y0)
+    *        promote pawn ot black Rook
+    *        close promote screen
+    *     ELSE
+    *        promote pawn to white Rook
+    *        close promote screen
+    *  when Knight is Clicked
+    *     IF(pawn is y0)
+    *        promote to black knight
+    *        close promote screen
+    *     ELSE
+    *        promote to white knight
+    *        close promote screen
+    *  when Bishop is Clicked
+    *     IF(pawn is y0)
+    *        promote pawn to black Bishop
+    *        close promote screen
+    *     ELSE
+    *        promote pawn to white Bishop
+    *        close promote screen
+    *END - promoteScreen
+    **********************************************************/
     public static void promoteScreen(int x , int y)
     {
         //local constants 
@@ -623,7 +688,7 @@ public class guiCreator
                 //ELSE pawn at y:7
                 else
                 {
-                   screen.promotePawn("white",1,x,y, "Knight");
+                    screen.promotePawn("white",1,x,y, "Knight");
                     promoteScreen.setVisible(false);
 
                 }//END IF
@@ -664,12 +729,18 @@ public class guiCreator
         promoteScreen.pack();
 
     }//end promoteScreen
-   
-    /**
-     * 
-     * @param args
-     * @throws Exception
-     */ 
+    
+    /**********************************************************
+    * Method Name    : main
+    * Author         : Jordan/Alan
+    * Date           : 
+    * Course/Section : Software Engineering 221-301
+    * Program Description: Displays makeTitleScreen
+    *BEGIN - main
+    *  call title screen
+    *  display to console "how to pass turn"
+    *END - main
+    **********************************************************/
     public static void main(String[] args) throws Exception 
     {
         SwingUtilities.invokeLater(new Runnable() 
